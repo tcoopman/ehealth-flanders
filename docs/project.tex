@@ -79,56 +79,54 @@
 
 \section{C\&C Client and Server View}
 
+%OVERVIEW
+
 \subsection{Primary presentation}
 
 %TODO add figure
 
+
+
 \subsection{Element catalog}
 
-Server
+\paragraph{Server}
+The server is the component where clients can connect to, to interact in a save way.  The server is connected to clients, a government server, external components and the data server.  More information can be found in Client and Server view: Server.
+%TODO location
 
-SessionManager
+\paragraph{Client}
+The client component is the hub from where users (doctors, patients or pharmacists) can interact with the server in a save way.  More information can be found in Client and Server view: Client.
+%TODO location
 
-Policy
+\paragraph{Data}
+De data component is een database waar alle informatie zoals patienten dossiers en dokter data op bewaard zijn.  Hoe de data precies wordt opgeslaan is terug te vinden in het Deployment diagram.
+%TODO location
 
-GMR
+\paragraph{Card}
+De card component stelt de e-Card van de gebruiker voor.  De e-Card bevat gebruikersinformatie alsook twee keys.  Een key voor identificatie van de gebruiker en een key voor authenticatie.  Naast de gebruikersinformatie en de keys heeft de e-Card ook ruimte voor een aantal voorschriften op te slaan.  Meer informatie is terug te vinden in:
+%TODO location
 
-Security
-Verzorgt de security van het systeem.  Deze compononent bestaat uit twee subcomponenten.
+\paragraph{Government}
+De government component bevat de logging en RIZIV database.
 
-Compression:
-Verantwoordelijk voor compressie en decompressie van data.
+\paragraph{External}
+De external component bevat de validated data sources die gebruikers van de client kunnen opvragen via de server.
 
-Authentication:
-Kan controleren of de indentiteit van een bericht correct is (\textit{identify}) en kan berichten aftekenen (sign)
+%TODO government en external => context diagram?
 
-ExternalActions
-
-Client
-
-
-
-Pharmacy
-
-Government
-
-
-
-\subsubsection{Elements and their properties}
-
-\subsubsection{Relations and their properties}
-
-\subsubsection{Element interfaces}
-
-\subsubsection{Element behavior}
 
 \subsection{Context diagram}
+TODO
+%TODO
 
 \subsection{Variability guide}
+[None]
 
 \subsection{Architecture background}
+%TODO
 
 \subsubsection{Rationale}
+TODO
+%TODO
 
 \subsubsection{Analysis results}
 
@@ -137,6 +135,7 @@ Government
 \subsection{Other information}
 
 \subsection{Related view packets}
+De volgende client-server views bekijken dit overview diagram in meer detail.  Ook in het deployment diagram is extra informatie te vinden vooral dan in verband met de opslag van de global medical records en dokter data.
 
 
 
