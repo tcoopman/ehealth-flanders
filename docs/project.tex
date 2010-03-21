@@ -1,16 +1,16 @@
-\documentclass[a4paper,10pt]{report}
+\documentclass[a4paper,10pt]{book}
 \usepackage[utf8]{inputenc}
+\usepackage{graphicx}
 
 % Title Page
 \title{Architecture of E-Health Flanders platform}
 \author{}
 
+%TODO: stijl kiezen: componenten vet, interfaces /...
+%TODO: Overal keys toevoegen.
 
 \begin{document}
 \maketitle
-
-\begin{abstract}
-\end{abstract}
 
 \part{Documentation Beyound Views}
 
@@ -83,21 +83,20 @@
 
 \begin{center}
     \begin{figure}
-      \includegraphics{../images/ClientServer_Overview.png}
+      \includegraphics[width=\textwidth]{../images/ClientServer_Overview.png}
     \end{figure}
   \end{center}
-\end{frame}
-
+%TODO opmaken figuur!
 
 
 \subsection{Element catalog}
 
 \paragraph{Server}
-The server is the component where clients can connect to, to interact in a save way.  The server is connected to clients, a government server, external components and the data server.  More information can be found in Client and Server view: Server.
+De server is de component waar clients verbinding mee maken.  De interacties tussen clients en servers gebeuren op een veilige manier.  De server is verbonden met clients, de overheid, eventuele externe componenten en de data server.  Meer informatie kan gevonden worden in \ref{Client and Server View: Server} Client and Server View: Server.
 %TODO location
 
 \paragraph{Client}
-The client component is the hub from where users (doctors, patients or pharmacists) can interact with the server in a save way.  More information can be found in Client and Server view: Client.
+De client component is de component die gebruikers (dokters, pati\"{e}nten of apothekers) gebruiken om op een veilige manier met de server te interageren.  Meer informatie kan gevonden worden in \ref{Client and Server View: Client} Client and Server View: Client.
 %TODO location
 
 \paragraph{Data}
@@ -109,7 +108,7 @@ De card component stelt de e-Card van de gebruiker voor.  De e-Card bevat gebrui
 %TODO location
 
 \paragraph{Government}
-De government component bevat de logging en RIZIV database.
+De government component bevat toegang tot de logging en RIZIV database.
 
 \paragraph{External}
 De external component bevat de validated data sources die gebruikers van de client kunnen opvragen via de server.
@@ -137,10 +136,207 @@ De volgende client-server views bekijken dit overview diagram in meer detail.  O
 
 
 
+\section{C\&C Client and Server View: Server}
+\label{Client and Server View: Server}
+
+\subsection{Primary presentation}
+
+\begin{center}
+    \begin{figure}
+      \includegraphics[width=\textwidth]{../images/ClientServer_Server.png}
+    \end{figure}
+  \end{center}
+%TODO opmaken figuur!
+
+\subsection{Element catalog}
+
+\paragraph{GMR}
+De GMR is de centrale component in de server component.  De GMR delegeert alle inkomende \textit{read}, \textit{modify} of \textit{push} acties naar de correcte andere componenten en doet dit uiteraard in de correcte volgorde.
+%TODO: interactie diagram??
+
+\subsubsection{Element interfaces} 
+
+\paragraph{read}
+TODO
+
+\paragraph{modify}
+TODO
+
+\paragraph{push}
+TODO
+
+\subsubsection{Element behavior}
+TODO
+
+\paragraph{SessionManager}
+
+\subsubsection{Element interfaces} 
+
+\paragraph{open}
+TODO
+
+\subsubsection{Element behavior}
+TODO
+
+\paragraph{Policy}
+
+\subsubsection{Element interfaces} 
+
+\paragraph{autorisation}
+TODO
+
+\paragraph{grantAccess}
+TODO
+
+\subsubsection{Element behavior}
+TODO
+
+\paragraph{Security}
+
+\paragraph{ExternalActions}
+
+\subsubsection{Element interfaces} 
+
+\paragraph{log}
+TODO
+
+\paragraph{RIZIV}
+TODO
+
+\subsection{Context diagram}
+
+\subsection{Variability guide}
+
+\subsection{Architecture background}
+
+\subsubsection{Rationale}
+
+\subsubsection{Analysis results}
+
+\subsubsection{Assumptions}
+
+\subsection{Other information}
+
+\subsection{Related view packets}
+
+
+
+\section{C\&C Client and Server View: Client}
+\label{Client and Server View: Client}
+
+\subsection{Primary presentation}
+
+\begin{center}
+    \begin{figure}
+      \includegraphics[width=\textwidth]{../images/ClientServer_Client.png}
+    \end{figure}
+  \end{center}
+%TODO opmaken figuur!
+
+\subsection{Element catalog}
+
+\paragraph{Cache}
+De cache component is een lokale cache van bestanden die ook op de server aanwezig zijn.
+
+\subsubsection{Element interfaces} 
+
+\paragraph{read}
+TODO
+
+\paragraph{modify}
+TODO
+
+\paragraph{push}
+TODO
+
+\subsubsection{Element behavior}
+Wanneer een item uit de cache gelezen wordt (\textit{read}), verstuurt de cache eerst de vraag naar de server als het gegeven item up-to-date is.  Als dit het geval is dan wordt het bestand uit de cache aan de gebruiker weergegeven, is dit niet het geval dan stuurt de server het meest recente bestand terug.  Dit wordt dan opgeslagen in de cache en dan teruggegeven aan de gebruiker.\\
+%TODO teruggeven aan de gebruiker??
+Het schrijven van een item (\textit{write}) gebeurt door het item eerst lokaal te schrijven, daarna verstuurt de cache een write operatie naar de server.  Wanneer de cache een antwoord gekregen heeft van de server dat de schrijfoperatie correct verlopen is mag de cache het geschreven item uit de cache verwijderen.\\
+Een \textit{push} operatie is gelijkaardig aan de schrijf operatie van hierboven.  Het enige verschil is dat het in het geval van een \textit{push} gaat over een operatie waarbij de gebruiker geen toegang heeft tot het te schrijven document.  Hij kan enkel een data-veld toevoegen, een veld wijzigen of overschrijven is niet mogelijk.
+
+\paragraph{Security}
+De security component is op zich gelijk aan deze in de server.  De gedetailleerde uitwerking is te vinden in \ref{Client and Server View: Security} Client and Server View: Security.
+
+
+\subsubsection{Elements and their properties}
+
+\subsubsection{Relations and their properties}
+
+\subsubsection{Element interfaces}
+
+\subsubsection{Element behavior}
+
+\subsection{Context diagram}
+
+\subsection{Variability guide}
+Verschillende implementaties van de Client component zijn mogelijk.  Wanneer de client lokaal op een pc wordt uitgewerkt voor een dokter zal de cache waarschijnlijk zo veel mogelijk data bijhouden.\\
+Voor een client van de dokter die bijvoorbeeld op een smartphone draait is het onrealistisch om te verwachten dat deze alle data zal cachen.  De client kan dan bijvoorbeeld zo uitgewerkt worden dat de cache van de smartphone iedere morgen voor de huisbezoeken gesynct wordt met de nodige pati\"{e}nten van die dag.\\
+Nog een ander geval is het geval van de client voor de apotheek of voor de pati\"{e}nt.  In het geval van een client voor de pati\"{e}nt zal de cache enkel het dossier van de pati\"{e}nt zelf bijhouden.  Voor de apotheek hoeft de cache helemaal geen data te cachen.\\
+Een laatste geval is wanneer de cache op een webclient draait.  In dit geval kan de caching aangepast worden naar de mogelijkheden van de webserver.  Hier moet dan wel rekening gehouden worden met de wetgeving die centrale opslag van pati\"{e}nten data verbiedt.  Het is mogelijk dat een webserver zoveel zou gaan cachen dat dit zou kunnen gezien worden als een centrale opslag.  Omdat dit niet toegelaten is moet men er bij de implementatie van deze cache rekening mee houden.  De cache zou zo kunnen aangepast worden om slechts een bepaald aantal documenten bij te houden of enkel de documenten die in een bepaalde tijdspanne opgevraagd zijn.
+
+\subsection{Architecture background}
+
+\subsubsection{Rationale}
+
+\subsubsection{Analysis results}
+
+\subsubsection{Assumptions}
+
+\subsection{Other information}
+
+\subsection{Related view packets}
+
+
+\section{C\&C Client and Server View: Security}
+\label{Client and Server View: Security}
+
+\subsection{Primary presentation}
+
+\begin{center}
+    \begin{figure}
+      \includegraphics[width=\textwidth]{../images/ClientServer_Security.png}
+    \end{figure}
+  \end{center}
+%TODO opmaken figuur!
+
+\subsection{Element catalog}
+
+\paragraph{Authentication}
+
+\paragraph{Compression}
+
+\subsubsection{Elements and their properties}
+
+\subsubsection{Relations and their properties}
+
+\subsubsection{Element interfaces}
+
+\subsubsection{Element behavior}
+
+\subsection{Context diagram}
+
+\subsection{Variability guide}
+
+\subsection{Architecture background}
+
+\subsubsection{Rationale}
+
+\subsubsection{Analysis results}
+
+\subsubsection{Assumptions}
+
+\subsection{Other information}
+
+\subsection{Related view packets}
+
+
+
+
+
 \section{Allocation Deployment View}
 
 \subsection{Primary presentation}
-Gewoon om te testen wat invloed van tekst is.
 
 \subsection{Element catalog}
 
