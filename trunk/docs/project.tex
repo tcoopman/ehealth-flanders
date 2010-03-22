@@ -485,6 +485,7 @@ Deze client kant moet gezien worden in de volledige overview (zie \ref{Client an
 \label{Client and Server View: Security}
 
 \subsection{Primary presentation}
+De security component bevind zich zowel in de server als in de client. Deze zorgt voor een veilige communucatie tussen beide.
 
 \begin{center}
     \begin{figure}
@@ -496,14 +497,25 @@ Deze client kant moet gezien worden in de volledige overview (zie \ref{Client an
 \subsection{Element catalog}
 
 \paragraph{Authentication}
+In deze component wordt de identificatie van de personen die zich inloggen op het systeem gecontroleerd. Wanneer iemand een aanvraag doet, wordt nagegaan of de id_key van deze persoon overeenkomt met een gebruiker van het systeem. Ook wanneer een boodschap (aanpassen van GMR bv) wordt verstuurd, wordt deze getekend met de key van de zender. Hiervoor dient de sign-interface.  
 
 \paragraph{Compression}
-
-\subsubsection{Elements and their properties}
-
-\subsubsection{Relations and their properties}
+Boodschappen die tussen de Client en de Server worden verstuurd, worden gecomprimeerd om tijd te besparen en om een extra vorm van beveiliging toe te voegen.
 
 \subsubsection{Element interfaces}
+
+\paragraph{read}
+
+\underline{Resources provided:}\\
+read(data\_key)\\
+De data verbonden met data\_key wordt gelezen.
+%TODO zie element behavior.
+
+\underline{Element requirements:}\\
+data\_key: de key om de data op te vragen.\\
+
+\underline{Rationale and design issues:}\\
+Zie hieronder voor een beschrijving van het algemeen gedrag van de cache.
 
 \subsubsection{Element behavior}
 
