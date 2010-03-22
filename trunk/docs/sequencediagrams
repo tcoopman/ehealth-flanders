@@ -22,6 +22,12 @@ Het verschil is dat er ook een kopie van het voorschrift op de IDCard van de pat
 Wanneer de patient naar de apotheek gaat om zijn medicijnen aan te kopen, wordt eerst het voorschrift van zijn IDCard gehaald. De apotheker overhandigd de benodigde medicijnen en duidt zowel op de IDCard als in het systeem aan dat het voorschrift werd gevalideerd. De boodschap naar het Ehealth platform is een boodschap die geen toegang tot het dossier vereist, enkel de key van de apotheker is belangrijk omdat geen andere persoon deze boodschap kan sturen. 
 
 
+Extra uitleg (later vervangen door beter titeltje)
+Door de bovenvermelde sequentiediagrammen kunnen alle acties mogelijk in het EHealth platform verklaard worden. 
+Naast de voor de hand liggende acties (die direct door een sequentiediagram worden aangetoond), zijn ook de volgende scenario's verwezelijkt: 
+* specialist zendt informatie naar de huisdokter:
+	wanneer een patiënt een specialist consulteert, zal deze tijdelijke toegang krijgen tot het dossier van de patiënt. Hij kan hier dan zijn bevindingen in aanpassen en het dossier opslaan. Wanneer de huisdokter dan het dossier opnieuw opent, kan ook hij deze aanpassingen zien. 
+
 
 
  
