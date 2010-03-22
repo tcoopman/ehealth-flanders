@@ -2,12 +2,21 @@
 \usepackage[utf8]{inputenc}
 \usepackage{graphicx}
 
+\makeatletter
+\renewcommand\paragraph{\@startsection{paragraph}{4}{\z@}%
+  {-3.25ex\@plus -1ex \@minus -.2ex}%
+  {1.5ex \@plus .2ex}%
+  {\normalfont\normalsize\bfseries}}
+\makeatother
+
 % Title Page
 \title{Architecture of E-Health Flanders platform}
 \author{}
 
 %TODO: stijl kiezen: componenten vet, interfaces /...
 %TODO: Overal keys toevoegen.
+%TODO: log in en session management nog eens nadenken!
+%TODO: afwegingen voor en nadelen.
 
 \begin{document}
 \maketitle
@@ -78,6 +87,7 @@
 
 
 \section{C\&C Client and Server View: Overview}
+\label{Client and Server View: Overview}
 
 \subsection{Primary presentation}
 
@@ -102,6 +112,7 @@ De client component is de component die gebruikers (dokters, pati\"{e}nten of ap
 \paragraph{Data}
 De data component is een database waar alle informatie zoals patienten dossiers en dokter data op bewaard zijn.  Hoe de data precies wordt opgeslaan is terug te vinden in het Deployment diagram.
 %TODO location
+%TODO read write interfaces?
 
 \paragraph{Card}
 De card component stelt de e-Card van de gebruiker voor.  De e-Card bevat gebruikersinformatie alsook twee keys.  Een key voor identificatie van de gebruiker en een key voor authenticatie.  Naast de gebruikersinformatie en de keys heeft de e-Card ook ruimte voor een aantal voorschriften op te slaan.  Meer informatie is terug te vinden in:
@@ -138,7 +149,7 @@ De volgende client-server views bekijken dit overview diagram in meer detail.  O
 
 \section{C\&C Client and Server View: Server}
 \label{Client and Server View: Server}
-
+%TODO login?
 \subsection{Primary presentation}
 
 \begin{center}
@@ -157,45 +168,161 @@ De GMR is de centrale component in de server component.  De GMR delegeert alle i
 \subsubsection{Element interfaces} 
 
 \paragraph{read}
-TODO
+
+\underline{Resources provided:}\\
+read(data\_key, id\_key)\\
+\indent De id\_key wordt geauthenticeerd en daarna wordt een sessie geopent.  De session\_key wordt samen met data die bij de data\_key hoort teruggegeven.\\
+read(data\_key, session\_key)\\
+\indent De data met data\_key wordt gelezen en teruggeven aan het systeem.\\
+
+\underline{Error handling:}\\
+Wanneer de data\_key niet geldig is wordt een error teruggegeven.\\
+Wanneer de id\_key of session\_key geen toegang heeft tot data\_key wordt een error teruggegeven.\\
+Wanneer de id\_key of session\_key niet geldig is wordt een error teruggegeven.\\
+
+\underline{Element requirements:}\\
+data\_key: de key om de data op te vragen.\\
+id\_key: de key die gebruikt wordt om de uitvoerder van de actie op te vragen.\\
+session\_key: de key die gebruikt wordt om een sessie te identifici\"{e}ren.\\
+
+\underline{Rationale and design issues:}\\
+Het openen van een sessie wanneer de eerste actie wordt uitgevoerd met een id\_key kan ook aangepast worden om een expliciete login te doen.  Dan zou de client eerst moeten inloggen met de id\_key en dan kan hij later acties uitvoeren met de session\_key.\\
+Voor bepaalde acties kan men verwachten dat altijd een id\_key wordt meegegeven.\\
+Zie ook deployment voor het ophalen van data.  Textuele data wordt altijd eerst teruggegeven, daarna pas andere data (media bestanden zoals figuren, geluid, video).
+%TODO zie deployment.
+
+
 
 \paragraph{modify}
-TODO
+\underline{Resources provided:}\\
+modify(data\_key, data, id\_key)\\
+modify(data\_key, data, session\_key)\\
+Het inloggen en valideren gebeurt zoals beschreven bij \textbf{read}.
+De aanpassing van de data verloopt door het mergen van data met de bestaande data.  Wanneer de GMR een antwoord krijgt van de database dat alles correct is geschreven verstuurt de GMR een antwoord naar de client dat alle data correct is geschreven.  Deze handelingen gebeuren asynchroon.
+
+\underline{Error handling:}\\
+Gelijkaardige errors zoals bij \textbf{read}.\\
+Wanneer het mergen van de data faalt zal een error teruggegeven worden.
+
+\underline{Element requirements:}\\
+data\_key: de key om de data op te vragen.\\
+data: een patch van data die moet aangepast worden op locatie data\_key.\\ 
+id\_key: de key die gebruikt wordt om de uitvoerder van de actie op te vragen.\\
+session\_key: de key die gebruikt wordt om een sessie te identifici\"{e}ren.\\
+
+\underline{Rationale and design issues:}\\
+Zie ook \textbf{read}.\\
+Het schrijven van data gebeurt met behulp van een patch.  Dit verkleint de hoeveelheid data die moet verstuurd worden aanzienelijk en heeft dan ook een belangrijk snelheids voordeel.\\
+In het geval dat een merge actie zou falen, kan aan de laatste client gevraagd worden om de merge manueel te doen, of om een volledig document te verzenden.
 
 \paragraph{push}
-TODO
+\underline{Resources provided:}\\
+push(data\_key, data, id\_key)\\
+push(data\_key, data, session\_key)\\
+Het inloggen en valideren gebeurt zoals beschreven bij \textbf{read}.
+Het pushen van de data gebeurt gelijkaardig zoals bij \textbf{modify}.
+
+\underline{Error handling:}\\
+Gelijkaardige errors zoals bij \textbf{read}.\\
+
+\underline{Element requirements:}\\
+data\_key: de key om de data op te vragen.\\
+data: data die moet toegevoegd worden aan document met key: data\_key.\\
+id\_key: de key die gebruikt wordt om de uitvoerder van de actie op te vragen.\\
+session\_key: de key die gebruikt wordt om een sessie te identifici\"{e}ren.\\
+
+\underline{Rationale and design issues:}\\
+Zie ook \textbf{read}.\\
+Hier kan geen patch gestuurd worden omdat een push actie enkel toelaat nieuwe data toe te voegen aan een dossier.
 
 \subsubsection{Element behavior}
-TODO
+De GMR component delegeert alle inkomende acties.  Dat doet hij door inkomende berichten door de security component te laten decrypten.  Dan krijgt hij onmiddellijk bevestiging dat de data compleet en correct is en van de een geauthenticeerde gebruiker komt.  Indien dit niet het geval is stuurt de GMR een error terug naar de client.\\
+Daarna wordt gecontroleerd of er al een sessie bestaat en of die al dan niet geldig is.\\
+%TODO session management uitdenken!
+Wanneer dat gebeurd is zal het systeem de oproep doorgeven aan de policy component.  Deze zal de GMR laten weten of de actie die de GMR binnen krijgt al dan niet toegelaten is.\\
+Als de actie toegelaten is voor de gebruiker zal de GMR de actie uitvoeren en een gepaste respons sturen naar de client.
 
 \paragraph{SessionManager}
+De SessionManager voorziet in session management.  Deze component zorgt ervoor dat een gebruiker niet telkens opnieuw hoeft in te loggen wanneer hij een actie naar het systeem uitvoert.
 
 \subsubsection{Element interfaces} 
 
 \paragraph{open}
-TODO
+\underline{Resources provided:}\\
+open(id\_key)\\
+Opent een nieuwe sessie voor id\_key, de session\_key wordt teruggegeven.
+
+\underline{Element requirements:}\\
+id\_key: de key waarmee de client zich identifici\"{e}ert.
+
+\underline{Rationale and design issues:}\\
+Voorziet in het openen van sessies, waardoor de client niet telkens zijn identificatie key moet opnieuw ingeven.
+
+\paragraph{valid}
+\underline{Resources provided:}\\
+valid(session\_key)\\
+Dit controleert of de session\_key nog geldig is, een sessie verloopt na een bepaalde tijd.  Er wordt teruggeven als de session\_key nog al dan niet geldig is.  Als ze nog geldig is wordt de id\_key teruggegeven die verbonden is met deze session\_key.
+
+\underline{Element requirements:}\\
+session\_key: de key die gebruikt wordt om een sessie te identifici\"{e}ren.\\
+
+\underline{Rationale and design issues:}\\
+Hoe lang een sessie geldig blijft zou kunnen aangepast worden afhankelijk van wie er in het systeem inlogt of afhankelijk van welke soort client.  Wanneer de client toepassing op een smartphone draait zou er kunnen gekozen worden om de session\_keys sneller te laten vervallen aangezien deze omgeving als minder veilig kan beschouwt worden.  Indien we dit willen afdwingen moet wat extra informatie worden meegegeven bij het openen van de sessie.
 
 \subsubsection{Element behavior}
-TODO
+De SessionManager is verantwoordelijk voor het openen van sessies (\textit{open}) en het controleren of een bepaalde sessie geldig is (\textit{valid}).
 
 \paragraph{Policy}
+Deze component controleert de toegangsrechten van de gebruikers en laat weten welke gebruikers toegang hebben tot welke delen van de data en wat die toegang inhoudt (lezen en of schrijven).
 
 \subsubsection{Element interfaces} 
 
 \paragraph{autorisation}
-TODO
+\underline{Resources provided:}\\
+authorize(data\_key, action, id\_key)\\
+De authorisatie component kijkt of de persoon met identificatie id\_key toelating heeft om actie action uit te voeren op document met key data\_key.  Er wordt teruggegeven of de actie al dan niet is geauthoriseerd.
+
+\underline{Element requirements:}\\
+data\_key: de key verbonden met een data document.\\
+action: een actie die uitgevoerd zal worden, dit kan read, modify of push zijn.\\
+id\_key: de key die de uitvoerder van de actie identifici\"{e}ert.\\
+
+\underline{Rationale and design issues:}\\
+zie ook deployment diagram voor toegang tot de dokter database.
+%TODO location.
 
 \paragraph{grantAccess}
-TODO
+\underline{Resources provided:}\\
+grantAccess(to\_key, data\_key, action, from\_key, period)\\
+De persoon verbonden aan from\_key geeft toegangrechten voor periode period aan to\_key om actie action uit te voeren op het document met key data\_key.
+
+\underline{Error handling:}\\
+De persoon met from\_key heeft geen toelating de toegangsrechten voor actie action toe te kennen.\\
+De persoon met to\_key kan geen toegangsrechten krijgen om actie action uit te voeren.\\
+
+\underline{Element requirements:}\\
+to\_key: de identificatie key van de persoon aan wie toegangsrechten worden toegekend.
+data\_key: de key verbonden met een data document.\\
+action: een actie waarvoor rechten worden uitgedeeld.  Action kan hier ook zijn het toekennen van toegangsrechten aan een andere persoon.
+from\_key: de identificatie key van de persoon die de toegangsrechten uitdeelt.
+period: de periode hoe lang de persoon met to\_key toegang krijgt tot de data.
+
+\underline{Rationale and design issues:}\\
+Door de grantAccess toe te voegen kunnen toegangsrechten worden toegekend aan andere personen en kan dit voor een bepaalde tijdsduur.  Action is hier niet enkel read, modify of push zodat bepaalde personen ook toelating krijgen om toegangsrechten door te geven.  Zo zou een specialist bijvoorbeeld ook toegang kunnen krijgen om read toegang tot het dossier ook door te geven aan een andere specialist.\\
+Zie ook deployment diagram voor toegang tot de key database.
+%TODO location.
 
 \subsubsection{Element behavior}
-TODO
+De policy component zal authorisatie toekennen aan bepaalde acties, als die persoon de actie mag uitvoeren.  Indien dat niet mag zal de authorisatie geweigerd worden.  Bepaalde personen hebben ook rechten om nieuwe rechten toe te voegen.  Deze worden via \textit{grantAccess} toegevoegd.
+%TODO more information interactie
 
 \paragraph{Security}
+De gedetailleerde uitwerking van de security component is te vinden in \ref{Client and Server View: Security} Client and Server View: Security.
 
 \paragraph{ExternalActions}
 
 \subsubsection{Element interfaces} 
+De Element interface component voorziet de interfaces voor het loggen naar de overheid en het verzenden van de RIZIV data naar de overheid.
 
 \paragraph{log}
 TODO
@@ -203,9 +330,17 @@ TODO
 \paragraph{RIZIV}
 TODO
 
+\subsubsection{Element behaviour}
+Deze component zal de logging en RIZIV acties uitvoeren naar de overheid toe.  In normale omstandigheden zullen deze acties onmiddellijk uitgevoerd worden.  In het geval dat de server van de overheid niet kan bereikt worden zullen de acties gequeued worden totdat de server terug beschikbaar is.  Op het moment dat de server opnieuw beschikbaar is zal de queue element per element verzonden worden naar de overheid.\\
+Deze queue kan anders uitgewerkt worden voor log en RIZIV.
+
 \subsection{Context diagram}
 
 \subsection{Variability guide}
+%TODO session management: explicit or implicit login.
+De \textbf{ExternalActions} component kan ook zo uitgewerkt worden dat de acties slechts op bepaalde tijdstippen naar de server van de overheid worden uitgevoerd.  De acties worden dan altijd gequeued.  Op bepaalde tijdstippen worden de queues dan uitgevoerd en leeggemaakt.  Er zou ook kunnen rekening gehouden worden met het aantal elementen in de queue.  De queue kan dan worden uitgevoerd en leeggemaakt als een bepaalde treshold van elementen bereikt is.  Tenslotte is ook een combinatie van beide vorige mogelijk.  De queue kan normaal op een bepaald tijdstip leeggemaakt worden tenzij er te veel elementen in de queue zitten; dan zou de queue eerder worden geleegd.  Omgekeerd kan het ook dat de queue altijd geleegd worden zodra een bepaald elementen in de queue zitten, maar ook op bepaalde tijdstippen om in het geval van low traffic de berichten niet te lang op de server te houden.\\
+Het is mogelijk verschillende instellingen te gebruiken voor log en RIZIV.\\
+Het is ook mogelijk om de interfaces zo te implementeren dat bepaalde berichten een hogere prioriteit hebben en altijd direct worden verzonden naar de overheid.
 
 \subsection{Architecture background}
 
@@ -218,7 +353,11 @@ TODO
 \subsection{Other information}
 
 \subsection{Related view packets}
-
+In het deployment view is te zien hoe de connect naar de externe servers tot stand komt.\\
+%TODO location.
+% Meer informatie interactie
+In de interactie diagramma's zijn ook voorbeelden te vinden van hoe bepaalde interacties precies in hun werk gaan.
+%TODO location.
 
 
 \section{C\&C Client and Server View: Client}
@@ -236,7 +375,7 @@ TODO
 \subsection{Element catalog}
 
 \paragraph{Cache}
-De cache component is een lokale cache van bestanden die ook op de server aanwezig zijn.
+De cache component is een lokale cache van bestanden die ook op de server of externe servers aanwezig zijn.  Dit element voorziet de toegang tot de data.
 
 \subsubsection{Element interfaces} 
 
@@ -252,40 +391,35 @@ TODO
 \subsubsection{Element behavior}
 Wanneer een item uit de cache gelezen wordt (\textit{read}), verstuurt de cache eerst de vraag naar de server als het gegeven item up-to-date is.  Als dit het geval is dan wordt het bestand uit de cache aan de gebruiker weergegeven, is dit niet het geval dan stuurt de server het meest recente bestand terug.  Dit wordt dan opgeslagen in de cache en dan teruggegeven aan de gebruiker.\\
 %TODO teruggeven aan de gebruiker??
-Het schrijven van een item (\textit{write}) gebeurt door het item eerst lokaal te schrijven, daarna verstuurt de cache een write operatie naar de server.  Wanneer de cache een antwoord gekregen heeft van de server dat de schrijfoperatie correct verlopen is mag de cache het geschreven item uit de cache verwijderen.\\
-Een \textit{push} operatie is gelijkaardig aan de schrijf operatie van hierboven.  Het enige verschil is dat het in het geval van een \textit{push} gaat over een operatie waarbij de gebruiker geen toegang heeft tot het te schrijven document.  Hij kan enkel een data-veld toevoegen, een veld wijzigen of overschrijven is niet mogelijk.
+Het schrijven van een item (\textit{write}) gebeurt door het item eerst lokaal te schrijven, daarna verstuurt de cache een write operatie naar de server.  Deze write operatie verloopt door enkel een patch te sturen van de nieuwe data, het volledige document wordt dus niet weggeschreven maar enkel de wijzigingen.  Wanneer de cache een antwoord gekregen heeft van de server dat de schrijfoperatie correct verlopen is mag de cache het geschreven item uit de cache verwijderen.\\
+Een \textit{push} operatie is gelijkaardig aan de schrijf operatie van hierboven.  Het enige verschil is dat het in het geval van een \textit{push} gaat over een operatie waarbij de gebruiker geen toegang heeft tot het te schrijven document.  Hij kan enkel een data-veld toevoegen, een veld wijzigen of overschrijven is niet mogelijk.\\
+Een laatste belangrijk iets is hoe de cache moet reageren in verband met het falen van het netwerk.  Indien de cache geen reactie krijgt van het netwerk mag hij de lokale files teruggeven.  In het geval dat deze cache gegevens oud zijn kan dit aan gebruiker gemeld worden.  Op het moment dat de cache de server terug kan bereiken zal hij zijn wijzigingen gaan opslaan.  Hiervoor wordt een merge algoritme gebruikt.
 
 \paragraph{Security}
 De security component is op zich gelijk aan deze in de server.  De gedetailleerde uitwerking is te vinden in \ref{Client and Server View: Security} Client and Server View: Security.
 
-
-\subsubsection{Elements and their properties}
-
-\subsubsection{Relations and their properties}
-
-\subsubsection{Element interfaces}
-
-\subsubsection{Element behavior}
-
 \subsection{Context diagram}
+TODO
+%TODO
 
 \subsection{Variability guide}
 Verschillende implementaties van de Client component zijn mogelijk.  Wanneer de client lokaal op een pc wordt uitgewerkt voor een dokter zal de cache waarschijnlijk zo veel mogelijk data bijhouden.\\
 Voor een client van de dokter die bijvoorbeeld op een smartphone draait is het onrealistisch om te verwachten dat deze alle data zal cachen.  De client kan dan bijvoorbeeld zo uitgewerkt worden dat de cache van de smartphone iedere morgen voor de huisbezoeken gesynct wordt met de nodige pati\"{e}nten van die dag.\\
+De centrale pc van de dokter kan een gelijkaardige synchronisatie techniek implementeren voor geplande bezoeken van pati\"{e}nten.\\
 Nog een ander geval is het geval van de client voor de apotheek of voor de pati\"{e}nt.  In het geval van een client voor de pati\"{e}nt zal de cache enkel het dossier van de pati\"{e}nt zelf bijhouden.  Voor de apotheek hoeft de cache helemaal geen data te cachen.\\
 Een laatste geval is wanneer de cache op een webclient draait.  In dit geval kan de caching aangepast worden naar de mogelijkheden van de webserver.  Hier moet dan wel rekening gehouden worden met de wetgeving die centrale opslag van pati\"{e}nten data verbiedt.  Het is mogelijk dat een webserver zoveel zou gaan cachen dat dit zou kunnen gezien worden als een centrale opslag.  Omdat dit niet toegelaten is moet men er bij de implementatie van deze cache rekening mee houden.  De cache zou zo kunnen aangepast worden om slechts een bepaald aantal documenten bij te houden of enkel de documenten die in een bepaalde tijdspanne opgevraagd zijn.
 
 \subsection{Architecture background}
-
-\subsubsection{Rationale}
-
-\subsubsection{Analysis results}
-
-\subsubsection{Assumptions}
+De belangrijkste component van de client, de cache, is gekozen om een aantal redenen.  De eerste is het verzorgen van \texttt{availability}.  Wanneer er een netwerk failure is kan een dokter nog aan alle data die lokaal in de cache zit.  In het geval dat de client een dokter is met een lokale pc zal deze cache waarschijnlijk vrij compleet zijn en ook up to date zijn, zeker wanneer het gaat om geplande bezoeken, aangezien de cache voordien al kan synchronizeren met de server.\\
+Een ander belangrijke kwaliteitsvereiste die we hier niet mogen vergeten is de \texttt{performance}.  Een lokale cache zal een belangrijke snelheids winst opleveren aangezien een stuk minder data over het netwerk moet verzonden worden.\\
+Het wegschrijven van de wijzigingen in plaats van het volledige document bij een \textit{write} operatie naar de server zorgt ook voor een belangrijke snelheids winst.  Op deze manier zal veel minder data over het netwerk moeten worden verstuurd.
 
 \subsection{Other information}
+[None]
 
 \subsection{Related view packets}
+Deze client kant moet gezien worden in de volledige overview (zie \ref{Client and Server View: Overview} Client and Server Overview.  Daarnaast is ook het deployment model belangrijk
+%TODO locations.
 
 
 \section{C\&C Client and Server View: Security}
