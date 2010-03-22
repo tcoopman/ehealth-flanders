@@ -240,7 +240,8 @@ De GMR component delegeert alle inkomende acties.  Dat doet hij door inkomende b
 Daarna wordt gecontroleerd of er al een sessie bestaat en of die al dan niet geldig is.\\
 %TODO session management uitdenken!
 Wanneer dat gebeurd is zal het systeem de oproep doorgeven aan de policy component.  Deze zal de GMR laten weten of de actie die de GMR binnen krijgt al dan niet toegelaten is.\\
-Als de actie toegelaten is voor de gebruiker zal de GMR de actie uitvoeren en een gepaste respons sturen naar de client.
+Als de actie toegelaten is voor de gebruiker zal de GMR de actie uitvoeren en een gepaste respons sturen naar de client.\\
+Als het nodig is worden acties gelogd of verzonden naar het RIZIV.\\
 
 \paragraph{SessionManager}
 De SessionManager voorziet in session management.  Deze component zorgt ervoor dat een gebruiker niet telkens opnieuw hoeft in te loggen wanneer hij een actie naar het systeem uitvoert.
@@ -325,10 +326,32 @@ De gedetailleerde uitwerking van de security component is te vinden in \ref{Clie
 De Element interface component voorziet de interfaces voor het loggen naar de overheid en het verzenden van de RIZIV data naar de overheid.
 
 \paragraph{log}
-TODO
+\underline{Resources provided:}\\
+log(data)\\
+De data wordt gelogd naar de overheid toe.  De component zorgt dat enkel data die mag gelogd worden verstuurd wordt.
+
+\underline{Element requirements:}\\
+data: de data om te loggen.
+
+\underline{Rationale and design issues:}\\
+De data die mag gelogd worden kan eventueel gedefinieerd worden door een externe instantie, in dit geval de overheid.
+Zie ook deployment diagram voor toegang tot de overheid.
+%TODO location.
 
 \paragraph{RIZIV}
-TODO
+\underline{Resources provided:}\\
+riziv(data)\\
+De data wordt verzonden naar de overheid toe.  De component zorgt data alle data die moet verzonden worden, verzonden wordt.
+
+\underline{Error handling:}\\
+Wanneer de data niet volledig is wordt een error teruggeven.
+
+\underline{Element requirements:}\\
+data: de data om te verzenden naar het RIZIV.
+
+\underline{Rationale and design issues:}\\
+Zie ook deployment diagram voor toegang tot de overheid.
+%TODO location.
 
 \subsubsection{Element behaviour}
 Deze component zal de logging en RIZIV acties uitvoeren naar de overheid toe.  In normale omstandigheden zullen deze acties onmiddellijk uitgevoerd worden.  In het geval dat de server van de overheid niet kan bereikt worden zullen de acties gequeued worden totdat de server terug beschikbaar is.  Op het moment dat de server opnieuw beschikbaar is zal de queue element per element verzonden worden naar de overheid.\\
@@ -343,6 +366,8 @@ Het is mogelijk verschillende instellingen te gebruiken voor log en RIZIV.\\
 Het is ook mogelijk om de interfaces zo te implementeren dat bepaalde berichten een hogere prioriteit hebben en altijd direct worden verzonden naar de overheid.
 
 \subsection{Architecture background}
+TODO!!!
+%TODO
 
 \subsubsection{Rationale}
 
@@ -380,13 +405,44 @@ De cache component is een lokale cache van bestanden die ook op de server of ext
 \subsubsection{Element interfaces} 
 
 \paragraph{read}
-TODO
+
+\underline{Resources provided:}\\
+read(data\_key)\\
+De data verbonden met data\_key wordt gelezen.
+%TODO zie element behavior.
+
+\underline{Element requirements:}\\
+data\_key: de key om de data op te vragen.\\
+
+\underline{Rationale and design issues:}\\
+Zie hieronder voor een beschrijving van het algemeen gedrag van de cache.
 
 \paragraph{modify}
-TODO
+\underline{Resources provided:}\\
+modify(data\_key, data)\\
+De aanpassing van de data verloopt door het mergen van data met de bestaande data.
+
+\underline{Error handling:}\\
+Wanneer het mergen van de data faalt zal een error teruggegeven worden.  Er kan gevraagd worden aan de uitvoerder van de actie om manueel een merge uit te voeren.
+
+\underline{Element requirements:}\\
+data\_key: de key om de data op te vragen.\\
+data: een patch van data die moet aangepast worden op locatie data\_key.\\ 
+
+\underline{Rationale and design issues:}\\
+In het geval dat een merge actie zou falen, kan aan de client gevraagd worden om de merge manueel te doen, of om een volledig document te verzenden.
 
 \paragraph{push}
-TODO
+\underline{Resources provided:}\\
+push(data\_key, data)\\
+Het pushen van de data gebeurt gelijkaardig zoals bij \textbf{modify}.
+
+\underline{Element requirements:}\\
+data\_key: de key om de data op te vragen.\\
+data: data die moet toegevoegd worden aan document met key: data\_key.\\
+
+\underline{Rationale and design issues:}\\
+Hier kan geen patch gestuurd worden omdat een push actie enkel toelaat nieuwe data toe te voegen aan een dossier.
 
 \subsubsection{Element behavior}
 Wanneer een item uit de cache gelezen wordt (\textit{read}), verstuurt de cache eerst de vraag naar de server als het gegeven item up-to-date is.  Als dit het geval is dan wordt het bestand uit de cache aan de gebruiker weergegeven, is dit niet het geval dan stuurt de server het meest recente bestand terug.  Dit wordt dan opgeslagen in de cache en dan teruggegeven aan de gebruiker.\\
@@ -407,7 +463,8 @@ Verschillende implementaties van de Client component zijn mogelijk.  Wanneer de 
 Voor een client van de dokter die bijvoorbeeld op een smartphone draait is het onrealistisch om te verwachten dat deze alle data zal cachen.  De client kan dan bijvoorbeeld zo uitgewerkt worden dat de cache van de smartphone iedere morgen voor de huisbezoeken gesynct wordt met de nodige pati\"{e}nten van die dag.\\
 De centrale pc van de dokter kan een gelijkaardige synchronisatie techniek implementeren voor geplande bezoeken van pati\"{e}nten.\\
 Nog een ander geval is het geval van de client voor de apotheek of voor de pati\"{e}nt.  In het geval van een client voor de pati\"{e}nt zal de cache enkel het dossier van de pati\"{e}nt zelf bijhouden.  Voor de apotheek hoeft de cache helemaal geen data te cachen.\\
-Een laatste geval is wanneer de cache op een webclient draait.  In dit geval kan de caching aangepast worden naar de mogelijkheden van de webserver.  Hier moet dan wel rekening gehouden worden met de wetgeving die centrale opslag van pati\"{e}nten data verbiedt.  Het is mogelijk dat een webserver zoveel zou gaan cachen dat dit zou kunnen gezien worden als een centrale opslag.  Omdat dit niet toegelaten is moet men er bij de implementatie van deze cache rekening mee houden.  De cache zou zo kunnen aangepast worden om slechts een bepaald aantal documenten bij te houden of enkel de documenten die in een bepaalde tijdspanne opgevraagd zijn.
+Een laatste geval is wanneer de cache op een webclient draait.  In dit geval kan de caching aangepast worden naar de mogelijkheden van de webserver.  Hier moet dan wel rekening gehouden worden met de wetgeving die centrale opslag van pati\"{e}nten data verbiedt.  Het is mogelijk dat een webserver zoveel zou gaan cachen dat dit zou kunnen gezien worden als een centrale opslag.  Omdat dit niet toegelaten is moet men er bij de implementatie van deze cache rekening mee houden.  De cache zou zo kunnen aangepast worden om slechts een bepaald aantal documenten bij te houden of enkel de documenten die in een bepaalde tijdspanne opgevraagd zijn.\\
+Het schrijven van de cache naar de server kan ook per client ingesteld worden.  Er kan na iedere schrijf actie naar de server geschreven worden, er kan geschreven worden als een dossier wordt gesloten.  Het is ook mogelijk dat de server tijdelijk niet beschikbaar is, dan worden alle schrijfacties in een queue gezet en die kunnen dan geschreven worden op het moment dat de server terug beschikbaar is.
 
 \subsection{Architecture background}
 De belangrijkste component van de client, de cache, is gekozen om een aantal redenen.  De eerste is het verzorgen van \texttt{availability}.  Wanneer er een netwerk failure is kan een dokter nog aan alle data die lokaal in de cache zit.  In het geval dat de client een dokter is met een lokale pc zal deze cache waarschijnlijk vrij compleet zijn en ook up to date zijn, zeker wanneer het gaat om geplande bezoeken, aangezien de cache voordien al kan synchronizeren met de server.\\
