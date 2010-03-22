@@ -16,7 +16,6 @@
 
 %TODO: stijl kiezen: componenten vet, interfaces /...
 %TODO: Overal keys toevoegen.
-%TODO: log in en session management nog eens nadenken!
 %TODO: afwegingen voor en nadelen.
 
 \begin{document}
@@ -119,19 +118,20 @@ De data component is een database waar alle informatie zoals patienten dossiers 
 \paragraph{Card}
 De card component stelt de e-Card van de gebruiker voor.  De e-Card bevat gebruikersinformatie alsook twee keys.  Een key voor identificatie van de gebruiker en een key voor authenticatie.  Naast de gebruikersinformatie en de keys heeft de e-Card ook ruimte voor een aantal voorschriften op te slaan.  Meer informatie is terug te vinden in:
 %TODO location
-
-\paragraph{Government}
-De government component bevat toegang tot de logging en RIZIV database.
-
-\paragraph{External}
-De external component bevat de validated data sources die gebruikers van de client kunnen opvragen via de server.
-
-%TODO government en external => context diagram?
-
+%TODO interfaces van card
 
 \subsection{Context diagram}
+\begin{center}
+    \begin{figure}
+      \includegraphics[width=\textwidth]{../images/ClientServer_Context.png}
+    \end{figure}
+  \end{center}
 TODO
-%TODO
+De government component bevat toegang tot de logging en RIZIV database.
+De external component bevat de validated data sources die gebruikers van de client kunnen opvragen via de server.
+
+%TODO government en external => context diagram? uitleggen
+
 
 \subsection{Variability guide}
 [None]
@@ -151,7 +151,6 @@ De volgende client-server views bekijken dit overview diagram in meer detail.  O
 
 \section{C\&C Client and Server View: Server}
 \label{Client and Server View: Server}
-%TODO login?
 \subsection{Primary presentation}
 
 \begin{center}
@@ -235,7 +234,13 @@ session\_key: de key die gebruikt wordt om een sessie te identifici\"{e}ren.\\
 
 \underline{Rationale and design issues:}\\
 Zie ook \textbf{read}.\\
-Hier kan geen patch gestuurd worden omdat een push actie enkel toelaat nieuwe data toe te voegen aan een dossier.
+Hier kan geen patch gestuurd worden omdat een push actie enkel toelaat nieuwe data toe te voegen aan een dossier.\\
+Alhoewel push ongeveer gelijkaardig is aan modify hebben we er toch voor gekozen om deze toe te voegen.  Met behulp van push kunnen bepaalde personen toch toegang krijgen tot het schrijven van data bij een dossier zonder dat dossier te kunnen lezen.
+
+\paragraph{grantAccess}
+\underline{Resources provided:}\\
+grantAccess(to\_key, data\_key, action, from\_key, period)\\
+Zie grantAccess bij \textbf{Policy}.  Daar wordt de interface uitgewerkt, de interface hier wordt gewoon gedelegeert naar de interface van \textbf{Policy}.
 
 \subsubsection{Element behavior}
 De GMR component delegeert alle inkomende acties.  Dat doet hij door inkomende berichten door de security component te laten decrypten.  Dan krijgt hij onmiddellijk bevestiging dat de data compleet en correct is en van de een geauthenticeerde gebruiker komt.  Indien dit niet het geval is stuurt de GMR een error terug naar de client.\\
@@ -360,24 +365,20 @@ Deze component zal de logging en RIZIV acties uitvoeren naar de overheid toe.  I
 Deze queue kan anders uitgewerkt worden voor log en RIZIV.
 
 \subsection{Context diagram}
+Het \ref{Client and Server View: Overview} Client and Server View: Overview diagram kan beschouwd worden als het context diagram voor de server.
 
 \subsection{Variability guide}
 %TODO session management: explicit or implicit login.
+Het inloggen het systeem gebeurt nu impliciet.  Op het moment dat de \textbf{GMR} een actie binnen krijgt met een id\_key zal aan de \textbf{SessionManager} gevraagd worden om een nieuwe sessie te openen.  Dan zal de sessie\_key teruggegeven worden aan de gebruiker.  Dit kan ook aangepast worden om expliciet een login te vereisen voordat de eerste actie in het systeem wordt uitgevoerd.\\
 De \textbf{ExternalActions} component kan ook zo uitgewerkt worden dat de acties slechts op bepaalde tijdstippen naar de server van de overheid worden uitgevoerd.  De acties worden dan altijd gequeued.  Op bepaalde tijdstippen worden de queues dan uitgevoerd en leeggemaakt.  Er zou ook kunnen rekening gehouden worden met het aantal elementen in de queue.  De queue kan dan worden uitgevoerd en leeggemaakt als een bepaalde treshold van elementen bereikt is.  Tenslotte is ook een combinatie van beide vorige mogelijk.  De queue kan normaal op een bepaald tijdstip leeggemaakt worden tenzij er te veel elementen in de queue zitten; dan zou de queue eerder worden geleegd.  Omgekeerd kan het ook dat de queue altijd geleegd worden zodra een bepaald elementen in de queue zitten, maar ook op bepaalde tijdstippen om in het geval van low traffic de berichten niet te lang op de server te houden.\\
 Het is mogelijk verschillende instellingen te gebruiken voor log en RIZIV.\\
 Het is ook mogelijk om de interfaces zo te implementeren dat bepaalde berichten een hogere prioriteit hebben en altijd direct worden verzonden naar de overheid.
 
 \subsection{Architecture background}
-TODO!!!
-%TODO
-
-\subsubsection{Rationale}
-
-\subsubsection{Analysis results}
-
-\subsubsection{Assumptions}
+We hebben de \textbf{Server} zo gemaakt met een centrale component die alle delegatie doet; de \textbf{GMR}.  De \textbf{GMR} heeft zelf wel geen verantwoordelijkheden buiten het delegeren van alle inkomende acties.
 
 \subsection{Other information}
+[None]
 
 \subsection{Related view packets}
 In het deployment view is te zien hoe de connect naar de externe servers tot stand komt.\\
@@ -457,8 +458,7 @@ Een laatste belangrijk iets is hoe de cache moet reageren in verband met het fal
 De security component is op zich gelijk aan deze in de server.  De gedetailleerde uitwerking is te vinden in \ref{Client and Server View: Security} Client and Server View: Security.
 
 \subsection{Context diagram}
-TODO
-%TODO
+Het \ref{Client and Server View: Overview} Client and Server View: Overview diagram kan beschouwd worden als het context diagram voor de client.
 
 \subsection{Variability guide}
 Verschillende implementaties van de Client component zijn mogelijk.  Wanneer de client lokaal op een pc wordt uitgewerkt voor een dokter zal de cache waarschijnlijk zo veel mogelijk data bijhouden.\\
@@ -561,7 +561,7 @@ Zie ook compress.\\
 Deze component zorgt dat de communicatie tussen het platform en de clients veilig verloopt. Enerzijds door de boodschap te signeren met een gebruiker zijn identificatiesleutel, waar het enkel geldige sleutels wordt toegelaten deze boodschappen te sturen. Anderzijds door de boodschappen die verzonden worden te comprimeren. Dit laatste biedt naast veiligheid ook een manier om de communicatie tussen beide te versnellen.\\
 
 \subsection{Context diagram}
-Zie diagram Client-Server: Server. \\
+De \ref{Client and Server View: Server} Client and Server View: Server en \ref{Client and Server View: Client} Client and Server View: Client diagramma's kunnen beschouwd worden als context diagram voor de security component.
 
 \subsection{Variability guide}
 De implementatie van zowel de Authentication component als de compression component zal gebeuren met third-party software. Dit is gemakkelijker dan zelf zo een systeem maken en doordat de componenten zo afgezonderd zijn van het systeem, is het later ook gemakkelijk om een nieuw algoritme te voorzien.\\
@@ -574,10 +574,10 @@ zie Element behavior.
 
 
 \subsection{Other information}
+[None]
 
 \subsection{Related view packets}
-%TODO zeggen dat security in zowel client als server aanwezig is.
-
+De security component is zowel in de client (\ref{Client and Server View: Client} Client and Server View: Client) als de server (\ref{Client and Server View: Server} Client and Server View: Server) component te zien.
 
 
 \section{Allocation Deployment View}
@@ -624,12 +624,6 @@ zie Element behavior.
 
 \begin{center}
     \begin{figure}
-      \includegraphics{../images/lookupAccess.jpg}
-    \end{figure}
-  \end{center}
-
-\begin{center}
-    \begin{figure}
       \includegraphics{../images/modifyGMR.jpg}
     \end{figure}
   \end{center}
@@ -642,7 +636,7 @@ zie Element behavior.
 
 \begin{center}
     \begin{figure}
-      \includegraphics{../images/validatePrescription.jpg}
+      \includegraphics{../images/addprescription.jpg}
     \end{figure}
   \end{center}
 
