@@ -1,0 +1,19 @@
+De stakeholders waarop dit document zich focust, zijn de patiënt, de tester en de regering.
+
+Patiënt:
+	De patiënt wil dat wanneer hij bij zijn huisdokter op consultatie gaat, dat de dokter zijn medisch dossier kan raadplegen en aanpassen. Hiervoor moet de patiënt zijn dokter wel de nodige toelatingen geven. Ook wil de patiënt zelf zijn medisch dossier kunnen raadplegen. 
+
+Tester:
+	De tester wil de eHealth applicatie grondig testen en alle mogelijke scenarios uitproberen.
+
+Regering:
+	De regering wil kunnen beslissen hoe de toegang tot de medische dossiers wordt geregeld (hoeveel van hun dossier kunnen patiënten zelf zien, welke dokter kan wat aanpassen etc). Ook wil de regering een log kunnen raadplegen waarin alle activiteiten op het eHealth platform gelogd worden. Hieronder vallen onder andere inloggen, medische dossiers raadplegen, medische dossiers aanpassen en voorschriften valideren. Een tak van de regering bestaat uit het RIZIV, die informatie over de uitgeschreven en gevalideerde voorschriften wil bijhouden.
+
+Hoe is dit document geschikt voor deze stakeholders:
+
+Patiënt: de patiënt gebruikt een client-applicatie om het eHealth platform te raadplegen. Wanneer hij op consultatie is, gebeuren de gewenste acties via de client-applicatie van de dokter. Voor de patiënt is de client-kant van deze applicatie dus belangrijk.
+
+Tester: Voor de tester zijn er uitgewerkte sequentiediagrammen aanwezig, die een overzicht geven van hoe de verschillende acties tot stand komen. Daarnaast is in zowel het Client-server diagram als het deployment diagram te zien hoe de verschillende functionaliteiten in afzonderlijke componenten zitten, waardoor het testen van de functionaliteiten afzonderlijk eenvoudig is. Ook het layered view geeft een overzicht van hoe de verschillende componenten samen werken.
+
+Regering:
+	Er is een afzonderlijke component voorzien die de functionaliteiten die de regering vereist, uitvoert. Zo worden alle acties gelogd naar een log, buiten het systeem, en ook de boodschappen naar het RIZIV worden via deze component gestuurd. 
