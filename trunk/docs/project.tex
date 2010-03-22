@@ -8,7 +8,8 @@
   {1.5ex \@plus .2ex}%
   {\normalfont\normalsize\bfseries}}
 \makeatother
-
+\renewcommand{\thechapter}{}
+\renewcommand \thesection {\arabic {section}}
 % Title Page
 \title{Architecture of E-Health Flanders platform}
 \author{}
@@ -50,6 +51,7 @@
 
 
 \part{Software Architecture Views}
+\setcounter{section}{0}
 
 \section{Module Uses View}
 
@@ -392,7 +394,7 @@ In de interactie diagramma's zijn ook voorbeelden te vinden van hoe bepaalde int
 
 \begin{center}
     \begin{figure}
-      \includegraphics[width=\textwidth]{../images/ClientServer_Client.png}
+      \includegraphics[width=70mm]{../images/ClientServer_Client.png}
     \end{figure}
   \end{center}
 %TODO opmaken figuur!
@@ -486,7 +488,7 @@ Deze client kant moet gezien worden in de volledige overview (zie \ref{Client an
 
 \begin{center}
     \begin{figure}
-      \includegraphics[width=\textwidth]{../images/ClientServer_Security.png}
+      \includegraphics[width=60mm]{../images/ClientServer_Security.png}
     \end{figure}
   \end{center}
 %TODO opmaken figuur!
