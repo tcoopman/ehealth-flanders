@@ -579,17 +579,16 @@ zie Element behavior.
 \subsection{Related view packets}
 De security component is zowel in de client (\ref{Client and Server View: Client} Client and Server View: Client) als de server (\ref{Client and Server View: Server} Client and Server View: Server) component te zien.
 
-
 \clearpage
 \section{Deployment view DMZ}
-\label{sec:deploymentView:DMZ}
 
 \subsection{Primary presentation}
-
-\begin{figure}[!h]
-  \includegraphics[width=\textwidth]{../images/deployment_DMZ.jpg}
-    \caption{deployment diagram giving a high-level overview of the system}
-\end{figure}
+ \begin{center}
+    \begin{figure}[!h]
+      \includegraphics[width=\textwidth]{../images/deployment_DMZ.jpg}
+	\caption{deployment diagram giving a high-level overview of the system}
+    \end{figure}
+ \end{center}
 
 \subsection{Element catalog}
 
@@ -636,13 +635,15 @@ De interfaces van de verschillende componenten in de nodes staan beschreven in d
 
 Niet van toepassing
 
+\clearpage
 \subsection{Context diagram}
 
-
-\begin{figure}[!h]
-  \includegraphics[width=\textwidth]{../images/deployment_DMZ_context.jpg}
-    \caption{Context diagram for the deployment diagram giving a high-level overview of the system}
-\end{figure}
+\begin{center}
+    \begin{figure}[!h]
+      \includegraphics[width=\textwidth]{../images/deployment_DMZ_context.jpg}
+	\caption{Context diagram for the deployment diagram giving a high-level overview of the system}
+    \end{figure}
+ \end{center}
 
 \subsection{Variability guide}
 
@@ -664,11 +665,12 @@ De verschillende delen in deze view worden nog verder uitgewerkt in aparte secti
 \label{sec:deployment_clients}
 
 \subsection{Primary presentation}
-
-\begin{figure}[!h]
-  \includegraphics[width=\textwidth]{../images/deployment_clients.jpg}
-    \caption{Deployment diagram focused on the various clients in the system}
-\end{figure}
+\begin{center}
+    \begin{figure}[!h]
+      \includegraphics[width=\textwidth]{../images/deployment_clients.jpg}
+	\caption{Deployment diagram focused on the various clients in the system}
+    \end{figure}
+  \end{center}
 
 \subsection{Element catalog}
 
@@ -733,10 +735,12 @@ niet van toepassing
 
 \subsection{Context diagram}
 
-\begin{figure}[!h]
-  \includegraphics[width=\textwidth]{../images/deployment_clients_context.jpg}
-    \caption{Context diagram for de deployment view focused on the clients}
-\end{figure}
+\begin{center}
+    \begin{figure}[!h]
+      \includegraphics[width=\textwidth]{../images/deployment_clients_context.jpg}
+	\caption{Context diagram for de deployment view focused on the clients}
+    \end{figure}
+  \end{center}
 
 \subsection{Variability guide}
 
@@ -754,11 +758,12 @@ Via het internet maken alle clients verbinding met het eHealth platform, dit ged
 \label{sec:deployment_services}
 
 \subsection{Primary presentation}
-
-\begin{figure}[!h]
-  \includegraphics[width=\textwidth]{../images/deployment_services.jpg}
-    \caption{Deployment diagram focused on the services in the platform}
-\end{figure}
+\begin{center}
+    \begin{figure}[!h]
+      \includegraphics[width=\textwidth]{../images/deployment_services.jpg}
+	\caption{Deployment diagram focused on the services in the platform}
+    \end{figure}
+  \end{center}
 
 \subsection{Element catalog}
 
@@ -809,13 +814,13 @@ Component die alle functionaliteit aanbiedt voor het lezen, schrijven en aanpass
 Beheert alle data gerelateerd met dokters. Registratie van dokters en de registratie van patiënten van dokters gebeurt aan de hand van deze component.
 \item \textbf{VDS}\\*
 Dit stuk software zal alle functionaliteit aanbieden om data te kunnen ophalen van de \textit{validated data sources}, alsook functionaliteit voor het toevoegen van validated data sources aan het systeem. Wanneer zo'n gegevensbron toegevoegd dient te worden, zal die gegevensbron aangeboden moeten worden met een interface die vastgelegd wordt door ons systeem. \textbf{TODO : nog meer over die interface zeggen?}
-%TODO
 \item \textbf{ExternalActions}\\*
 Component die de link met de \textit{Governmental Services} voorziet (loggen en RIZIV).
-\item \textbf{Prescriptions}\\*
 \end{enumerate}
+
 \item \textbf{Service Management \textit{(Spare)}}\\*
 Deze node zal verantwoordelijk zijn voor het beheren van de verschillende services in het systeem. Zoals je kan zien op het diagram worden de security services en de core services beiden apart dynamisch gerepliceerd. Dit houdt in dat het aantal actieve processen gedediceerd voor deze twee onderdelen afhankelijk zal zijn van de belasting van het systeem. Deze node controleert dit alles. Het bevat twee aparte componenten, 1 voor de security services en 1 voor de core services. De node zal ook verantwoordelijk zijn voor het registreren en het deregistreren van de verschillende security services processen aan de \textit{Public Services Proxies} zodat deze weten welke er beschikbaar zijn.
+
 \end{enumerate}
 
 
@@ -823,7 +828,7 @@ Deze node zal verantwoordelijk zijn voor het beheren van de verschillende servic
 Zie sectie \ref{subsubsec:relations_deployment} voor meer info over de verschillende connecties tussen de nodes.
 
 \subsubsection{Element interfaces}
-[None]
+Niet van toepassing.
 
 \subsubsection{Element behavior}
 Wanneer een request gemaakt wordt naar het platform, zal deze via de \textit{Public Services Proxy} moeten. Deze zal moeten beslissen naar welke van de actieve \textit{Security Services} servers de request doorgestuurd zal worden. Zoals eerder vermeld zal dit voor een bepaalde sessie steeds dezelfde moeten zijn om authenticatie bij te kunnen houden. Dus als de \textit{Public Services Proxy} een request krijgt van een sessie die reeds in het \textit{Distributed Session Management} geregistreerd staat, moet er geen keuze gemaakt worden. Wanneer een request binnenkomt die nog niet geregistreerd is, zal de \textit{Public Services Proxy} een korte ping-boodschap sturen naar de 3 \textit{Security Services} servers die het minst in het \textit{Distributed Session Management} gekoppeld zijn aan een sessie. De eerste die hierop antwoord zal dan gekozen worden om de request naar door te sturen.
@@ -831,12 +836,14 @@ Wanneer een request gemaakt wordt naar het platform, zal deze via de \textit{Pub
 De \textit{Public Services Proxy} moet natuurlijk ook weten welke \textit{Security Services} servers er beschikbaar zijn. Hiervoor is de \textit{Service Management} server verantwoordelijk. Deze zal aan de hand van een ping-echo techniek elk van de \textit{Security Services} servers controleren. Wanneer 1 van die servers niet meer antwoord, betekent dit dat die node faalt en zal dit doorgegeven worden aan de \textit{Public Services Proxies}. In de ping-echo boodschap zullen de \textit{Security Services} servers ook hun huidige load aangeven. Wanneer de \textit{Service Management} server merkt dat alle servers zwaar geladen zijn.zal deze beslissen om een nieuwe op te starten. Dit zal dan ook doorgegeven worden aan de \textit{Public Services Proxies}.
 
 Dit zelfde systeem wordt gebruikt voor de connectie tussen de \textit{Security Services} servers en de \textit{Core Services} servers. Een \textit{Security Services} zal eerst naar 3 verschillende \textit{Core Services} servers een korte ping-boodschap sturen en vervolgens diegene die het snelst antwoord kiezen om verder mee te werken. De \textit{Service Management} server zal er nu ook weer voor zorgen dat de \textit{Security Services} servers weten met welke \textit{Core Services} servers ze kunnen connecteren en deze laatste ook monitoren en dynamisch toevoegen indien nodig.
-\subsection{Context diagram}
 
-\begin{figure}[!h]
-  \includegraphics[width=\textwidth]{../images/deployment_services_context.jpg}
-    \caption{Context diagram for the deployment diagram focused on the services in the platform}
-\end{figure}
+\subsection{Context diagram}
+\begin{center}
+    \begin{figure}[!h]
+      \includegraphics[scale=0.50, width=\textwidth]{../images/deployment_services_context.jpg}
+	\caption{Context diagram for the deployment diagram focused on the services in the platform}
+    \end{figure}
+  \end{center}
 
 \subsection{Variability guide}
 
@@ -845,16 +852,16 @@ Dit zelfde systeem wordt gebruikt voor de connectie tussen de \textit{Security S
 Omwille van de zware beschikbaarheids vereisten - maximum 2 minuten downtime per jaar - hebben we alle nodes gedupliceerd, zodat er zeker niet één \textit{single point of failure} in het systeem zit. In het gedeelte bescreven in deze sectie worden 3 verschillende replicatie-technieken gebruikt. De \textit{Public Services Proxy} servers worden statisch gerepliceerd. Dit betekent dat het aantal servers niet door het systeem zelf zal gewijzigd worden. Natuurlijk kunnen er wel manueel nieuwe servers toegevoegd worden.
 
 De replicatie-techniek gebruikt voor voor de \textit{Security Management} servers is een \textit{spare}. De gewone server zal er tijdens het lopen voor zorgen dat de staat van de reserve steeds in real-time mee ge-update wordt. Dit zal gebeuren op een regelmatig (kort) interval. Wanneer de reserve een aantal van die updates mist, neemt deze aan dat de primaire \textit{Security Management} server gefaald heeft en zal die voortaan de functies van de primaire overnemen.
-	
+
 Ten slotte wordt er ook gebruik gemaakt van dynamische replicatie voor zowel de \textit{Security Services} als de \textit{Core Services}. Dit zorgt voor een goede schaalbaarheid van het systeem aangezien het systeem zich zal aanpassen aan de load.
 
 Performantie is natuurlijk ook belangrijk. Bepaalde gegevens moeten binnen bepaalde tijdspannes beschikbaar zijn. Daarom gebruiken we de methode hierboven beschreven om van de \textit{Public Services Proxies} naar de \textit{Security Services} en van de \textit{Security Services} naar de \textit{Core Services} te gaan. We zullen telkens eerst een korte ping-boodschap sturen naar minstens 3 nodes en op basis van de antwoorden op deze ping een keuze maken. Dit doen we om ervoor te zorgen dat we niet te veel tijd verspillen met het wachten op een timeout met een falende component. Ook is dit een primitieve vorm van dynamisch loadbalancing, het antwoord dat het eerst terugkomt zal gewoon de snelste (en dus waarschijnlijk minst belaste) route volgen.
 
 \subsection{Other information}
+
 Het aantal \textit{Public Services Proxies} moet nog bepaald worden. Hiervoor zal eerst onderzoek gedaan moeten worden naar de verwachte load van het systeem en moeten we weten welke systemen we beschikbaar hebben.
 
 \subsection{Related view packets}
-
 
 
 \clearpage
@@ -862,43 +869,103 @@ Het aantal \textit{Public Services Proxies} moet nog bepaald worden. Hiervoor za
 \label{sec:deployment_data}
 
 \subsection{Primary presentation}
-
-\begin{figure}[!h]
-  \includegraphics[width=\textwidth]{../images/deployment_data.jpg}
-    \caption{Deployment diagram focused on the data storage in the platform}
-\end{figure}
+\begin{center}
+    \begin{figure}[!h]
+      \includegraphics[width=\textwidth]{../images/deployment_data.jpg}
+	\caption{Deployment diagram focused on the data storage in the platform}
+    \end{figure}
+  \end{center}
 
 \subsection{Element catalog}
 
 \subsubsection{Elements and their properties}
+\begin{enumerate}
+ \item \textbf{Core Services}\\*
+Node die alle kern services van het systeem bundelt. Meer info vind je in sectie \ref{sec:deployment_services}.
+\item \textbf{Security Service}\\*
+Node die alle security services van het systeem bundelt. Meer info vind je in sectie \ref{sec:deployment_services}.
+\item \textbf{Virtual GMR Data Server}\\*
+Deze server zal alle GMR data als een coherent geheel beschikbaar stellen. Aangezien volgens de wetgeving niet alle data van één enkel GMR op 1 plaats opgeslagen mag worden, hebben we deze node nodig die de nodige delen van een opgevraagd GMR zal ophalen op de aparte data servers. Deze node zal dynamisch gerepliceerd worden volgens de load, net zoals de \textit{Security Services} en de \textit{Core Services} in de services laag. Volgende componenten zitten in deze node : 
+\begin{enumerate}
+ \item \textbf{Distributed Query Processor}\\*
+Deze component zal ervoor zorgen dat queries voor GMR data correct opgesplitst zullen worden in aparte queries voor de aparte data servers. Het laat die aparte queries hun werk doen en zal achteraf alle verkregen dat terug bijeenzetten tot een geheel dat dan als antwoord dient op de orginele query.
+\item \textbf{Distributed Transaction Manager}\\*
+Dit stuk software is verantwoordelijk voor de consistentie van de GMR data. Wanneer er een query uitgevoerd moet worden die gegevens update of wegschrijft, zal deze component er verantwoordelijk voor zijn dat alle subqueries uitgevoerd worden. Indien er 1 van de subqueries faalt, zullen de andere subqueries ongedaan gemaakt worden door dit element.
+\item \textbf{Query Cache}\\*
+Dit element zal tijdelijk de laatste queries die uitgevoerd zijn op de GMR data bijhouden, dit zal nodig zijn voor eventuele herstellingsoperaties bij het falen van 1 van de data servers zoals uitgelegd in sectie \ref{subsubsec:dep_data_behavior}.
+\item \textbf{Data Server Management}\\*
+Dit element biedt functionaliteit om de aparte data servers te beheren.
+\end{enumerate}
+
+\item \textbf{Partial GMR Text Data Server}\\*
+Deze server zal tekstuele GMR data bevatten. Het zal niet alle data van 1 GMR bevatten, maar slechts gedeeltes van die date, aangezien dit bij wet voorgeschreven wordt. Deze servers zullen statisch gerepliceerd worden. De node bevat volgende software componenten : 
+\begin{enumerate}
+ \item \textbf{Encryption/Decryption}\\*
+Alle data op deze node dient geëncypteerd opgeslagen worden.Deze component zorgt daarvoor en zorgt er ook voor dat wanneer er data opgevraagd wordt, deze data ontcijferd wordt.
+\item \textbf{DB Controller}\\*
+Algemene database controller die de eigenlijke data access verzorgt.
+\end{enumerate}
+
+\item \textbf{GMR Figure Data Server}\\*
+Net hetzelfde als de \textit{Partial GMR Text Data Server}, behalve het soort van data dat erin opgeslagen wordt is anders.
+
+\item \textbf{Backup Data Server}\\*
+Deze servers zijn backups van de data servers waarmee ze verbonden zijn.
+
+\item \textbf{Master Data Server}\\*
+\label{masdatserv}
+Deze node zal data bijhouden die geen deel is van GMR data, namelijk data over dokters en welke patienten bij welke dokter horen. Deze node is statisch gerepliceerd door middel van een master-slave communicatie. Deze node is de master, wat wil zeggen dat op deze node geschreven en gelezen kan worden. De andere nodes zijn slaves, wat wil zeggen dat daar enkel van gelezen kan worden. Merk op dat hoewel er maar 1 slave node getoond wordt, er meerdere mogelijk zijn. Deze nodes hebben, net zoals de \textit{Partial GMR Text Data Servers}, hun eigen private sleutel waarmee alle data op die node geëncrypteerd en gedecrypteerd kan worden.
+\item \textbf{Slave Data Server}\\*
+Zie item \ref{masdatserv}.
+
+\item \textbf{Master Security Server}\\*
+\label{massecserv}
+Deze node zal alle security gerelateerde data bijhouden (authenticatie en authorisatie data). Ook deze node wordt gerepliceerd door middel van een master-slave configuratie en wordt beveiligd door een eigen private sleutel om data mee te versleutelen, net zoals bij de \textit{Master Data Server}.
+\item \textbf{Slave Security Server}\\*
+zie item \ref{massecserv}.
+
+
+\end{enumerate}
 
 \subsubsection{Relations and their properties}
+Zie sectie \ref{subsubsec:relations_deployment} voor een uitleg over de types van connecties.
 
 \subsubsection{Element interfaces}
+Niet van toepassing.
 
 \subsubsection{Element behavior}
+\label{subsubsec:dep_data_behavior}
+Als er vanuit de \textit{Core Services} data opgevraagd moet worden, zal weer hetzelfde mechanisme in werking treden als bij de communicatie tussen de \textit{Public Services Proxies} en de \textit{Security Services} beschreven in sectie \ref{subsec:arch_back_dep_serv}. Er zal eerst een ping bericht gestuurd worden naar minstens 3 virtuele servers en diegene die het snelst antwoord zal gekozen worden om verder mee te werken.
 
+Wanneer een virtuele data server een query krijgt voor GMR data, zal deze die query opsplitsen in subqueries die de verschillende delen van de data zal ophalen van de verschillende data servers die elk partiële data bevatten. Daarna worden die subqueries uitgevoerd op de correcte data server en de resultaten worden samengegoten tot 1 geheel dat als antwoord dient voor de originele query. Elke query zal door de virtuele data server ook gecached worden. Indien de query data update of toevoegt, zal de \textit{Distributed Session Manager} ervoor zorgen dat de volledige operatie uitgevoerd wordt, of indien dit niet lukt, de query helemaal geen invloed gehad heeft op de data.
+
+Alle data servers hebben hun eigen private sleutel. Wanneer data toegevoegd wordt, zal die data met die sleutel geëncrypteerd worden vooraleer die opgeslagen wordt. Wanneer er dan data opgevraagd wordt, zal met diezelfde sleutel de data gedecrypteerd worden. Deze data mag echter niet ongeëncrypteerd verstuurd worden, dus moet elke request voor data een andere sleutel meegeven waarmee de data eerst geëncrypteerd zal worden alvorens die doorgestuurd wordt.
+
+De GMR data servers hebben elk een backup data server. Op geregelde tijdstippen worden die backups gesynchroniseerd met de data op de servers. Dit wordt geregeld door de \textit{DB Controller} component. Indien 1 van deze GMR data servers zou falen, dan zal de backup-server dit merken doordat er geen synchronisaties meer plaatsvinden. Indien dit het geval is, spreekt de backup de virtuele data servers aan en vraagt alle relevante queries op die uitgevoerd zijn sinds de laatste synchronisatie van de backup. De backup update zijn gegevens en zal vanaf dan dienst doen als GMR data server.
+
+\clearpage
 \subsection{Context diagram}
-
-\begin{figure}[!h]
-  \includegraphics[scale=0.75]{../images/deployment_data_context.jpg}
-    \caption{Context diagram for the deployment diagram focused on the data storage in the platform}
-\end{figure}
+\begin{center}
+    \begin{figure}[!h]
+      \includegraphics[scale=0.50]{../images/deployment_data_context.jpg}
+	\caption{Context diagram for the deployment diagram focused on the data storage in the platform}
+    \end{figure}
+  \end{center}
 
 \subsection{Variability guide}
+Op het diagram, wordt 1 GMR nu opgedeeld in drie stukken : 2 tekstuele stukken en 1 stuk voor andere data (zoals bijv. figuren). Dit kan eventueel nog gewijzigd worden, afhankelijk van de exacte wettelijke voorschriften over de scheiden van de data. Het functioneren van het systeem zal hierdoor niet wijzigen.
 
 \subsection{Architecture background}
+Het is bij wet verplicht om de data voor een bepaald GMR verspreid bij te houden, vandaar dat het mechanisme met de virtuele data servers in het systeem geplaatst wordt. Door een data server management component te voorzien in de virtuele data servers, wordt het mogelijk om het aantal servers uit te breiden indien dit nodig moest zijn, wat de variabiliteit van het systeem bevordert. Het verspreiden van de data is ook zeer gunstig vanuit een security standpunt. Moest het zijn dat een aanvaller de disk op 1 van de servers kan kopiëren, zal deze nog steeds niet zijn met de data die hij ervan af gehaald heeft. Ook wordt de data geëncrypteerd, wat de data nog nuttelozer maakt voor een aanvaller.
 
-\subsubsection{Rationale}
+Om aan de beschikbaarheids-vereisten te voldoen, wordt er gebruik gemaakt van replicatie. Voor de doktor data en de security data wordt dit gedaan aan de hand van een master-slave configuratie. Hierdoor wordt de load van het systeem verspreid over de master en de vershillende slaves om zo ook aan de performantie-vereisten te kunnen voldoen. Aangezien er slechts 1 master is, zou dit een bottleneck kunnen zijn, maar aangezien de doktor en security data waarschijnlijk niet vaak aangepast zullen worden, zal dit geen problemen geven.
+Voor de GMR data zou dit wel een performantie bottleneck zijn aangezien deze data veel frequenter aangepast wordt. Daarom voorzien we hier een ander mechanisme. De partiële data servers worden statisch gerepliceerd, zonder hier een master in aan te duiden, er mag naar alle replica's geschreven worden. Wanneer deze servers met elkaar synchroniseren, zal er bij conflicten een merging-techniek gebruikt worden zoals beschreven in sectie \textbf{TODO}.
 
-\subsubsection{Analysis results}
-
-\subsubsection{Assumptions}
+De performantie-vereisten voor het ophalen van tekstuele data en andere data verschillen nogal wat. Om ervoor te zorgen dat het ophalen van tekst nooit moet wachten op het ophalen van figuren, worden tekst en figuren volledig van elkaar gescheiden.
 
 \subsection{Other information}
 
 \subsection{Related view packets}
-
 
 
 \clearpage
