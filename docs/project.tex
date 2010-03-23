@@ -1,4 +1,4 @@
-\documentclass[a4paper,10pt]{article}
+\documentclass[a4paper,10pt]{paper}
 \usepackage[utf8]{inputenc}
 \usepackage{graphicx}
 \usepackage{amsmath}
@@ -808,7 +808,7 @@ Het is ongewenst dat een gebruiker zich voor elke actie die hij/zij wil ondernem
 \end{enumerate}
 
 \item \textbf{Security Services}\\*
-Deze node vomt de tweede lijn van verdediging voor het platform. Alle verkeer die de core services van het platform wil gebruiken zal langst hier moeten. Het zorgt ervoor dat enkel geauthenticeerde requests met de juiste authorisatie toegelaten worden. Deze node zal dynamisch gerepliceerd worden, in sectie \ref{subsec:arch_back_dep_serv} wordt hier wat verder op in gegaan. Volgende software componenten worden op deze node geplaatst : 
+Deze node vomt de tweede lijn van verdediging voor het platform. Alle verkeer die de core services van het platform wil gebruiken zal langst hier moeten. Het zorgt ervoor dat enkel geauthenticeerde requests met de juiste authorisatie toegelaten worden. Deze node zal dynamisch gerepliceerd worden, later wordt hier wat verder op in gegaan. Volgende software componenten worden op deze node geplaatst : 
 \begin{enumerate}
  \item \textbf{Firewall}\\*
 Deze firewall zal ervoor zorgen dat enkel connecties vanuit de DMZ toegelaten worden binnen de services laag van het eHealth platform.
@@ -827,19 +827,32 @@ Deze node bundelt alle kern services samen die nodig zijn voor de werking van he
 \begin{enumerate}
  \item \textbf{GMR}\\*
 Component die alle functionaliteit aanbiedt voor het lezen, schrijven en aanpassen van data in globaal medische dossiers.
+\item \textbf{Doctor Management}\\*
+Beheert alle data gerelateerd met dokters. Registratie van dokters en de registratie van patiënten van dokters gebeurt aan de hand van deze component.
+\item \textbf{VDS}\\*
+Dit stuk software zal alle functionaliteit aanbieden om data te kunnen ophalen van de \textit{validated data sources}, alsook functionaliteit voor het toevoegen van validated data sources aan het systeem. Wanneer zo'n gegevensbron toegevoegd dient te worden, zal die gegevensbron aangeboden moeten worden met een interface die vastgelegd wordt door ons systeem. \textbf{TODO : nog meer over die interface zeggen?}
 \item \textbf{ExternalActions}\\*
 Component die de link met de \textit{Governmental Services} voorziet (loggen en RIZIV).
-\item \textbf{Prescriptions}\\*
 \end{enumerate}
+
+\item \textbf{Service Management \textit{(Spare)}}\\*
+Deze node zal verantwoordelijk zijn voor het beheren van de verschillende services in het systeem. Zoals je kan zien op het diagram worden de security services en de core services beiden apart dynamisch gerepliceerd. Dit houdt in dat het aantal actieve processen gedediceerd voor deze twee onderdelen afhankelijk zal zijn van de belasting van het systeem. Deze node controleert dit alles. Het bevat twee aparte componenten, 1 voor de security services en 1 voor de core services. De node zal ook verantwoordelijk zijn voor het registreren en het deregistreren van de verschillende security services processen aan de \textit{Public Services Proxies} zodat deze weten welke er beschikbaar zijn.
 
 \end{enumerate}
 
 
 \subsubsection{Relations and their properties}
+Zie sectie \ref{subsubsec:relations_deployment} voor meer info over de verschillende connecties tussen de nodes.
 
 \subsubsection{Element interfaces}
+Niet van toepassing.
 
 \subsubsection{Element behavior}
+Wanneer een request gemaakt wordt naar het platform, zal deze via de \textit{Public Services Proxy} moeten. Deze zal moeten beslissen naar welke van de actieve \textit{Security Services} servers de request doorgestuurd zal worden. Zoals eerder vermeld zal dit voor een bepaalde sessie steeds dezelfde moeten zijn om authenticatie bij te kunnen houden. Dus als de \textit{Public Services Proxy} een request krijgt van een sessie die reeds in het \textit{Distributed Session Management} geregistreerd staat, moet er geen keuze gemaakt worden. Wanneer een request binnenkomt die nog niet geregistreerd is, zal de \textit{Public Services Proxy} een korte ping-boodschap sturen naar de 3 \textit{Security Services} servers die het minst in het \textit{Distributed Session Management} gekoppeld zijn aan een sessie. De eerste die hierop antwoord zal dan gekozen worden om de request naar door te sturen.
+
+De \textit{Public Services Proxy} moet natuurlijk ook weten welke \textit{Security Services} servers er beschikbaar zijn. Hiervoor is de \textit{Service Management} server verantwoordelijk. Deze zal aan de hand van een ping-echo techniek elk van de \textit{Security Services} servers controleren. Wanneer 1 van die servers niet meer antwoord, betekent dit dat die node faalt en zal dit doorgegeven worden aan de \textit{Public Services Proxies}. In de ping-echo boodschap zullen de \textit{Security Services} servers ook hun huidige load aangeven. Wanneer de \textit{Service Management} server merkt dat alle servers zwaar geladen zijn.zal deze beslissen om een nieuwe op te starten. Dit zal dan ook doorgegeven worden aan de \textit{Public Services Proxies}.
+
+Dit zelfde systeem wordt gebruikt voor de connectie tussen de \textit{Security Services} servers en de \textit{Core Services} servers. Een \textit{Security Services} zal eerst naar 3 verschillende \textit{Core Services} servers een korte ping-boodschap sturen en vervolgens diegene die het snelst antwoord kiezen om verder mee te werken. De \textit{Service Management} server zal er nu ook weer voor zorgen dat de \textit{Security Services} servers weten met welke \textit{Core Services} servers ze kunnen connecteren en deze laatste ook monitoren en dynamisch toevoegen indien nodig.
 
 \subsection{Context diagram}
 \begin{center}
@@ -853,11 +866,19 @@ Component die de link met de \textit{Governmental Services} voorziet (loggen en 
 
 \subsection{Architecture background}
 \label{subsec:arch_back_dep_serv}
+Omwille van de zware beschikbaarheids vereisten - maximum 2 minuten downtime per jaar - hebben we alle nodes gedupliceerd, zodat er zeker niet één \textit{single point of failure} in het systeem zit. In het gedeelte bescreven in deze sectie worden 3 verschillende replicatie-technieken gebruikt. De \textit{Public Services Proxy} servers worden statisch gerepliceerd. Dit betekent dat het aantal servers niet door het systeem zelf zal gewijzigd worden. Natuurlijk kunnen er wel manueel nieuwe servers toegevoegd worden.
+
+De replicatie-techniek gebruikt voor voor de \textit{Security Management} servers is een \textit{spare}. De gewone server zal er tijdens het lopen voor zorgen dat de staat van de reserve steeds in real-time mee ge-update wordt. Dit zal gebeuren op een regelmatig (kort) interval. Wanneer de reserve een aantal van die updates mist, neemt deze aan dat de primaire \textit{Security Management} server gefaald heeft en zal die voortaan de functies van de primaire overnemen.
+
+Ten slotte wordt er ook gebruik gemaakt van dynamische replicatie voor zowel de \textit{Security Services} als de \textit{Core Services}. Dit zorgt voor een goede schaalbaarheid van het systeem aangezien het systeem zich zal aanpassen aan de load.
+
+Performantie is natuurlijk ook belangrijk. Bepaalde gegevens moeten binnen bepaalde tijdspannes beschikbaar zijn. Daarom gebruiken we de methode hierboven beschreven om van de \textit{Public Services Proxies} naar de \textit{Security Services} en van de \textit{Security Services} naar de \textit{Core Services} te gaan. We zullen telkens eerst een korte ping-boodschap sturen naar minstens 3 nodes en op basis van de antwoorden op deze ping een keuze maken. Dit doen we om ervoor te zorgen dat we niet te veel tijd verspillen met het wachten op een timeout met een falende component. Ook is dit een primitieve vorm van dynamisch loadbalancing, het antwoord dat het eerst terugkomt zal gewoon de snelste (en dus waarschijnlijk minst belaste) route volgen.
 
 \subsection{Other information}
 
-\subsection{Related view packets}
+Het aantal \textit{Public Services Proxies} moet nog bepaald worden. Hiervoor zal eerst onderzoek gedaan moeten worden naar de verwachte load van het systeem en moeten we weten welke systemen we beschikbaar hebben.
 
+\subsection{Related view packets}
 
 
 \clearpage
@@ -908,11 +929,8 @@ Component die de link met de \textit{Governmental Services} voorziet (loggen en 
 
 \clearpage
 \section{Interaction Diagrams}
-Bij de communicatie tussen de user applicaties en het e-health platform wordt de verzonden informatie steeds ge-encrypteerd en gecompresseerd. Dit wordt in de diagramma's weggelaten om het overzichtelijker te maken. 
 
-
-\subsection{Grant access}
-Wanneer een patient een dokter toegang tot zijn dossier wil geven, voert deze eerst zijn persoonlijke code in om zijn persoonlijke key aan het systeem van de dokter te koppelen. Vanuit de applicatie van de dokter (we veronderstellen hier dat het toegang geven gebeurt bij de eerste consultatie, en niet thuis op voorhand) wordt dan de vraag om de toegangsrechten te wijzigen verstuurd. Ook de persoonlijke toegangscode van de patient wordt gevraagd en nagegaan om te zien of deze de rechten heeft om toegang te verlenen. Wanneer dit in orde is, worden de toegangsrechten tot het dossier zo aangepast dat de dokter er toegang tot heeft voor de periode die patient heeft opgegeven (kan ook permanent zijn). 
+\subsection{Primary presentation}
 
 \begin{center}
     \begin{figure}[!h]
@@ -920,19 +938,11 @@ Wanneer een patient een dokter toegang tot zijn dossier wil geven, voert deze ee
     \end{figure}
   \end{center}
 
-\subsection{Modify GMR}
-Wanneer een dokter het dossier van een patient aanpast, doet hij dit eerst op de lokale kopie in zijn cache. De dokter heeft eerst, bij het openen van het dossier, de laatste versie bemachtigd zoals beschreven in het 'access file' diagram. Wanneer hij de wijzigingen hefet opgelagen in zijn cache, worden deze naar de database overgebracht. Er wordt eerst nog gekeken of de dokter ook het recht heeft om te schrijven naar het dossier. Dan worden de wijzigingen opgeslagen in de database. Alle wijzigingen worden op deze manier doorgevoerd, zowel het aanpassen van gegevens, opladen van voorschriften en toevoegen van beeldmateriaal(bv röntgenfotos)\\
-Wanneer de server niet bereikbaar blijkt wanneer er veranderingen aan een file worden gemaakt, worden de veranderingen enkel lokaal bijgehouden. Zodra de server weer bereikbaar is, worden de veranderingen doorgevoerd. In principe kan dit leiden tot een inconsistentie (het dossier werd bijgewerkt door iemand anders terwijl de dokter offline was) maar in de praktijk is dit bijna onmogelijk, aangezien een patiënt meestal slechts 1 huisdokter heeft die zijn dossier lokaal bewaart en wanneer andere dokters toch veranderingen aanbrengen (bv een specialist), dan zal dit aan andere velden van het dossier zijn als die dat de dokter heeft aangepast (bv XRay foto's toegevoegd). 
-
 \begin{center}
     \begin{figure}[!h]
       \includegraphics[width=\textwidth]{../images/modifyGMR.jpg}
     \end{figure}
   \end{center}
-
-\subsection{Retrieve GMR}
-Wanneer een dokter een medisch dossier van een patient wilt raadplegen, wordt dit dossier eerst in zijn cache opgezocht. Wanneer het hier gevonden wordt, wordt de timestamp van het dossier in de cache vergeleken met de timestamp van het dossier in de database (indien mogelijk). Wanneer het dossier up to date blijkt, wordt gewerkt met de versie uit de cache. wanneer er aanpassingen zijn geweest, wordt het dossier eerst geupdated in de cache. Wanneer het dossier niet aanwezig blijkt in de cache, wordt het dossier opgehaald en opgeslagen in de cache. 
-Deze cache wordt ook gebruikt wanneer de server niet bereikbaar is. Zo kan de dokter toch steeds aan een recente kopie van het dossier van zijn patiënten. Ook de aanpassingen aan de dossiers worden dan enkel lokaal bewaard (zie ook modifyGMR). Zodra de server weer bereikbaar is, worden de veranderingen aan de dossiers ook daar doorgevoerd. 
 
 \begin{center}
     \begin{figure}[!h]
@@ -940,18 +950,12 @@ Deze cache wordt ook gebruikt wanneer de server niet bereikbaar is. Zo kan de do
     \end{figure}
   \end{center}
 
-\subsection{Add prescription}
-Wanneer een dokter een voorschrift aan het dossier van een patient koppelt, wordt dit aangepast in het dossier van de patient zoals alle andere wijzigingen.
-Het verschil is dat er ook een kopie van het voorschrift op de IDCard van de patient wordt gezet, waarmee deze naar de apotheek kan gaan. 
-
 \begin{center}
     \begin{figure}[!h]
       \includegraphics[width=\textwidth]{../images/addprescription.jpg}
     \end{figure}
   \end{center}
 
-\subsection{Validate prescription}
-Wanneer de patient naar de apotheek gaat om zijn medicijnen aan te kopen, wordt eerst het voorschrift van zijn IDCard gehaald. De apotheker overhandigd de benodigde medicijnen en duidt zowel op de IDCard als in het systeem aan dat het voorschrift werd gevalideerd. De boodschap naar het Ehealth platform is een boodschap die geen toegang tot het dossier vereist, enkel de key van de apotheker is belangrijk omdat geen andere persoon deze boodschap kan sturen. 
 \begin{center}
     \begin{figure}[!h]
       \includegraphics[width=\textwidth]{../images/validatePrescription.jpg}
@@ -959,13 +963,27 @@ Wanneer de patient naar de apotheek gaat om zijn medicijnen aan te kopen, wordt 
   \end{center}
 %TODO opmaken figuur!
 
+\subsection{Element catalog}
+
+\subsubsection{Elements and their properties}
+
+\subsubsection{Relations and their properties}
+
+\subsubsection{Element interfaces}
+
+\subsubsection{Element behavior}
+
+\subsection{Context diagram}
+
+\subsection{Variability guide}
 
 \subsection{Architecture background}
 
-Door de bovenvermelde sequentiediagrammen kunnen heel wat acties in het EHealth platform verklaard worden. 
-Naast de voor de hand liggende acties (die direct door een sequentiediagram worden aangetoond), zijn ook de volgende scenario's verwezelijkt: 
-\paragraph{specialist zendt informatie naar de huisdokter:}
-wanneer een patiënt een specialist consulteert, zal deze tijdelijke toegang krijgen tot het dossier van de patiënt. Hij kan hier dan zijn bevindingen in aanpassen en het dossier opslaan. Wanneer de huisdokter dan het dossier opnieuw opent, kan ook hij deze aanpassingen zien. 
+\subsubsection{Rationale}
+
+\subsubsection{Analysis results}
+
+\subsubsection{Assumptions}
 
 \subsection{Other information}
 
