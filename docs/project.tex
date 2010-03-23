@@ -908,12 +908,8 @@ Component die de link met de \textit{Governmental Services} voorziet (loggen en 
 
 \clearpage
 \section{Interaction Diagrams}
-Bij de communicatie tussen de user applicaties en het e-health platform wordt de verzonden informatie steeds ge-encrypteerd en gecompresseerd. Dit werd in het diagram weggelaten om het overzichtelijker te maken. 
+Bij de communicatie tussen de user applicaties en het e-health platform wordt de verzonden informatie steeds ge-encrypteerd en gecompresseerd. Dit wordt in de diagramma's weggelaten om het overzichtelijker te maken. 
 
-Door de bovenvermelde sequentiediagrammen kunnen alle acties mogelijk in het EHealth platform verklaard worden. 
-Naast de voor de hand liggende acties (die direct door een sequentiediagram worden aangetoond), zijn ook de volgende scenario's verwezelijkt: 
-* specialist zendt informatie naar de huisdokter:
-	wanneer een patiënt een specialist consulteert, zal deze tijdelijke toegang krijgen tot het dossier van de patiënt. Hij kan hier dan zijn bevindingen in aanpassen en het dossier opslaan. Wanneer de huisdokter dan het dossier opnieuw opent, kan ook hij deze aanpassingen zien. 
 
 \subsection{Grant access}
 Wanneer een patient een dokter toegang tot zijn dossier wil geven, voert deze eerst zijn persoonlijke code in om zijn persoonlijke key aan het systeem van de dokter te koppelen. Vanuit de applicatie van de dokter (we veronderstellen hier dat het toegang geven gebeurt bij de eerste consultatie, en niet thuis op voorhand) wordt dan de vraag om de toegangsrechten te wijzigen verstuurd. Ook de persoonlijke toegangscode van de patient wordt gevraagd en nagegaan om te zien of deze de rechten heeft om toegang te verlenen. Wanneer dit in orde is, worden de toegangsrechten tot het dossier zo aangepast dat de dokter er toegang tot heeft voor de periode die patient heeft opgegeven (kan ook permanent zijn). 
@@ -963,27 +959,13 @@ Wanneer de patient naar de apotheek gaat om zijn medicijnen aan te kopen, wordt 
   \end{center}
 %TODO opmaken figuur!
 
-\subsection{Element catalog}
-
-\subsubsection{Elements and their properties}
-
-\subsubsection{Relations and their properties}
-
-\subsubsection{Element interfaces}
-
-\subsubsection{Element behavior}
-
-\subsection{Context diagram}
-
-\subsection{Variability guide}
 
 \subsection{Architecture background}
 
-\subsubsection{Rationale}
-
-\subsubsection{Analysis results}
-
-\subsubsection{Assumptions}
+Door de bovenvermelde sequentiediagrammen kunnen heel wat acties in het EHealth platform verklaard worden. 
+Naast de voor de hand liggende acties (die direct door een sequentiediagram worden aangetoond), zijn ook de volgende scenario's verwezelijkt: 
+\paragraph{specialist zendt informatie naar de huisdokter:}
+wanneer een patiënt een specialist consulteert, zal deze tijdelijke toegang krijgen tot het dossier van de patiënt. Hij kan hier dan zijn bevindingen in aanpassen en het dossier opslaan. Wanneer de huisdokter dan het dossier opnieuw opent, kan ook hij deze aanpassingen zien. 
 
 \subsection{Other information}
 
