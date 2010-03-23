@@ -125,7 +125,7 @@ Er is een afzonderlijke component voorzien die de functionaliteiten die de reger
   \includegraphics[width=\textwidth]{../images/ClientServer_Overview.png}
   \caption{Client and Server View: Overview}
 \end{figure}
-
+%TODO In de figuur die hierboven staat een fout in de legende, bij vereiste interface staat het symbool van een aangeboden interface.
 
 \subsection{Element catalog}
 
@@ -150,6 +150,7 @@ De card component stelt de e-Card van de gebruiker voor.  De e-Card bevat gebrui
   \includegraphics[width=\textwidth]{../images/ClientServer_Context.png}
   \caption{Client and Server View: Context diagram}
 \end{figure}
+%TODO In figuur hierboven misschien ook nog added value services toevoegen, en misschien external data sources gewoon hernoemen naar validated data sources.
 
 De belangrijkste extra entiteiten in het context diagram zijn de government en de external data sources.  De government component bevat toegang tot de logging en RIZIV database.  De external component bevat de validated data sources die gebruikers van de client kunnen opvragen via de server.
 
@@ -164,6 +165,7 @@ Enkele design beslissingen die hier te zien zijn is het gebruik van de card read
 %TODO security
 %TODO voorschriften.
 
+%TODO misschien beter zeggen identificiëren van gebruikers in het systeem, er is niet echt een centrale database.
 \subsection{Related view packets}
 De volgende client-server views bekijken dit overview diagram in meer detail.  Ook in het deployment diagram is extra informatie te vinden vooral dan in verband met de opslag van de global medical records en dokter data.
 
@@ -175,10 +177,11 @@ De volgende client-server views bekijken dit overview diagram in meer detail.  O
 \subsection{Primary presentation}
 
 \begin{figure}[!h]
-  \includegraphics[width=\textwidth]{../images/ClientServer_Server.png}
+  \includegraphics[scale=0.60]{../images/ClientServer_Server.png}
   \caption{Client and Server View: Server}
 \end{figure}
 %TODO Key aanpassen!
+%TODO In de figuur hierboven is er een poort te zien die naar de interface grantAccess gaat, deze ontbreekt bij het overzichts-figuur, ook mis ik daar de readExternal required interface
 
 \subsection{Element catalog}
 
@@ -195,6 +198,7 @@ read(data\_key, id\_key)\\
 \indent De id\_key wordt geauthenticeerd en daarna wordt een sessie geopent.  De session\_key wordt samen met data die bij de data\_key hoort teruggegeven.\\
 read(data\_key, session\_key)\\
 \indent De data met data\_key wordt gelezen en teruggeven aan het systeem.\\
+%TODO Hierboven misschien ook vermelden dat de data die teruggegeven wordt geëncrypteerd wordt met de id_key.
 
 \underline{Error handling:}\\
 Wanneer de data\_key niet geldig is wordt een error teruggegeven.\\
@@ -230,7 +234,7 @@ session\_key: de key die gebruikt wordt om een sessie te identifici\"{e}ren.\\
 
 \underline{Rationale and design issues:}\\
 Zie ook \textbf{read}.\\
-Het schrijven van data gebeurt met behulp van een patch.  Dit verkleint de hoeveelheid data die moet verstuurd worden aanzienelijk en heeft dan ook een belangrijk snelheids voordeel.\\
+Het schrijven van data gebeurt met behulp van een patch, enkel de wijzigingen worden dus doorgestuurd.  Dit verkleint de hoeveelheid data die moet verstuurd worden aanzienelijk en heeft dan ook een belangrijk snelheids voordeel.\\
 In het geval dat een merge actie zou falen, kan aan de laatste client gevraagd worden om de merge manueel te doen, of om een volledig document te verzenden.
 
 \paragraph{push}
@@ -265,6 +269,8 @@ Daarna wordt gecontroleerd of er al een sessie bestaat en of die al dan niet gel
 Wanneer dat gebeurd is zal het systeem de oproep doorgeven aan de policy component.  Deze zal de GMR laten weten of de actie die de GMR binnen krijgt al dan niet toegelaten is.\\
 Als de actie toegelaten is voor de gebruiker zal de GMR de actie uitvoeren en een gepaste respons sturen naar de client.\\
 Als het nodig is worden acties gelogd of verzonden naar het RIZIV.\\
+%TODO Dit hierboven komt niet overeen met wat er in het deployment view staat. Daar komen alle inkomende berichten van de security component, die daarvoor al alle authenticatie en authorisatie heeft gedaan. Dat is ook een meer modulaire aanpak omdat je je zo niet echt veel moet aantrekken van security in die GMR component. Zou dit nog aangepast kunnen worden? Ik denk niet dat ik het zoals hier kan aanpassen in het deployment view. De security component voorziet ook een firewall, dus hier zal alle inkomende verkeer eerst van moeten komen en aangezien de security component en de GMR component fysiek gescheiden zijn, zou het stom zijn om nog eens extra communicatie heen en weer te laten gaan.
+
 
 \paragraph{SessionManager}
 De SessionManager voorziet in session management.  Deze component zorgt ervoor dat een gebruiker niet telkens opnieuw hoeft in te loggen wanneer hij een actie naar het systeem uitvoert.
@@ -332,7 +338,8 @@ period: de periode hoe lang de persoon met to\_key toegang krijgt tot de data.
 
 \underline{Rationale and design issues:}\\
 Door de grantAccess toe te voegen kunnen toegangsrechten worden toegekend aan andere personen en kan dit voor een bepaalde tijdsduur.  Action is hier niet enkel read, modify of push zodat bepaalde personen ook toelating krijgen om toegangsrechten door te geven.  Zo zou een specialist bijvoorbeeld ook toegang kunnen krijgen om read toegang tot het dossier ook door te geven aan een andere specialist.\\
-zie ook \ref{sec:deployment_data} Deployment view data voor toegang tot de key database.
+%zie ook \ref{sec:deployment_data} Deployment view data voor toegang tot de key database.
+%TODO In deployment staat wel wat over toegang tot data in de security data server, maar niet echt iets over de inhoud daarvan, dus misschien bovenstaande referentie gewoon weglaten?
 
 \subsubsection{Element behavior}
 De policy component zal authorisatie toekennen aan bepaalde acties, als die persoon de actie mag uitvoeren.  Indien dat niet mag zal de authorisatie geweigerd worden.  Bepaalde personen hebben ook rechten om nieuwe rechten toe te voegen.  Deze worden via \textit{grantAccess} toegevoegd.  In de interactie diagramma's is het verloop duidelijk te volgen (zie \ref{interaction:grantAccess}).
@@ -974,6 +981,8 @@ De performantie-vereisten voor het ophalen van tekstuele data en andere data ver
 \clearpage
 \section{Interaction Diagrams}
 \label{interaction:main}
+De sequentiediagrammen geven enkele concrete scenario's die de onderlinge werking van de componenten in het systeem illustreren. Zo wordt getoond hoe een dossier wordt weergegeven en gewijzigd, hoe toegangsrechten worden gegeven op het dossier en hoe voorschriften worden aangemaakt en gevalideerd. Hier wordt de concerete opeenvolging van boodschappen weergegeven die zo een scenario bevat.\\
+
 Bij de communicatie tussen de user applicaties en het e-health platform wordt de verzonden informatie steeds ge-encrypteerd en gecompresseerd. Dit wordt in de diagramma's weggelaten om het overzichtelijker te maken. 
 
 
@@ -1029,7 +1038,10 @@ Wanneer de patient naar de apotheek gaat om zijn medicijnen aan te kopen, wordt 
 Door de bovenvermelde sequentiediagrammen kunnen heel wat acties in het EHealth platform verklaard worden. 
 Naast de voor de hand liggende acties (die direct door een sequentiediagram worden aangetoond), zijn ook de volgende scenario's verwezelijkt: 
 \paragraph{specialist zendt informatie naar de huisdokter:}
-wanneer een patiënt een specialist consulteert, zal deze tijdelijke toegang krijgen tot het dossier van de patiënt. Hij kan hier dan zijn bevindingen in aanpassen en het dossier opslaan. Wanneer de huisdokter dan het dossier opnieuw opent, kan ook hij deze aanpassingen zien. 
+Wanneer een patiënt een specialist consulteert, zal deze tijdelijke toegang krijgen tot het dossier van de patiënt. Hij kan hier dan zijn bevindingen in aanpassen en het dossier opslaan. Wanneer de huisdokter dan het dossier opnieuw opent, kan ook hij deze aanpassingen zien. 
+
+\paragraph{Patiënt bekijkt zijn dossier on line:}
+Dit is terug te vinden in het diagram retrieve GMR. Wanneer de patiënt Zijn dossier wil bekijken, zal hij zich eveneens aanmelden bij de client applicatie, hier een webapplicatie. Via zijn identificatie gegevens worden de gegevens in het dossier weergegeven die de patiënt mag zien. Wanneer de patiënt zou proberen om wijzigingen aan te brengen in zijn dossier, zal dit niet mogelijk zijn omdat hij de juiste rechten hiervoor niet bezit.
 
 \subsection{Related view packets}
 De interactie diagramma's zijn bedoelt om een aantal dingen duidelijk te maken, de architecturale beslissingen staan echter steeds beschreven in de andere views.
