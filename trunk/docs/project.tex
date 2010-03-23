@@ -1,4 +1,4 @@
-\documentclass[a4paper,10pt]{paper}
+\documentclass[a4paper,10pt]{article}
 \usepackage[utf8]{inputenc}
 \usepackage{graphicx}
 \usepackage{amsmath}
@@ -33,13 +33,28 @@
 
 \subsection{Description of the parts}
 
-\subsection{How stakeholders might use the package}
+\subsection{Stakeholders}
+De stakeholders waarop dit document zich focust, zijn de patiënt, de tester en de regering.
 
-\subsubsection{Platform tester}
+\paragraph{Patiënt:}
+De patiënt wil dat wanneer hij bij zijn huisdokter op consultatie gaat, dat de dokter zijn medisch dossier kan raadplegen en aanpassen. Hiervoor moet de patiënt zijn dokter wel de nodige toelatingen geven. Ook wil de patiënt zelf zijn medisch dossier kunnen raadplegen. 
 
-\subsubsection{Patient}
+\paragraph{Tester:}
+De tester wil de eHealth applicatie grondig testen en alle mogelijke scenarios uitproberen.
 
-\subsubsection{Government}
+\paragraph{Regering:}
+De regering wil kunnen beslissen hoe de toegang tot de medische dossiers wordt geregeld (hoeveel van hun dossier kunnen patiënten zelf zien, welke dokter kan wat aanpassen etc). Ook wil de regering een log kunnen raadplegen waarin alle activiteiten op het eHealth platform gelogd worden. Hieronder vallen onder andere inloggen, medische dossiers raadplegen, medische dossiers aanpassen en voorschriften valideren. Een tak van de regering bestaat uit het RIZIV, die informatie over de uitgeschreven en gevalideerde voorschriften wil bijhouden.
+
+\subsubsection{How stakeholders might use the package}
+
+\paragraph{Patiënt:}
+De patiënt gebruikt een client-applicatie om het eHealth platform te raadplegen. Wanneer hij op consultatie is, gebeuren de gewenste acties via de client-applicatie van de dokter. Voor de patiënt is de client-kant van deze applicatie dus belangrijk.
+
+\paragraph{Tester:}
+Voor de tester zijn er uitgewerkte sequentiediagrammen aanwezig, die een overzicht geven van hoe de verschillende acties tot stand komen. Daarnaast is in zowel het Client-server diagram als het deployment diagram te zien hoe de verschillende functionaliteiten in afzonderlijke componenten zitten, waardoor het testen van de functionaliteiten afzonderlijk eenvoudig is. Ook het layered view geeft een overzicht van hoe de verschillende componenten samen werken.
+
+\paragraph{Regering:}
+Er is een afzonderlijke component voorzien die de functionaliteiten die de regering vereist, uitvoert. Zo worden alle acties gelogd naar een log, buiten het systeem, en ook de boodschappen naar het RIZIV worden via deze component gestuurd. 
 
 \clearpage
 \section{View template}
@@ -106,46 +121,37 @@
 
 \subsection{Primary presentation}
 
-\begin{center}
-    \begin{figure}[!h]
-      \includegraphics[width=\textwidth]{../images/ClientServer_Overview.png}
-    \end{figure}
-  \end{center}
-%TODO opmaken figuur!
+\begin{figure}[!ht]
+  \includegraphics[width=\textwidth]{../images/ClientServer_Overview.png}
+  \caption{Client and Server View: Overview}
+\end{figure}
 
 
 \subsection{Element catalog}
 
 \paragraph{Server}
 De server is de component waar clients verbinding mee maken.  De interacties tussen clients en servers gebeuren op een veilige manier.  De server is verbonden met clients, de overheid, eventuele externe componenten en de data server.  Meer informatie kan gevonden worden in \ref{Client and Server View: Server} Client and Server View: Server.
-%TODO location
 
 \paragraph{Client}
 De client component is de component die gebruikers (dokters, pati\"{e}nten of apothekers) gebruiken om op een veilige manier met de server te interageren.  Meer informatie kan gevonden worden in \ref{Client and Server View: Client} Client and Server View: Client.
-%TODO location
 
 \paragraph{Data}
-De data component is een database waar alle informatie zoals patienten dossiers en dokter data op bewaard zijn.  Hoe de data precies wordt opgeslaan is terug te vinden in het Deployment diagram.
-%TODO location
+De data component is een database waar alle informatie zoals patienten dossiers en dokter data op bewaard zijn.  Hoe de data precies wordt opgeslaan is terug te vinden in het \ref{sec:deployment_data} Deployment view data.
 %TODO read write interfaces?
 
 \paragraph{Card}
-De card component stelt de e-Card van de gebruiker voor.  De e-Card bevat gebruikersinformatie alsook twee keys.  Een key voor identificatie van de gebruiker en een key voor authenticatie.  Naast de gebruikersinformatie en de keys heeft de e-Card ook ruimte voor een aantal voorschriften op te slaan.  Meer informatie is terug te vinden in:
+De card component stelt de e-Card van de gebruiker voor.  De e-Card bevat gebruikersinformatie alsook twee keys.  Een key voor identificatie van de gebruiker en een key voor authenticatie.  Naast de gebruikersinformatie en de keys heeft de e-Card ook ruimte voor een aantal voorschriften op te slaan.  Meer informatie is terug te vinden in: TODO alsook in enkele interactie diagramma's (zie: \ref{interaction:addPrescription} en \ref{interaction:validatePrescription}).
 %TODO location
 %TODO interfaces van card
 
 \subsection{Context diagram}
-% \begin{center}
-%     \begin{figure}
-%       \includegraphics[width=\textwidth]{../images/ClientServer_Context.png}
-%     \end{figure}
-%   \end{center}
-TODO
-De government component bevat toegang tot de logging en RIZIV database.
-De external component bevat de validated data sources die gebruikers van de client kunnen opvragen via de server.
 
-%TODO government en external => context diagram? uitleggen
+\begin{figure}[!ht]
+  \includegraphics[width=\textwidth]{../images/ClientServer_Context.png}
+  \caption{Client and Server View: Context diagram}
+\end{figure}
 
+De belangrijkste extra entiteiten in het context diagram zijn de government en de external data sources.  De government component bevat toegang tot de logging en RIZIV database.  De external component bevat de validated data sources die gebruikers van de client kunnen opvragen via de server.
 
 \subsection{Variability guide}
 [None]
@@ -168,18 +174,17 @@ De volgende client-server views bekijken dit overview diagram in meer detail.  O
 \label{Client and Server View: Server}
 \subsection{Primary presentation}
 
-\begin{center}
-    \begin{figure}[!h]
-      \includegraphics[width=\textwidth]{../images/ClientServer_Server.png}
-    \end{figure}
-  \end{center}
-%TODO opmaken figuur!
+\begin{figure}[!h]
+  \includegraphics[width=\textwidth]{../images/ClientServer_Server.png}
+  \caption{Client and Server View: Server}
+\end{figure}
+%TODO Key aanpassen!
 
 \subsection{Element catalog}
 
 \paragraph{GMR}
-De GMR is de centrale component in de server component.  De GMR delegeert alle inkomende \textit{read}, \textit{modify} of \textit{push} acties naar de correcte andere componenten en doet dit uiteraard in de correcte volgorde.
-%TODO: interactie diagram??
+De GMR is de centrale component in de server component.  De GMR delegeert alle inkomende \textit{read}, \textit{modify} of \textit{push} acties naar de correcte andere componenten en doet dit uiteraard in de correcte volgorde.\\
+Om alle interacties beter te begrijpen kunnen de Sequence diagrams vaak ook nuttig zijn (zie: \ref{interaction:main}).
 
 \subsubsection{Element interfaces} 
 
@@ -204,10 +209,7 @@ session\_key: de key die gebruikt wordt om een sessie te identifici\"{e}ren.\\
 \underline{Rationale and design issues:}\\
 Het openen van een sessie wanneer de eerste actie wordt uitgevoerd met een id\_key kan ook aangepast worden om een expliciete login te doen.  Dan zou de client eerst moeten inloggen met de id\_key en dan kan hij later acties uitvoeren met de session\_key.\\
 Voor bepaalde acties kan men verwachten dat altijd een id\_key wordt meegegeven.\\
-Zie ook deployment voor het ophalen van data.  Textuele data wordt altijd eerst teruggegeven, daarna pas andere data (media bestanden zoals figuren, geluid, video).
-%TODO zie deployment.
-
-
+Zie ook \ref{sec:deployment_data} Deployment view data voor het ophalen van data.  Textuele data wordt altijd eerst teruggegeven, daarna pas andere data (media bestanden zoals figuren, geluid, video).
 
 \paragraph{modify}
 \underline{Resources provided:}\\
@@ -260,7 +262,6 @@ Zie grantAccess bij \textbf{Policy}.  Daar wordt de interface uitgewerkt, de int
 \subsubsection{Element behavior}
 De GMR component delegeert alle inkomende acties.  Dat doet hij door inkomende berichten door de security component te laten decrypten.  Dan krijgt hij onmiddellijk bevestiging dat de data compleet en correct is en van de een geauthenticeerde gebruiker komt.  Indien dit niet het geval is stuurt de GMR een error terug naar de client.\\
 Daarna wordt gecontroleerd of er al een sessie bestaat en of die al dan niet geldig is.\\
-%TODO session management uitdenken!
 Wanneer dat gebeurd is zal het systeem de oproep doorgeven aan de policy component.  Deze zal de GMR laten weten of de actie die de GMR binnen krijgt al dan niet toegelaten is.\\
 Als de actie toegelaten is voor de gebruiker zal de GMR de actie uitvoeren en een gepaste respons sturen naar de client.\\
 Als het nodig is worden acties gelogd of verzonden naar het RIZIV.\\
@@ -311,8 +312,7 @@ action: een actie die uitgevoerd zal worden, dit kan read, modify of push zijn.\
 id\_key: de key die de uitvoerder van de actie identifici\"{e}ert.\\
 
 \underline{Rationale and design issues:}\\
-zie ook deployment diagram voor toegang tot de dokter database.
-%TODO location.
+zie ook \ref{sec:deployment_data} Deployment view data voor toegang tot de dokter database.
 
 \paragraph{grantAccess}
 \underline{Resources provided:}\\
@@ -332,12 +332,10 @@ period: de periode hoe lang de persoon met to\_key toegang krijgt tot de data.
 
 \underline{Rationale and design issues:}\\
 Door de grantAccess toe te voegen kunnen toegangsrechten worden toegekend aan andere personen en kan dit voor een bepaalde tijdsduur.  Action is hier niet enkel read, modify of push zodat bepaalde personen ook toelating krijgen om toegangsrechten door te geven.  Zo zou een specialist bijvoorbeeld ook toegang kunnen krijgen om read toegang tot het dossier ook door te geven aan een andere specialist.\\
-Zie ook deployment diagram voor toegang tot de key database.
-%TODO location.
+zie ook \ref{sec:deployment_data} Deployment view data voor toegang tot de key database.
 
 \subsubsection{Element behavior}
-De policy component zal authorisatie toekennen aan bepaalde acties, als die persoon de actie mag uitvoeren.  Indien dat niet mag zal de authorisatie geweigerd worden.  Bepaalde personen hebben ook rechten om nieuwe rechten toe te voegen.  Deze worden via \textit{grantAccess} toegevoegd.
-%TODO more information interactie
+De policy component zal authorisatie toekennen aan bepaalde acties, als die persoon de actie mag uitvoeren.  Indien dat niet mag zal de authorisatie geweigerd worden.  Bepaalde personen hebben ook rechten om nieuwe rechten toe te voegen.  Deze worden via \textit{grantAccess} toegevoegd.  In de interactie diagramma's is het verloop duidelijk te volgen (zie \ref{interaction:grantAccess}).
 
 \paragraph{Security}
 De gedetailleerde uitwerking van de security component is te vinden in \ref{Client and Server View: Security} Client and Server View: Security.
@@ -357,8 +355,7 @@ data: de data om te loggen.
 
 \underline{Rationale and design issues:}\\
 De data die mag gelogd worden kan eventueel gedefinieerd worden door een externe instantie, in dit geval de overheid.
-Zie ook deployment diagram voor toegang tot de overheid.
-%TODO location.
+Zie ook \ref{sec:deployment_services} Deployment view services voor toegang tot de overheid.
 
 \paragraph{RIZIV}
 \underline{Resources provided:}\\
@@ -372,8 +369,7 @@ Wanneer de data niet volledig is wordt een error teruggeven.
 data: de data om te verzenden naar het RIZIV.
 
 \underline{Rationale and design issues:}\\
-Zie ook deployment diagram voor toegang tot de overheid.
-%TODO location.
+Zie ook \ref{sec:deployment_services} Deployment view services voor toegang tot de overheid.
 
 \subsubsection{Element behaviour}
 Deze component zal de logging en RIZIV acties uitvoeren naar de overheid toe.  In normale omstandigheden zullen deze acties onmiddellijk uitgevoerd worden.  In het geval dat de server van de overheid niet kan bereikt worden zullen de acties gequeued worden totdat de server terug beschikbaar is.  Op het moment dat de server opnieuw beschikbaar is zal de queue element per element verzonden worden naar de overheid.\\
@@ -396,11 +392,8 @@ We hebben de \textbf{Server} zo gemaakt met een centrale component die alle dele
 [None]
 
 \subsection{Related view packets}
-In het deployment view is te zien hoe de connect naar de externe servers tot stand komt.\\
-%TODO location.
-% Meer informatie interactie
-In de interactie diagramma's zijn ook voorbeelden te vinden van hoe bepaalde interacties precies in hun werk gaan.
-%TODO location.
+In \ref{sec:deployment_data}, het Deployment view data is te zien hoe de connection naar de externe servers tot stand komt.\\
+In de interactie diagramma's (zie \ref{interaction:main} zijn ook voorbeelden te vinden van hoe bepaalde interacties precies in hun werk gaan.
 
 
 \clearpage
@@ -409,12 +402,10 @@ In de interactie diagramma's zijn ook voorbeelden te vinden van hoe bepaalde int
 
 \subsection{Primary presentation}
 
-\begin{center}
-    \begin{figure}[!h]
-      \includegraphics[width=70mm]{../images/ClientServer_Client.png}
-    \end{figure}
-  \end{center}
-%TODO opmaken figuur!
+\begin{figure}[!h]
+  \includegraphics[width=70mm]{../images/ClientServer_Client.png}
+  \caption{Client and Server View: Client}
+\end{figure}
 
 \subsection{Element catalog}
 
@@ -427,8 +418,7 @@ De cache component is een lokale cache van bestanden die ook op de server of ext
 
 \underline{Resources provided:}\\
 read(data\_key)\\
-De data verbonden met data\_key wordt gelezen.
-%TODO zie element behavior.
+De data verbonden met data\_key wordt gelezen (zie ook Elemenet behavior).
 
 \underline{Element requirements:}\\
 data\_key: de key om de data op te vragen.\\
@@ -439,7 +429,7 @@ Zie hieronder voor een beschrijving van het algemeen gedrag van de cache.
 \paragraph{modify}
 \underline{Resources provided:}\\
 modify(data\_key, data)\\
-De aanpassing van de data verloopt door het mergen van data met de bestaande data.
+De aanpassing van de data verloopt door het mergen van data met de bestaande data (zie ook Elemenet behavior).
 
 \underline{Error handling:}\\
 Wanneer het mergen van de data faalt zal een error teruggegeven worden.  Er kan gevraagd worden aan de uitvoerder van de actie om manueel een merge uit te voeren.
@@ -454,7 +444,7 @@ In het geval dat een merge actie zou falen, kan aan de client gevraagd worden om
 \paragraph{push}
 \underline{Resources provided:}\\
 push(data\_key, data)\\
-Het pushen van de data gebeurt gelijkaardig zoals bij \textbf{modify}.
+Het pushen van de data gebeurt gelijkaardig zoals bij \textbf{modify}  (zie ook Elemenet behavior).
 
 \underline{Element requirements:}\\
 data\_key: de key om de data op te vragen.\\
@@ -493,8 +483,7 @@ Het wegschrijven van de wijzigingen in plaats van het volledige document bij een
 [None]
 
 \subsection{Related view packets}
-Deze client kant moet gezien worden in de volledige overview (zie \ref{Client and Server View: Overview} Client and Server Overview.  Daarnaast is ook het deployment model belangrijk
-%TODO locations.
+Deze client kant moet gezien worden in de volledige overview (zie \ref{Client and Server View: Overview} Client and Server Overview.  Daarnaast is ook het Deployment view (\ref{sec:deploymentView:DMZ}, \ref{sec:deployment_clients}, \ref{sec:deployment_services}, \ref{sec:deployment_data}) belangrijk.
 
 
 \clearpage
@@ -504,12 +493,10 @@ Deze client kant moet gezien worden in de volledige overview (zie \ref{Client an
 \subsection{Primary presentation}
 De security component bevind zich zowel in de server als in de client. Deze zorgt voor een veilige communucatie tussen beide.
 
-\begin{center}
-    \begin{figure}[!h]
-      \includegraphics[width=60mm]{../images/ClientServer_Security.png}
-    \end{figure}
-  \end{center}
-%TODO opmaken figuur!
+\begin{figure}[!h]
+  \includegraphics[width=60mm]{../images/ClientServer_Security.png}
+  \caption{Client and Server View: Security}
+\end{figure}
 
 \subsection{Element catalog}
 
@@ -521,8 +508,7 @@ In deze component wordt de identificatie van de personen die zich inloggen op he
 
 \underline{Resources provided:}\\
 identify(id\_key)\\
-De gebruiker gelinkt met de opgegeven id\_key wordt opgezocht en teruggegeven.\\
-%TODO zie element behavior.
+De gebruiker gelinkt met de opgegeven id\_key wordt opgezocht en teruggegeven (zie ook Elemenet behavior).
 
 \underline{Element requirements:}\\
 id\_key: de persoonlijke identificatiekey van de gebruiker.\\
@@ -534,8 +520,7 @@ Wanneer een gebruiker toegang wil tot het systeem, moet hij dit mogen doen. Hier
 
 \underline{Resources provided:}\\
 sign(id\_key)\\
-wanneer de gebruiker een boodschap wil versturen, signeert hij de boodschap via deze methode.\\
-%TODO zie element behavior.
+wanneer de gebruiker een boodschap wil versturen, signeert hij de boodschap via deze methode (zie ook Elemenet behavior).
 
 \underline{Element requirements:}\\
 id\_key: de persoonlijke identificatiekey van de gebruiker.\\
@@ -552,8 +537,7 @@ Boodschappen die tussen de Client en de Server worden verstuurd, worden gecompri
 
 \underline{Resources provided:}\\
 compress()\\
-De boodschap die wordt verstuurd, wordt gecompresseerd zodat deze onleesbaar wordt voor iemand die deze niet kan decompresseren en zodat de grootte van de boodschap wordt verkleind.\\
-%TODO zie element behavior.
+De boodschap die wordt verstuurd, wordt gecompresseerd zodat deze onleesbaar wordt voor iemand die deze niet kan decompresseren en zodat de grootte van de boodschap wordt verkleind  (zie ook Elemenet behavior).
 
 \underline{Element requirements:}\\
 /\\
@@ -565,8 +549,7 @@ Door de boodschappen die worden verstuurd te compresseren, wordt de boodschap zo
 
 \underline{Resources provided:}\\
 decompress()\\
-Een boodschap die werd verstuurd en gecompresseerd, moet eveneens worden gedecompresseerd om leesbaar te zijn.\\
-%TODO zie element behavior.
+Een boodschap die werd verstuurd en gecompresseerd, moet eveneens worden gedecompresseerd om leesbaar te zijn (zie ook Elemenet behavior).
 
 \underline{Element requirements:}
 [None]
@@ -599,14 +582,14 @@ De security component is zowel in de client (\ref{Client and Server View: Client
 
 \clearpage
 \section{Deployment view DMZ}
+\label{sec:deploymentView:DMZ}
 
 \subsection{Primary presentation}
- \begin{center}
-    \begin{figure}[!h]
-      \includegraphics[width=\textwidth]{../images/deployment_DMZ.jpg}
-	\caption{deployment diagram giving a high-level overview of the system}
-    \end{figure}
- \end{center}
+
+\begin{figure}[!h]
+  \includegraphics[width=\textwidth]{../images/deployment_DMZ.jpg}
+    \caption{deployment diagram giving a high-level overview of the system}
+\end{figure}
 
 \subsection{Element catalog}
 
@@ -655,12 +638,11 @@ Niet van toepassing
 
 \subsection{Context diagram}
 
-\begin{center}
-    \begin{figure}[!h]
-      \includegraphics[width=\textwidth]{../images/deployment_DMZ_context.jpg}
-	\caption{Context diagram for the deployment diagram giving a high-level overview of the system}
-    \end{figure}
- \end{center}
+
+\begin{figure}[!h]
+  \includegraphics[width=\textwidth]{../images/deployment_DMZ_context.jpg}
+    \caption{Context diagram for the deployment diagram giving a high-level overview of the system}
+\end{figure}
 
 \subsection{Variability guide}
 
@@ -682,12 +664,11 @@ De verschillende delen in deze view worden nog verder uitgewerkt in aparte secti
 \label{sec:deployment_clients}
 
 \subsection{Primary presentation}
-\begin{center}
-    \begin{figure}[!h]
-      \includegraphics[width=\textwidth]{../images/deployment_clients.jpg}
-	\caption{Deployment diagram focused on the various clients in the system}
-    \end{figure}
-  \end{center}
+
+\begin{figure}[!h]
+  \includegraphics[width=\textwidth]{../images/deployment_clients.jpg}
+    \caption{Deployment diagram focused on the various clients in the system}
+\end{figure}
 
 \subsection{Element catalog}
 
@@ -752,12 +733,10 @@ niet van toepassing
 
 \subsection{Context diagram}
 
-\begin{center}
-    \begin{figure}[!h]
-      \includegraphics[width=\textwidth]{../images/deployment_clients_context.jpg}
-	\caption{Context diagram for de deployment view focused on the clients}
-    \end{figure}
-  \end{center}
+\begin{figure}[!h]
+  \includegraphics[width=\textwidth]{../images/deployment_clients_context.jpg}
+    \caption{Context diagram for de deployment view focused on the clients}
+\end{figure}
 
 \subsection{Variability guide}
 
@@ -775,12 +754,11 @@ Via het internet maken alle clients verbinding met het eHealth platform, dit ged
 \label{sec:deployment_services}
 
 \subsection{Primary presentation}
-\begin{center}
-    \begin{figure}[!h]
-      \includegraphics[width=\textwidth]{../images/deployment_services.jpg}
-	\caption{Deployment diagram focused on the services in the platform}
-    \end{figure}
-  \end{center}
+
+\begin{figure}[!h]
+  \includegraphics[width=\textwidth]{../images/deployment_services.jpg}
+    \caption{Deployment diagram focused on the services in the platform}
+\end{figure}
 
 \subsection{Element catalog}
 
@@ -831,13 +809,13 @@ Component die alle functionaliteit aanbiedt voor het lezen, schrijven en aanpass
 Beheert alle data gerelateerd met dokters. Registratie van dokters en de registratie van patiënten van dokters gebeurt aan de hand van deze component.
 \item \textbf{VDS}\\*
 Dit stuk software zal alle functionaliteit aanbieden om data te kunnen ophalen van de \textit{validated data sources}, alsook functionaliteit voor het toevoegen van validated data sources aan het systeem. Wanneer zo'n gegevensbron toegevoegd dient te worden, zal die gegevensbron aangeboden moeten worden met een interface die vastgelegd wordt door ons systeem. \textbf{TODO : nog meer over die interface zeggen?}
+%TODO
 \item \textbf{ExternalActions}\\*
 Component die de link met de \textit{Governmental Services} voorziet (loggen en RIZIV).
+\item \textbf{Prescriptions}\\*
 \end{enumerate}
-
 \item \textbf{Service Management \textit{(Spare)}}\\*
 Deze node zal verantwoordelijk zijn voor het beheren van de verschillende services in het systeem. Zoals je kan zien op het diagram worden de security services en de core services beiden apart dynamisch gerepliceerd. Dit houdt in dat het aantal actieve processen gedediceerd voor deze twee onderdelen afhankelijk zal zijn van de belasting van het systeem. Deze node controleert dit alles. Het bevat twee aparte componenten, 1 voor de security services en 1 voor de core services. De node zal ook verantwoordelijk zijn voor het registreren en het deregistreren van de verschillende security services processen aan de \textit{Public Services Proxies} zodat deze weten welke er beschikbaar zijn.
-
 \end{enumerate}
 
 
@@ -845,7 +823,7 @@ Deze node zal verantwoordelijk zijn voor het beheren van de verschillende servic
 Zie sectie \ref{subsubsec:relations_deployment} voor meer info over de verschillende connecties tussen de nodes.
 
 \subsubsection{Element interfaces}
-Niet van toepassing.
+[None]
 
 \subsubsection{Element behavior}
 Wanneer een request gemaakt wordt naar het platform, zal deze via de \textit{Public Services Proxy} moeten. Deze zal moeten beslissen naar welke van de actieve \textit{Security Services} servers de request doorgestuurd zal worden. Zoals eerder vermeld zal dit voor een bepaalde sessie steeds dezelfde moeten zijn om authenticatie bij te kunnen houden. Dus als de \textit{Public Services Proxy} een request krijgt van een sessie die reeds in het \textit{Distributed Session Management} geregistreerd staat, moet er geen keuze gemaakt worden. Wanneer een request binnenkomt die nog niet geregistreerd is, zal de \textit{Public Services Proxy} een korte ping-boodschap sturen naar de 3 \textit{Security Services} servers die het minst in het \textit{Distributed Session Management} gekoppeld zijn aan een sessie. De eerste die hierop antwoord zal dan gekozen worden om de request naar door te sturen.
@@ -853,14 +831,12 @@ Wanneer een request gemaakt wordt naar het platform, zal deze via de \textit{Pub
 De \textit{Public Services Proxy} moet natuurlijk ook weten welke \textit{Security Services} servers er beschikbaar zijn. Hiervoor is de \textit{Service Management} server verantwoordelijk. Deze zal aan de hand van een ping-echo techniek elk van de \textit{Security Services} servers controleren. Wanneer 1 van die servers niet meer antwoord, betekent dit dat die node faalt en zal dit doorgegeven worden aan de \textit{Public Services Proxies}. In de ping-echo boodschap zullen de \textit{Security Services} servers ook hun huidige load aangeven. Wanneer de \textit{Service Management} server merkt dat alle servers zwaar geladen zijn.zal deze beslissen om een nieuwe op te starten. Dit zal dan ook doorgegeven worden aan de \textit{Public Services Proxies}.
 
 Dit zelfde systeem wordt gebruikt voor de connectie tussen de \textit{Security Services} servers en de \textit{Core Services} servers. Een \textit{Security Services} zal eerst naar 3 verschillende \textit{Core Services} servers een korte ping-boodschap sturen en vervolgens diegene die het snelst antwoord kiezen om verder mee te werken. De \textit{Service Management} server zal er nu ook weer voor zorgen dat de \textit{Security Services} servers weten met welke \textit{Core Services} servers ze kunnen connecteren en deze laatste ook monitoren en dynamisch toevoegen indien nodig.
-
 \subsection{Context diagram}
-\begin{center}
-    \begin{figure}[!h]
-      \includegraphics[width=\textwidth]{../images/deployment_services_context.jpg}
-	\caption{Context diagram for the deployment diagram focused on the services in the platform}
-    \end{figure}
-  \end{center}
+
+\begin{figure}[!h]
+  \includegraphics[width=\textwidth]{../images/deployment_services_context.jpg}
+    \caption{Context diagram for the deployment diagram focused on the services in the platform}
+\end{figure}
 
 \subsection{Variability guide}
 
@@ -869,16 +845,16 @@ Dit zelfde systeem wordt gebruikt voor de connectie tussen de \textit{Security S
 Omwille van de zware beschikbaarheids vereisten - maximum 2 minuten downtime per jaar - hebben we alle nodes gedupliceerd, zodat er zeker niet één \textit{single point of failure} in het systeem zit. In het gedeelte bescreven in deze sectie worden 3 verschillende replicatie-technieken gebruikt. De \textit{Public Services Proxy} servers worden statisch gerepliceerd. Dit betekent dat het aantal servers niet door het systeem zelf zal gewijzigd worden. Natuurlijk kunnen er wel manueel nieuwe servers toegevoegd worden.
 
 De replicatie-techniek gebruikt voor voor de \textit{Security Management} servers is een \textit{spare}. De gewone server zal er tijdens het lopen voor zorgen dat de staat van de reserve steeds in real-time mee ge-update wordt. Dit zal gebeuren op een regelmatig (kort) interval. Wanneer de reserve een aantal van die updates mist, neemt deze aan dat de primaire \textit{Security Management} server gefaald heeft en zal die voortaan de functies van de primaire overnemen.
-
+	
 Ten slotte wordt er ook gebruik gemaakt van dynamische replicatie voor zowel de \textit{Security Services} als de \textit{Core Services}. Dit zorgt voor een goede schaalbaarheid van het systeem aangezien het systeem zich zal aanpassen aan de load.
 
 Performantie is natuurlijk ook belangrijk. Bepaalde gegevens moeten binnen bepaalde tijdspannes beschikbaar zijn. Daarom gebruiken we de methode hierboven beschreven om van de \textit{Public Services Proxies} naar de \textit{Security Services} en van de \textit{Security Services} naar de \textit{Core Services} te gaan. We zullen telkens eerst een korte ping-boodschap sturen naar minstens 3 nodes en op basis van de antwoorden op deze ping een keuze maken. Dit doen we om ervoor te zorgen dat we niet te veel tijd verspillen met het wachten op een timeout met een falende component. Ook is dit een primitieve vorm van dynamisch loadbalancing, het antwoord dat het eerst terugkomt zal gewoon de snelste (en dus waarschijnlijk minst belaste) route volgen.
 
 \subsection{Other information}
-
 Het aantal \textit{Public Services Proxies} moet nog bepaald worden. Hiervoor zal eerst onderzoek gedaan moeten worden naar de verwachte load van het systeem en moeten we weten welke systemen we beschikbaar hebben.
 
 \subsection{Related view packets}
+
 
 
 \clearpage
@@ -886,12 +862,11 @@ Het aantal \textit{Public Services Proxies} moet nog bepaald worden. Hiervoor za
 \label{sec:deployment_data}
 
 \subsection{Primary presentation}
-\begin{center}
-    \begin{figure}[!h]
-      \includegraphics[width=\textwidth]{../images/deployment_data.jpg}
-	\caption{Deployment diagram focused on the data storage in the platform}
-    \end{figure}
-  \end{center}
+
+\begin{figure}[!h]
+  \includegraphics[width=\textwidth]{../images/deployment_data.jpg}
+    \caption{Deployment diagram focused on the data storage in the platform}
+\end{figure}
 
 \subsection{Element catalog}
 
@@ -904,12 +879,11 @@ Het aantal \textit{Public Services Proxies} moet nog bepaald worden. Hiervoor za
 \subsubsection{Element behavior}
 
 \subsection{Context diagram}
-\begin{center}
-    \begin{figure}[!h]
-      \includegraphics[scale=0.75]{../images/deployment_data_context.jpg}
-	\caption{Context diagram for the deployment diagram focused on the data storage in the platform}
-    \end{figure}
-  \end{center}
+
+\begin{figure}[!h]
+  \includegraphics[scale=0.75]{../images/deployment_data_context.jpg}
+    \caption{Context diagram for the deployment diagram focused on the data storage in the platform}
+\end{figure}
 
 \subsection{Variability guide}
 
@@ -929,64 +903,65 @@ Het aantal \textit{Public Services Proxies} moet nog bepaald worden. Hiervoor za
 
 \clearpage
 \section{Interaction Diagrams}
+\label{interaction:main}
+Bij de communicatie tussen de user applicaties en het e-health platform wordt de verzonden informatie steeds ge-encrypteerd en gecompresseerd. Dit wordt in de diagramma's weggelaten om het overzichtelijker te maken. 
 
-\subsection{Primary presentation}
 
-\begin{center}
-    \begin{figure}[!h]
-      \includegraphics[width=\textwidth]{../images/grantAccess.jpg}
-    \end{figure}
-  \end{center}
+\subsection{Grant access}
+\label{interaction:grantAccess}
+Wanneer een patient een dokter toegang tot zijn dossier wil geven, voert deze eerst zijn persoonlijke code in om zijn persoonlijke key aan het systeem van de dokter te koppelen. Vanuit de applicatie van de dokter (we veronderstellen hier dat het toegang geven gebeurt bij de eerste consultatie, en niet thuis op voorhand) wordt dan de vraag om de toegangsrechten te wijzigen verstuurd. Ook de persoonlijke toegangscode van de patient wordt gevraagd en nagegaan om te zien of deze de rechten heeft om toegang te verlenen. Wanneer dit in orde is, worden de toegangsrechten tot het dossier zo aangepast dat de dokter er toegang tot heeft voor de periode die patient heeft opgegeven (kan ook permanent zijn). 
 
-\begin{center}
-    \begin{figure}[!h]
-      \includegraphics[width=\textwidth]{../images/modifyGMR.jpg}
-    \end{figure}
-  \end{center}
+\begin{figure}[!h]
+  \includegraphics[width=\textwidth]{../images/grantAccess.jpg}
+  \caption{Interaction diagram: Grant acces}
+\end{figure}
 
-\begin{center}
-    \begin{figure}[!h]
-      \includegraphics[width=\textwidth]{../images/retrieveGMR.jpg}
-    \end{figure}
-  \end{center}
+\subsection{Modify GMR}
+Wanneer een dokter het dossier van een patient aanpast, doet hij dit eerst op de lokale kopie in zijn cache. De dokter heeft eerst, bij het openen van het dossier, de laatste versie bemachtigd zoals beschreven in het 'access file' diagram. Wanneer hij de wijzigingen hefet opgelagen in zijn cache, worden deze naar de database overgebracht. Er wordt eerst nog gekeken of de dokter ook het recht heeft om te schrijven naar het dossier. Dan worden de wijzigingen opgeslagen in de database. Alle wijzigingen worden op deze manier doorgevoerd, zowel het aanpassen van gegevens, opladen van voorschriften en toevoegen van beeldmateriaal(bv röntgenfotos)\\
+Wanneer de server niet bereikbaar blijkt wanneer er veranderingen aan een file worden gemaakt, worden de veranderingen enkel lokaal bijgehouden. Zodra de server weer bereikbaar is, worden de veranderingen doorgevoerd. In principe kan dit leiden tot een inconsistentie (het dossier werd bijgewerkt door iemand anders terwijl de dokter offline was) maar in de praktijk is dit bijna onmogelijk, aangezien een patiënt meestal slechts 1 huisdokter heeft die zijn dossier lokaal bewaart en wanneer andere dokters toch veranderingen aanbrengen (bv een specialist), dan zal dit aan andere velden van het dossier zijn als die dat de dokter heeft aangepast (bv XRay foto's toegevoegd). 
 
-\begin{center}
-    \begin{figure}[!h]
-      \includegraphics[width=\textwidth]{../images/addprescription.jpg}
-    \end{figure}
-  \end{center}
+\begin{figure}[!h]
+  \includegraphics[width=\textwidth]{../images/modifyGMR.jpg}
+  \caption{Interaction diagram: Modify GMR}
+\end{figure}
 
-\begin{center}
-    \begin{figure}[!h]
-      \includegraphics[width=\textwidth]{../images/validatePrescription.jpg}
-    \end{figure}
-  \end{center}
-%TODO opmaken figuur!
+\subsection{Retrieve GMR}
+Wanneer een dokter een medisch dossier van een patient wilt raadplegen, wordt dit dossier eerst in zijn cache opgezocht. Wanneer het hier gevonden wordt, wordt de timestamp van het dossier in de cache vergeleken met de timestamp van het dossier in de database (indien mogelijk). Wanneer het dossier up to date blijkt, wordt gewerkt met de versie uit de cache. wanneer er aanpassingen zijn geweest, wordt het dossier eerst geupdated in de cache. Wanneer het dossier niet aanwezig blijkt in de cache, wordt het dossier opgehaald en opgeslagen in de cache. 
+Deze cache wordt ook gebruikt wanneer de server niet bereikbaar is. Zo kan de dokter toch steeds aan een recente kopie van het dossier van zijn patiënten. Ook de aanpassingen aan de dossiers worden dan enkel lokaal bewaard (zie ook modifyGMR). Zodra de server weer bereikbaar is, worden de veranderingen aan de dossiers ook daar doorgevoerd. 
 
-\subsection{Element catalog}
+\begin{figure}[!h]
+  \includegraphics[width=\textwidth]{../images/retrieveGMR.jpg}
+  \caption{Interaction diagram: Retrieve GMR}
+\end{figure}
 
-\subsubsection{Elements and their properties}
+\subsection{Add prescription}
+\label{interaction:addPrescription}
+Wanneer een dokter een voorschrift aan het dossier van een patient koppelt, wordt dit aangepast in het dossier van de patient zoals alle andere wijzigingen.
+Het verschil is dat er ook een kopie van het voorschrift op de IDCard van de patient wordt gezet, waarmee deze naar de apotheek kan gaan. 
 
-\subsubsection{Relations and their properties}
+\begin{figure}[!h]
+  \includegraphics[width=\textwidth]{../images/addprescription.jpg}
+  \caption{Interaction diagram: Add prescription}
+\end{figure}
 
-\subsubsection{Element interfaces}
+\subsection{Validate prescription}
+\label{interaction:validatePrescription}
+Wanneer de patient naar de apotheek gaat om zijn medicijnen aan te kopen, wordt eerst het voorschrift van zijn IDCard gehaald. De apotheker overhandigd de benodigde medicijnen en duidt zowel op de IDCard als in het systeem aan dat het voorschrift werd gevalideerd. De boodschap naar het Ehealth platform is een boodschap die geen toegang tot het dossier vereist, enkel de key van de apotheker is belangrijk omdat geen andere persoon deze boodschap kan sturen.
 
-\subsubsection{Element behavior}
+\begin{figure}[!h]
+  \includegraphics[width=\textwidth]{../images/validatePrescription.jpg}
+  \caption{Interaction diagram: Validate prescription}
+\end{figure}
 
-\subsection{Context diagram}
-
-\subsection{Variability guide}
 
 \subsection{Architecture background}
 
-\subsubsection{Rationale}
-
-\subsubsection{Analysis results}
-
-\subsubsection{Assumptions}
-
-\subsection{Other information}
+Door de bovenvermelde sequentiediagrammen kunnen heel wat acties in het EHealth platform verklaard worden. 
+Naast de voor de hand liggende acties (die direct door een sequentiediagram worden aangetoond), zijn ook de volgende scenario's verwezelijkt: 
+\paragraph{specialist zendt informatie naar de huisdokter:}
+wanneer een patiënt een specialist consulteert, zal deze tijdelijke toegang krijgen tot het dossier van de patiënt. Hij kan hier dan zijn bevindingen in aanpassen en het dossier opslaan. Wanneer de huisdokter dan het dossier opnieuw opent, kan ook hij deze aanpassingen zien. 
 
 \subsection{Related view packets}
+De interactie diagramma's zijn bedoelt om een aantal dingen duidelijk te maken, de architecturale beslissingen staan echter steeds beschreven in de andere views.
 
 \end{document}          
