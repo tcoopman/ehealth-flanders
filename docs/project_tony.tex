@@ -1,4 +1,4 @@
-\documentclass[a4paper,10pt]{book}
+\documentclass[a4paper,10pt]{paper}
 \usepackage[utf8]{inputenc}
 \usepackage{graphicx}
 \usepackage{amsmath}
@@ -335,19 +335,6 @@ Een laatste geval is wanneer de cache op een webclient draait.  In dit geval kan
 \subsection{Related view packets}
 
 
-
-
-
-\section{VRAAGJES}
-
-Bij deployment data : 
-	- is het nodig om nog van de virtuele servers naar security server te gaan?
- 	  Authorizatie wordt reeds gechecked in security services, maar moet dit later
-	  nog eens herhaald worden???
-	- Moeten partiele data servers en figure data server ook nog extra gerepliceerd
-	  worden aan de hand van een master-slave configuratie?
-
-
 \section{Deployment view DMZ}
 
 \subsection{Primary presentation}
@@ -363,9 +350,7 @@ Bij deployment data :
 
 \begin{enumerate}
 \item \textbf{Card Reader}\\
-Een gespecialiseerde hardware node die instaat is om data van een elektronische kaart
-te lezen en er ook data op te schrijven. Het kan ook data tekenen en encrypteren met
-behulp van de keys beschikbaar op de kaart aanwezig in de lezer.
+Een gespecialiseerde hardware node die in staat is om data van een elektronische kaart te lezen en er ook data op te schrijven. Het kan ook data tekenen en encrypteren met behulp van de keys beschikbaar op de kaart aanwezig in de lezer.
 \item \textbf{Patient Client}\\
 De PC van een patient.
 \item \textbf{Doctor Client}\\
@@ -373,43 +358,32 @@ De PC van een dokter.
 \item \textbf{Pharmacist Client}\\
 De PC van een apotheker.
 \item \textbf{Demilitarized Zone}\\
-Een gedeelte van het eHealth platform waar publieke services zoals web services en
-de API zullen zitten. Deze zone vereist geen authenticatie noch authorizatie, het 
-is het toegangspunt tot het platform voor externe gebruikers.
+Een gedeelte van het eHealth platform waar publieke services zoals web services en de API zullen zitten. Deze zone vereist geen authenticatie noch authorizatie, het is het toegangspunt tot het platform voor externe gebruikers.
 \item \textbf{eHealth Services}\\
 Gedeelte van het eHealth platform dat alle business logica (services) bevat.
 \item \textbf{eHealth Data}\\
 Gedeelte van het eHealth platform dat alle data servers bevat.
 \item \textbf{Validated Data Source}\\
-Een externe node die gevalideerde medische data aanbiedt. Merk op dat hoewel er slechts 1 node
-getekend staat, er zo een heel scala aan data bronnen bestaan.
+Een externe node die gevalideerde medische data aanbiedt. Merk op dat hoewel er slechts 1 node getekend staat, er zo een heel scala aan data bronnen bestaan.
 \item \textbf{Governmental Services}\\
-Een externe node waarop de overheid allerhande services aanbiedt zoals het RIZIV en ook een
-service waarmee belangrijke data gelogd kan worden.
+Een externe node waarop de overheid allerhande services aanbiedt zoals het RIZIV en ook een service waarmee belangrijke data gelogd kan worden.
 \end{enumerate}
 
 \subsubsection{Relations and their properties}
+\label{subsubsec:relations_deployment}
 Er zijn drie verschillende soorten connecties te onderscheiden : 
 \begin{enumerate}
  \item \textbf{Vertrouwde connecties}\\
-Dit zijn de connecties op het diagram aangeduid met het stereotype <<trusted>>. Dit zijn
-connecties die volledig te vertrouwen zijn. Het gaat hier om de connectie tussen een client
-node en de kaart lezer. Hier moeten we qua security niet al te veel aandacht aan geven
-aangezien dit gewoon een rechtstreekse connectie is tussen de kaartlezer en de client node,
-hier kunnen geen aanvallers aan.
+Dit zijn de connecties op het diagram aangeduid met het stereotype <<trusted>>. Dit zijn connecties die volledig te vertrouwen zijn. Het gaat hier om de connectie tussen een client node en de kaart lezer. Hier moeten we qua security niet al te veel aandacht aan geven aangezien dit gewoon een rechtstreekse connectie is tussen de kaartlezer en de client node, hier kunnen geen aanvallers aan. 
 \item \textbf{Beveiligde connecties}\\
-Dit zijn de connecties op het diagram aangeduid met het stereotype <<secure>>. Dit zijn
-connecties over het internet die goed beveiligd moeten zijn tegen aanvallers. Dit houdt
-in dat de twee interagerende nodes moeten weten wie de andere is én dat de communicatie
-geëncrypteerd is, zodat luistervinken geen nuttige data te pakken krijgen.
+Dit zijn de connecties op het diagram aangeduid met het stereotype <<secure>>. Dit zijn connecties over het internet die goed beveiligd moeten zijn tegen aanvallers. Dit houdt in dat de twee interagerende nodes moeten weten wie de andere is én dat de communicatie geëncrypteerd is, zodat luistervinken geen nuttige data te pakken krijgen.
 \item \textbf{Virtueel private netwerk connecties}\\
-Dit zijn de connectie sop het diagram aangeduid met het stereotype <<vpn>>. Deze connecties
-gaan ook over het internet, maar ze maken deel uit van een virtueel privaat netwerk.
+Dit zijn de connectie sop het diagram aangeduid met het stereotype <<vpn>>. Deze connecties gaan ook over het internet, maar ze maken deel uit van een virtueel privaat netwerk.
 \end{enumerate}
 
 \subsubsection{Element interfaces}
 
-Niet van toepassing
+De interfaces van de verschillende componenten staan beschreven in sectie TODO (referentie naar interface definities).
 
 \subsubsection{Element behavior}
 
@@ -423,17 +397,11 @@ Nodig bij dit view?
 
 \subsection{Architecture background}
 
-\subsubsection{Rationale}
-
 Het eHealth platform wordt opgedeeld in drie delen. Aan de ene kant hebben we een demilitarized zone (DMZ), aan de andere services en data. Door clients alle clients te laten connecteren langst de demilitarized zone creëren we een centrale plaats vanwaar alle toegang tot het systeem komt. Dit maakt het makkelijker om het systeem te beveiligen. Services en data worden ook van elkaar gescheiden wat resulteert in een grotere modulariteit wat het makkelijker maakt om het geheel te implementeren en te testen.
 
 Om ervoor te zorgen dat de demilitarized zone niet omzeild word door een eventuele aanvaller, wordt er gebruikt gemaakt van virtual private networks (VPNs). Dit bevordert de schaalbaarheid, onderhoudbaarheid en variabiliteit van het systeem aangezien het relatief gemakkelijk is om een nieuwe node toe te voegen moest het nodig zijn. Een VPN wordt ook gebruikt voor alle communicatie tussen de services en data lagen. Een nadeel van de DMZ is dat het een bottleneck vormt voor alle toegang tot het platform. Daarom zullen performantie en beschikbaarheid belangrijke drivers zijn voor de verdere decompositie van de DMZ.
 
 Tenslotte zien we dat de verbinding tussen de eHealth services en de overheid slechts in 1 richting gaat, maar vanuit de overheid kan er wel naar de DMZ gegaan worden. Dit komt doordat de overheid via het internet zal connecteren, waardoor we niet kunnen toelaten dat die alle security maatregelen omzeilt.
-
-\subsubsection{Analysis results}
-
-\subsubsection{Assumptions}
 
 \subsection{Other information}
 
@@ -481,7 +449,7 @@ Deze component is verantwoordelijk voor het ophalen en schrijven van data van/op
 
 \subsubsection{Relations and their properties}
 
-zelfde als bij deployment DMZ, moet dat hier dan herhaald worden?
+Zie sectie \ref{subsubsec:relations_deployment}.
 
 \subsubsection{Element interfaces}
 

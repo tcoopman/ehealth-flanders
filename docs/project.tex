@@ -1,15 +1,21 @@
-\documentclass[a4paper,10pt]{book}
+\documentclass[a4paper,10pt]{paper}
 \usepackage[utf8]{inputenc}
 \usepackage{graphicx}
+\usepackage{amsmath}
 
-\makeatletter
-\renewcommand\paragraph{\@startsection{paragraph}{4}{\z@}%
-  {-3.25ex\@plus -1ex \@minus -.2ex}%
-  {1.5ex \@plus .2ex}%
-  {\normalfont\normalsize\bfseries}}
-\makeatother
-\renewcommand{\thechapter}{}
-\renewcommand \thesection {\arabic {section}}
+\setlength\textwidth{6.5in}
+\setlength\oddsidemargin{0in}
+\setlength\evensidemargin{0in}
+
+
+%\makeatletter
+% \renewcommand\paragraph{\@startsection{paragraph}{4}{\z@}%
+%   {-3.25ex\@plus -1ex \@minus -.2ex}%
+%   {1.5ex \@plus .2ex}%
+%   {\normalfont\normalsize\bfseries}}
+% \makeatother
+% \renewcommand{\thechapter}{}
+% \renewcommand \thesection {\arabic {section}}
 % Title Page
 \title{Architecture of E-Health Flanders platform}
 \author{}
@@ -35,16 +41,22 @@
 
 \subsubsection{Government}
 
+\clearpage
 \section{View template}
 
+\clearpage
 \section{System overview}
 
+\clearpage
 \section{Mapping between views}
 
+\clearpage
 \section{Directory}
 
+\clearpage
 \section{Glossary and acronym list}
 
+\clearpage
 \section{Background, design constraints, and rationale}
 
 
@@ -52,6 +64,7 @@
 \part{Software Architecture Views}
 \setcounter{section}{0}
 
+\clearpage
 \section{Module Uses View}
 
 \subsection{Primary presentation}
@@ -87,13 +100,14 @@
 
 
 
+\clearpage
 \section{C\&C Client and Server View: Overview}
 \label{Client and Server View: Overview}
 
 \subsection{Primary presentation}
 
 \begin{center}
-    \begin{figure}
+    \begin{figure}[!h]
       \includegraphics[width=\textwidth]{../images/ClientServer_Overview.png}
     \end{figure}
   \end{center}
@@ -121,11 +135,11 @@ De card component stelt de e-Card van de gebruiker voor.  De e-Card bevat gebrui
 %TODO interfaces van card
 
 \subsection{Context diagram}
-\begin{center}
-    \begin{figure}
-      \includegraphics[width=\textwidth]{../images/ClientServer_Context.png}
-    \end{figure}
-  \end{center}
+% \begin{center}
+%     \begin{figure}
+%       \includegraphics[width=\textwidth]{../images/ClientServer_Context.png}
+%     \end{figure}
+%   \end{center}
 TODO
 De government component bevat toegang tot de logging en RIZIV database.
 De external component bevat de validated data sources die gebruikers van de client kunnen opvragen via de server.
@@ -149,12 +163,13 @@ De volgende client-server views bekijken dit overview diagram in meer detail.  O
 
 
 
+\clearpage
 \section{C\&C Client and Server View: Server}
 \label{Client and Server View: Server}
 \subsection{Primary presentation}
 
 \begin{center}
-    \begin{figure}
+    \begin{figure}[!h]
       \includegraphics[width=\textwidth]{../images/ClientServer_Server.png}
     \end{figure}
   \end{center}
@@ -388,13 +403,14 @@ In de interactie diagramma's zijn ook voorbeelden te vinden van hoe bepaalde int
 %TODO location.
 
 
+\clearpage
 \section{C\&C Client and Server View: Client}
 \label{Client and Server View: Client}
 
 \subsection{Primary presentation}
 
 \begin{center}
-    \begin{figure}
+    \begin{figure}[!h]
       \includegraphics[width=70mm]{../images/ClientServer_Client.png}
     \end{figure}
   \end{center}
@@ -481,6 +497,7 @@ Deze client kant moet gezien worden in de volledige overview (zie \ref{Client an
 %TODO locations.
 
 
+\clearpage
 \section{C\&C Client and Server View: Security}
 \label{Client and Server View: Security}
 
@@ -488,7 +505,7 @@ Deze client kant moet gezien worden in de volledige overview (zie \ref{Client an
 De security component bevind zich zowel in de server als in de client. Deze zorgt voor een veilige communucatie tussen beide.
 
 \begin{center}
-    \begin{figure}
+    \begin{figure}[!h]
       \includegraphics[width=60mm]{../images/ClientServer_Security.png}
     \end{figure}
   \end{center}
@@ -580,9 +597,280 @@ zie Element behavior.
 De security component is zowel in de client (\ref{Client and Server View: Client} Client and Server View: Client) als de server (\ref{Client and Server View: Server} Client and Server View: Server) component te zien.
 
 
-\section{Allocation Deployment View}
+\clearpage
+\section{Deployment view DMZ}
 
 \subsection{Primary presentation}
+ \begin{center}
+    \begin{figure}[!h]
+      \includegraphics[width=\textwidth]{../images/deployment_DMZ.jpg}
+	\caption{deployment diagram giving a high-level overview of the system}
+    \end{figure}
+ \end{center}
+
+\subsection{Element catalog}
+
+\subsubsection{Elements and their properties}
+
+\begin{enumerate}
+\item \textbf{Card Reader}\\*
+Een gespecialiseerde hardware node die in staat is om data van een elektronische kaart te lezen en er ook data op te schrijven. Het kan ook data tekenen en encrypteren met behulp van de keys beschikbaar op de kaart aanwezig in de lezer. Meer info hierover vind je in sectie \ref{sec:deployment_clients}.
+\item \textbf{Patient Client}\\*
+De PC van een patient. Meer info vind je in sectie \ref{sec:deployment_clients}.
+\item \textbf{Doctor Client}\\*
+De PC van een dokter. Meer info vind je in sectie \ref{sec:deployment_clients}.
+\item \textbf{Pharmacist Client}\\*
+De PC van een apotheker. Meer info vind je in sectie \ref{sec:deployment_clients}.
+\item \textbf{Demilitarized Zone}\\*
+Een gedeelte van het eHealth platform waar publieke services zoals web services en de API zullen zitten. Deze zone vereist geen authenticatie noch authorizatie, het is het toegangspunt tot het platform voor externe gebruikers. Een verdere uitwerking van dit element vind je in sectie \ref{sec:deployment_services}.
+\item \textbf{eHealth Services}\\*
+Gedeelte van het eHealth platform dat alle business logica (services) bevat. Een verdere uitwerking van dit element vind je in sectie \ref{sec:deployment_services}.
+\item \textbf{eHealth Data}\\*
+Gedeelte van het eHealth platform dat alle data servers bevat. Een verdere uitwerking van dit element vind je in sectie \ref{sec:deployment_data}.
+\item \textbf{Validated Data Source}\\*
+Een externe node die gevalideerde medische data aanbiedt. Merk op dat hoewel er slechts 1 node getekend staat, er zo een heel scala aan data bronnen bestaan.
+\item \textbf{Governmental Services}\\*
+Een externe node waarop de overheid allerhande services aanbiedt zoals het RIZIV en ook een service waarmee belangrijke data gelogd kan worden.
+\end{enumerate}
+
+\subsubsection{Relations and their properties}
+\label{subsubsec:relations_deployment}
+Er zijn drie verschillende soorten connecties te onderscheiden : 
+\begin{enumerate}
+ \item \textbf{Vertrouwde connecties}\\*
+Dit zijn de connecties op het diagram aangeduid met het stereotype <<trusted>>. Dit zijn connecties die volledig te vertrouwen zijn. Het gaat hier om de connectie tussen een client node en de kaart lezer. Hier moeten we qua security niet al te veel aandacht aan geven aangezien dit gewoon een rechtstreekse connectie is tussen de kaartlezer en de client node, hier kunnen geen aanvallers aan. 
+\item \textbf{Beveiligde connecties}\\*
+Dit zijn de connecties op het diagram aangeduid met het stereotype <<secure>>. Dit zijn connecties over het internet die goed beveiligd moeten zijn tegen aanvallers. Dit houdt in dat de twee interagerende nodes moeten weten wie de andere is én dat de communicatie geëncrypteerd is, zodat luistervinken geen nuttige data te pakken krijgen.
+\item \textbf{Virtueel private netwerk connecties}\\*
+Dit zijn de connectie sop het diagram aangeduid met het stereotype <<vpn>>. Deze connecties gaan ook over het internet, maar ze maken deel uit van een virtueel privaat netwerk.
+\end{enumerate}
+
+\subsubsection{Element interfaces}
+
+De interfaces van de verschillende componenten in de nodes staan beschreven in de secties met de client-server views.
+
+\subsubsection{Element behavior}
+
+Niet van toepassing
+
+\subsection{Context diagram}
+
+\begin{center}
+    \begin{figure}[!h]
+      \includegraphics[width=\textwidth]{../images/deployment_DMZ_context.jpg}
+	\caption{Context diagram for the deployment diagram giving a high-level overview of the system}
+    \end{figure}
+ \end{center}
+
+\subsection{Variability guide}
+
+\subsection{Architecture background}
+
+Het eHealth platform wordt opgedeeld in drie delen. Aan de ene kant hebben we een demilitarized zone (DMZ), aan de andere services en data. Door alle clients te laten connecteren langst de demilitarized zone creëren we een centrale plaats vanwaar alle toegang tot het systeem komt. Dit maakt het makkelijker om het systeem te beveiligen en dus ook makkelijker om te voldoen aan de vereiste dat alle toegang tot het platform geauthoriseerd en beveiligd moet worden. Services en data worden ook van elkaar gescheiden wat resulteert in een grotere modulariteit wat het makkelijker maakt om het geheel te implementeren en te testen.
+
+Om ervoor te zorgen dat de demilitarized zone niet omzeild word door een eventuele aanvaller, wordt er gebruikt gemaakt van virtual private networks (VPNs). Dit bevordert de schaalbaarheid, onderhoudbaarheid en variabiliteit van het systeem aangezien het relatief gemakkelijk is om een nieuwe node toe te voegen moest het nodig zijn. Een VPN wordt ook gebruikt voor alle communicatie tussen de services en data lagen. Een nadeel van de DMZ is dat het een bottleneck vormt voor alle toegang tot het platform. Daarom zullen performantie en beschikbaarheid belangrijke drivers zijn voor de verdere decompositie van de DMZ.
+
+Tenslotte zien we dat de verbinding tussen de eHealth services en de overheid slechts in 1 richting gaat, maar vanuit de overheid kan er wel naar de DMZ gegaan worden. Dit komt doordat de overheid via het internet zal connecteren, waardoor we niet kunnen toelaten dat die alle security maatregelen omzeilt.
+
+\subsection{Other information}
+
+\subsection{Related view packets}
+
+De verschillende delen in deze view worden nog verder uitgewerkt in aparte secties. Meer info over de verschillende clients is te vinden in sectie \ref{sec:deployment_clients}. Een uitwerking van de DMZ en de services wordt getoond in sectie \ref{sec:deployment_services} en over de data in het platform vind je meer in sectie \ref{sec:deployment_data}.
+
+\section{Deployment view clients}
+\label{sec:deployment_clients}
+
+\subsection{Primary presentation}
+\begin{center}
+    \begin{figure}[!h]
+      \includegraphics[width=\textwidth]{../images/deployment_clients.jpg}
+	\caption{Deployment diagram focused on the various clients in the system}
+    \end{figure}
+  \end{center}
+
+\subsection{Element catalog}
+
+\subsubsection{Elements and their properties}
+
+\begin{enumerate}
+ \item \textbf{Digital Card}\\
+Deze node stelt een digitale kaart voor die elke patient en dokter toegewezen krijgt van de overheid. Deze node zal geen echte software bevatten, maar dient enkel als data opslag. Volgende twee soorten data kunnen we onderscheiden :
+\begin{enumerate}
+ \item \textbf{Key Data}\\*
+De keys op de kaart. Elke kaart zal een publieke en private sleutel bevatten waarmee getekend en/of geëncrypteerd kan worden met behulp van de elektronische kaartlezer.
+\item \textbf{Prescription Data}\\*
+De voorschriften die een dokter voorschrijft voor een patient zullen op de kaart bijgehouden worden, zodat deze terug uitgelezen kunnen worden bij het ophalen/bestellen van medicatie bij de apotheker/e-pharmacy.
+\end{enumerate}
+
+\item \textbf{Card Reader}\\*
+De elektronische kaartlezer bevat volgende software componenten : 
+\begin{enumerate}
+\item \textbf{Signing}\\*
+Software verantwoordelijk voor het tekenen van documenten (voorschriften).
+\item \textbf{Encryption/Decryption}\\*
+Deze component kan data versleutelen en terug ontcijferen met behulp van de keys die op de kaart staan die in de kaartlezer zit.
+\item \textbf{Key Generation}\\*
+Sleutels kunnen ook gegenereerd worden. Dit zal ondermeer gebruikt worden voor het tijdelijk toekennen van toegang tot het globaal medisch dossier.
+\item \textbf{Data Access}\\*
+Deze component is verantwoordelijk voor het ophalen en schrijven van data van/op de elektronische kaart.
+\end{enumerate}
+
+\item \textbf{Doctor Client}\\*
+Stelt een node voor gebruikt door een dokter. Dit kan eender welke soort van node zijn (PC, PDA, laptop, ...). De node bestaat uit volgende componenten : 
+\begin{enumerate}
+ \item \textbf{Card Reader UI}\\*
+De user interface die toegang biedt tot alle functionaliteit van de elektronische kaartlezer.
+\item \textbf{Patient Management}\\*
+Deze software staat in voor het beheer van het klantenbestand van de dokter.
+\item \textbf{Cache Controller}\\*
+Component die het ophalen en wegschrijven van patiënt data in zijn/haar globaal medisch dossier controleert. Een meer gedetailleerde uitleg kan gevonden worden in sectie \textbf{TODO}.
+\item \textbf{Cache}\\*
+In de nodes die dokters gebruiken wordt een cache gebruikt met globaal medische dossiers van patiënten van de dokter. Het lezen en schrijven van deze cache wordt beheert door de \textit{Cache Controller}.
+\end{enumerate}
+
+\item \textbf{Patient Client}\\*
+Deze node is de tool van de patient. Het is gewoon een ordinaire computer, laptop of PDA. De enige custom software die deze node nodig heeft is software die de node in staat stelt om te communiceren met de elektronische kaartlezer. Voor de rest kan een patiënt alle nodige activiteiten doen met behulp van een normale web browser, die wel in staat moet zijn om met geëncrypteerde verbindingen om te gaan.
+
+\item \textbf{Pharmacist Client}\\*
+Node voor een apotheker. Weer is de enige custom software nodig, software om te communiceren met de kaartlezer, alle andere activiteiten kunnen met een gewone web browser uitgevoerd worden.
+
+\end{enumerate}
+
+
+\subsubsection{Relations and their properties}
+
+Zie sectie \ref{subsubsec:relations_deployment}.
+
+\subsubsection{Element interfaces}
+
+niet van toepassing
+
+\subsubsection{Element behavior}
+
+niet van toepassing
+
+\subsection{Context diagram}
+
+\begin{center}
+    \begin{figure}[!h]
+      \includegraphics[width=\textwidth]{../images/deployment_clients_context.jpg}
+	\caption{Context diagram for de deployment view focused on the clients}
+    \end{figure}
+  \end{center}
+
+\subsection{Variability guide}
+
+\subsection{Architecture background}
+Een dokter moet in staat zijn om ten alle tijden de globaal medische dossiers van zijn patiënten in te kijken, ook wanneer hij geen actieve internetverbinding heeft en dus niet met het eHealth platform kan communiceren. Daarom is het belangrijk dat een dokter een lokale cache heeft. Meer informatie over de werking van deze cache vind je in sectie \textbf{TODO}.
+Ook één van de vereisten is dat voorschriften aangemaakt en gevalideerd kunnen worden binnen de 3 seconden , verder moeten voorschriften ook door een dokter aangemaakt kunnen worden, zelfs in geval van een gedeeltelijke systeem of netwerk faling. Daarom zorgen we ervoor dat voorschriften op de elektronische kaart van de patient gezet zullen worden. De dokter kan dan ook wanneer hij offline is het voorschrift creëren (de registratie van het voorschrift in het GMR van de patient wordt dan gequeued tot de dokter terug online is) en de apotheker is in staat om het voorschrift te valideren, ook wanneer die offline is. Doordat dit enkel lokale bewerkingen inhoudt, is de 3 seconden vereiste zeker haalbaar.
+
+\subsection{Other information}
+
+\subsection{Related view packets}
+Via het internet maken alle clients verbinding met het eHealth platform, dit gedeelte van het systeem vind je gedetailleerder terug in sectie \ref{sec:deployment_services}.
+
+\clearpage
+\section{Deployment view services}
+\label{sec:deployment_services}
+
+\subsection{Primary presentation}
+\begin{center}
+    \begin{figure}[!h]
+      \includegraphics[width=\textwidth]{../images/deployment_services.jpg}
+	\caption{Deployment diagram focused on the services in the platform}
+    \end{figure}
+  \end{center}
+
+\subsection{Element catalog}
+
+\subsubsection{Elements and their properties}
+\begin{enumerate}
+ \item \textbf{Client}\\*
+Stelt de client nodes voor zoals getoond in sectie \ref{sec:deployment_clients}. Hoewel er maar 1 node getoond is, zijn er in de praktijk zeer veel verschillende clients.
+\item \textbf{Governmental Server}\\*
+Server die de nodige services van de overheid voorziet.
+\item \textbf{Validated Data Source}\\*
+Stelt de \textit{validate data sources} voor, in de praktijk zijn er meerdere \textit{validated data sources} hoewel er op het diagram slechts 1 getoond wordt.
+\item \textbf{Added Value Service}\\*
+Stelt de \textit{added value services} voor, weer zullen dit er meerdere zijn.
+\item \textbf{Public Services Proxy}\\*
+Deze node doet dienst als proxy, zoals z'n naam doet vermoeden. Meer specifiek is het een \textit{reverse proxy}. Deze wordt ingezet om de belasting vanuit het internet naar de security services nodes gelijkmatiger te verdelen, zowel om beveiligings als om \textit{loadbalancing} redenen. Buiten dat, bevat deze node ook een web server en biedt die de API aan aan externe \textit{added value services}. Deze nodes worden statisch gerepliceerd. De public services proxy bevat volgende software componenten : 
+\begin{enumerate}
+ \item \textbf{Firewall}\\*
+ Deze firewall is de eerste verdedigings linie voor het platform en dient het verkeer naar de DMZ toe te filteren zodat enkel connecties specifiek naar de DMZ doorgelaten worden.
+\item \textbf{Web Server}\\*
+De web server biedt de publieke web services van het systeem aan. Indien dit om zeer algemene data gaat, dient het verkeer niet verder te komen dan de DMZ. Is er echter medische data nodig, dan zal de web server requests doorsturen naar de services laag in het platform.
+\item \textbf{API}\\*
+Er moet een API voorzien worden voor externe services die gebruik willen maken van het platform. Deze component voorziet deze API en zal alle calls doorsturen naar de services laag van het platform.
+\item \textbf{Distributed Session Management}\\*
+Het is ongewenst dat een gebruiker zich voor elke actie die hij/zij wil ondernemen terug opnieuw moet inloggen. Er zullen dus sessies bijgehouden moeten worden. Het is niet zo veilig dit te doen binnen de DMZ, dus de authenticatie sessie - data zal bijgehouden worden in de \textit{security services} nodes in de services laag (zie bij security services hier onder). Er zullen meerdere \textit{security services} nodes zijn, dus zal het verkeer van een bepaalde gebruiker gedurende de hele sessie langst dezelfde \textit{security services} node moeten gaan. Het kan zijn, door de structuur en werking van het internet, dat gedurende dezelfde sessie niet dezelfde proxy gebruikt wordt. Om dus toch te kunnen garanderen dat voor één bepaalde sessie steeds dezelfde \textit{security services} node gebruikt wordt, wordt deze component geïntroduceerd. Het enige wat die moet doen is bijhouden welke sessie bij welke \textit{security services} node hoort en dit ook doorgeven aan de andere actieve \textit{Public Services Proxies}.
+\end{enumerate}
+
+\item \textbf{Security Services}\\*
+Deze node vomt de tweede lijn van verdediging voor het platform. Alle verkeer die de core services van het platform wil gebruiken zal langst hier moeten. Het zorgt ervoor dat enkel geauthenticeerde requests met de juiste authorisatie toegelaten worden. Deze node zal dynamisch gerepliceerd worden, in sectie \ref{subsec:arch_back_dep_serv} wordt hier wat verder op in gegaan. Volgende software componenten worden op deze node geplaatst : 
+\begin{enumerate}
+ \item \textbf{Firewall}\\*
+Deze firewall zal ervoor zorgen dat enkel connecties vanuit de DMZ toegelaten worden binnen de services laag van het eHealth platform.
+\item \textbf{Authentication}\\*
+Component die de authenticatie van gebruikers zal afhandelen. Zie sectie \textbf{TODO} voor meer informatie.
+\item \textbf{Compession/Decomporession}\\*
+Component die de compressie en decompressie van data zal afhandelen. Weer biedt sectie \textbf{TODO} meer gedetailleerde informatie.
+\item \textbf{Policy}\\*
+Deze component zal verantwoordelijk zijn voor zowel de authorisatie van requests, als ook voor het beheren van access policies, zoals het geven van toestemming aan dokters om het globaal medisch dossier van een patient in te kijken. Sectie \textbf{TODO} legt dit verder uit.
+\item \textbf{SessionManager}\\*
+We willen niet dat een gebruiker zich voor elke nieuwe request opnieuw moet inloggen. We zullen dus sessie data nodig hebben. Deze component zal het beheer van die sessie data controleren.
+\end{enumerate}
+
+\item \textbf{Core Services}\\*
+Deze node bundelt alle kern services samen die nodig zijn voor de werking van het eHealth platform. Volgende componenten in deze node stellen al die services voor : 
+\begin{enumerate}
+ \item \textbf{GMR}\\*
+Component die alle functionaliteit aanbiedt voor het lezen, schrijven en aanpassen van data in globaal medische dossiers.
+\item \textbf{ExternalActions}\\*
+Component die de link met de \textit{Governmental Services} voorziet (loggen en RIZIV).
+\item \textbf{Prescriptions}\\*
+\end{enumerate}
+
+\end{enumerate}
+
+
+\subsubsection{Relations and their properties}
+
+\subsubsection{Element interfaces}
+
+\subsubsection{Element behavior}
+
+\subsection{Context diagram}
+\begin{center}
+    \begin{figure}[!h]
+      \includegraphics[width=\textwidth]{../images/deployment_services_context.jpg}
+	\caption{Context diagram for the deployment diagram focused on the services in the platform}
+    \end{figure}
+  \end{center}
+
+\subsection{Variability guide}
+
+\subsection{Architecture background}
+\label{subsec:arch_back_dep_serv}
+
+\subsection{Other information}
+
+\subsection{Related view packets}
+
+
+
+\clearpage
+\section{Deployment view data}
+\label{sec:deployment_data}
+
+\subsection{Primary presentation}
+\begin{center}
+    \begin{figure}[!h]
+      \includegraphics[width=\textwidth]{../images/deployment_data.jpg}
+	\caption{Deployment diagram focused on the data storage in the platform}
+    \end{figure}
+  \end{center}
 
 \subsection{Element catalog}
 
@@ -595,6 +883,12 @@ De security component is zowel in de client (\ref{Client and Server View: Client
 \subsubsection{Element behavior}
 
 \subsection{Context diagram}
+\begin{center}
+    \begin{figure}[!h]
+      \includegraphics[scale=0.75]{../images/deployment_data_context.jpg}
+	\caption{Context diagram for the deployment diagram focused on the data storage in the platform}
+    \end{figure}
+  \end{center}
 
 \subsection{Variability guide}
 
@@ -612,37 +906,38 @@ De security component is zowel in de client (\ref{Client and Server View: Client
 
 
 
+\clearpage
 \section{Interaction Diagrams}
 
 \subsection{Primary presentation}
 
 \begin{center}
-    \begin{figure}
-      \includegraphics{../images/grantAccess.jpg}
+    \begin{figure}[!h]
+      \includegraphics[width=\textwidth]{../images/grantAccess.jpg}
     \end{figure}
   \end{center}
 
 \begin{center}
-    \begin{figure}
-      \includegraphics{../images/modifyGMR.jpg}
+    \begin{figure}[!h]
+      \includegraphics[width=\textwidth]{../images/modifyGMR.jpg}
     \end{figure}
   \end{center}
 
 \begin{center}
-    \begin{figure}
-      \includegraphics{../images/retrieveGMR.jpg}
+    \begin{figure}[!h]
+      \includegraphics[width=\textwidth]{../images/retrieveGMR.jpg}
     \end{figure}
   \end{center}
 
 \begin{center}
-    \begin{figure}
-      \includegraphics{../images/addprescription.jpg}
+    \begin{figure}[!h]
+      \includegraphics[width=\textwidth]{../images/addprescription.jpg}
     \end{figure}
   \end{center}
 
 \begin{center}
-    \begin{figure}
-      \includegraphics{../images/validatePrescription.jpg}
+    \begin{figure}[!h]
+      \includegraphics[width=\textwidth]{../images/validatePrescription.jpg}
     \end{figure}
   \end{center}
 %TODO opmaken figuur!
