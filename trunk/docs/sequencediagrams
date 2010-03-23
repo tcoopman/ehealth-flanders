@@ -32,15 +32,4 @@ Naast de voor de hand liggende acties (die direct door een sequentiediagram word
 
 
 
-aanvullingen:
-
-inleiding:
-
-De sequentiediagrammen geven enkele concrete scenario's die de onderlinge werking van de componenten in het systeem illustreren. Zo wordt getoond hoe een dossier wordt weergegeven en gewijzigd, hoe toegangsrechten worden gegeven op het dossier en hoe voorschriften worden aangemaakt en gevalideerd. Hier wordt de concerete opeenvolging van boodschappen weergegeven die zo een scenario bevat. 
-
-bij extra uitleg:
-* Patiënt bekijkt zijn dossier on line:
-	Dit is terug te vinden in het diagram retrieve GMR. Wanneer de patiënt Zijn dossier wil bekijken, zal hij zich eveneens aanmelden bij de client applicatie, hier een webapplicatie. Via zijn identificatie gegevens worden de gegevens in het dossier weergegeven die de patiënt mag zien. Wanneer de patiënt zou proberen om wijzigingen aan te brengen in zijn dossier, zal dit niet mogelijk zijn omdat hij de juiste rechten hiervoor niet bezit. 
-
-
  
