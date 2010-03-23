@@ -874,6 +874,7 @@ zie Element behavior.
 \subsection{Related view packets}
 De security component is zowel in de client (\ref{Client and Server View: Client} Client and Server View: Client) als de server (\ref{Client and Server View: Server} Client and Server View: Server) component te zien.
 
+
 \clearpage
 \section{Deployment view DMZ}
 \label{sec:deploymentView:DMZ}
@@ -906,9 +907,11 @@ Gedeelte van het eHealth platform dat alle business logica (services) bevat. Een
 \item \textbf{eHealth Data}\\*
 Gedeelte van het eHealth platform dat alle data servers bevat. Een verdere uitwerking van dit element vind je in sectie \ref{sec:deployment_data}.
 \item \textbf{Validated Data Source}\\*
-Een externe node die gevalideerde medische data aanbiedt. Merk op dat hoewel er slechts 1 node getekend staat, er zo een heel scala aan data bronnen bestaan.
+Een externe node die gevalideerde medische data aanbiedt. Merk op dat hoewel er slechts 1 node getekend staat, er zo een heel scala aan data bronnen bestaan. Het platform moet in staat zijn om verschillende \textit{validated data sources} aan te bieden aan gebruikers. Om dit makkelijk te doen, zal er een interface gedefiniëerd worden die alle aanbieders van deze gegevensbronnen zullen moeten implementeren als ze willen dat de gegevens beschikbaar gesteld worden via het eHealth platform.
 \item \textbf{Governmental Services}\\*
 Een externe node waarop de overheid allerhande services aanbiedt zoals het RIZIV en ook een service waarmee belangrijke data gelogd kan worden.
+\item \textbf{Added Value Service}\\*
+Een externe node die extra services aanbied voor gebruikers van het system.
 \end{enumerate}
 
 \subsubsection{Relations and their properties}
@@ -916,11 +919,11 @@ Een externe node waarop de overheid allerhande services aanbiedt zoals het RIZIV
 Er zijn drie verschillende soorten connecties te onderscheiden : 
 \begin{enumerate}
  \item \textbf{Vertrouwde connecties}\\*
-Dit zijn de connecties op het diagram aangeduid met het stereotype <<trusted>>. Dit zijn connecties die volledig te vertrouwen zijn. Het gaat hier om de connectie tussen een client node en de kaart lezer. Hier moeten we qua security niet al te veel aandacht aan geven aangezien dit gewoon een rechtstreekse connectie is tussen de kaartlezer en de client node, hier kunnen geen aanvallers aan. 
+Dit zijn de connecties op het diagram aangeduid met het stereotype 'trusted'. Dit zijn connecties die volledig te vertrouwen zijn. Het gaat hier om de connectie tussen een client node en de kaart lezer. Hier moeten we qua security niet al te veel aandacht aan geven aangezien dit gewoon een rechtstreekse connectie is tussen de kaartlezer en de client node, hier kunnen geen aanvallers aan. 
 \item \textbf{Beveiligde connecties}\\*
-Dit zijn de connecties op het diagram aangeduid met het stereotype <<secure>>. Dit zijn connecties over het internet die goed beveiligd moeten zijn tegen aanvallers. Dit houdt in dat de twee interagerende nodes moeten weten wie de andere is én dat de communicatie geëncrypteerd is, zodat luistervinken geen nuttige data te pakken krijgen.
+Dit zijn de connecties op het diagram aangeduid met het stereotype 'secure'. Dit zijn connecties over het internet die goed beveiligd moeten zijn tegen aanvallers. Dit houdt in dat de twee interagerende nodes moeten weten wie de andere is én dat de communicatie geëncrypteerd is, zodat luistervinken geen nuttige data te pakken krijgen.
 \item \textbf{Virtueel private netwerk connecties}\\*
-Dit zijn de connectie sop het diagram aangeduid met het stereotype <<vpn>>. Deze connecties gaan ook over het internet, maar ze maken deel uit van een virtueel privaat netwerk.
+Dit zijn de connectie sop het diagram aangeduid met het stereotype 'vpn'. Deze connecties gaan ook over het internet, maar ze maken deel uit van een virtueel privaat netwerk.
 \end{enumerate}
 
 \subsubsection{Element interfaces}
@@ -928,20 +931,20 @@ Dit zijn de connectie sop het diagram aangeduid met het stereotype <<vpn>>. Deze
 De interfaces van de verschillende componenten in de nodes staan beschreven in de secties met de client-server views.
 
 \subsubsection{Element behavior}
-
-Niet van toepassing
+[Niet van toepassing]
 
 \clearpage
 \subsection{Context diagram}
 
 \begin{center}
     \begin{figure}[!h]
-      \includegraphics[width=\textwidth]{../images/deployment_DMZ_context.jpg}
+      \includegraphics[scale=0.60]{../images/deployment_DMZ_context.jpg}
 	\caption{Context diagram for the deployment diagram giving a high-level overview of the system}
     \end{figure}
  \end{center}
 
 \subsection{Variability guide}
+[Niet van toepassing]
 
 \subsection{Architecture background}
 
@@ -952,6 +955,7 @@ Om ervoor te zorgen dat de demilitarized zone niet omzeild word door een eventue
 Tenslotte zien we dat de verbinding tussen de eHealth services en de overheid slechts in 1 richting gaat, maar vanuit de overheid kan er wel naar de DMZ gegaan worden. Dit komt doordat de overheid via het internet zal connecteren, waardoor we niet kunnen toelaten dat die alle security maatregelen omzeilt.
 
 \subsection{Other information}
+[Niet van toepassing]
 
 \subsection{Related view packets}
 
@@ -1003,7 +1007,7 @@ De user interface die toegang biedt tot alle functionaliteit van de elektronisch
 \item \textbf{Patient Management}\\*
 Deze software staat in voor het beheer van het klantenbestand van de dokter.
 \item \textbf{Cache Controller}\\*
-Component die het ophalen en wegschrijven van patiënt data in zijn/haar globaal medisch dossier controleert. Een meer gedetailleerde uitleg kan gevonden worden in sectie \textbf{TODO}.
+Component die het ophalen en wegschrijven van patiënt data in zijn/haar globaal medisch dossier controleert. Een meer gedetailleerde uitleg kan gevonden worden in sectie \ref{Client and Server View: Client}.
 \item \textbf{Cache}\\*
 In de nodes die dokters gebruiken wordt een cache gebruikt met globaal medische dossiers van patiënten van de dokter. Het lezen en schrijven van deze cache wordt beheert door de \textit{Cache Controller}.
 \end{enumerate}
@@ -1023,11 +1027,11 @@ Zie sectie \ref{subsubsec:relations_deployment}.
 
 \subsubsection{Element interfaces}
 
-niet van toepassing
+[Niet van toepassing]
 
 \subsubsection{Element behavior}
 
-niet van toepassing
+Zie sectie \ref{Client and Server View: Client}.
 
 \subsection{Context diagram}
 
@@ -1039,12 +1043,14 @@ niet van toepassing
   \end{center}
 
 \subsection{Variability guide}
+Zie sectie \ref{Client and Server View: Client}.
 
 \subsection{Architecture background}
-Een dokter moet in staat zijn om ten alle tijden de globaal medische dossiers van zijn patiënten in te kijken, ook wanneer hij geen actieve internetverbinding heeft en dus niet met het eHealth platform kan communiceren. Daarom is het belangrijk dat een dokter een lokale cache heeft. Meer informatie over de werking van deze cache vind je in sectie \textbf{TODO}.
+Een dokter moet in staat zijn om ten alle tijden de globaal medische dossiers van zijn patiënten in te kijken, ook wanneer hij geen actieve internetverbinding heeft en dus niet met het eHealth platform kan communiceren. Daarom is het belangrijk dat een dokter een lokale cache heeft. Meer informatie over de werking van deze cache vind je in sectie \ref{Client and Server View: Client}.
 Ook één van de vereisten is dat voorschriften aangemaakt en gevalideerd kunnen worden binnen de 3 seconden , verder moeten voorschriften ook door een dokter aangemaakt kunnen worden, zelfs in geval van een gedeeltelijke systeem of netwerk faling. Daarom zorgen we ervoor dat voorschriften op de elektronische kaart van de patient gezet zullen worden. De dokter kan dan ook wanneer hij offline is het voorschrift creëren (de registratie van het voorschrift in het GMR van de patient wordt dan gequeued tot de dokter terug online is) en de apotheker is in staat om het voorschrift te valideren, ook wanneer die offline is. Doordat dit enkel lokale bewerkingen inhoudt, is de 3 seconden vereiste zeker haalbaar.
 
 \subsection{Other information}
+[Niet van toepassing]
 
 \subsection{Related view packets}
 Via het internet maken alle clients verbinding met het eHealth platform, dit gedeelte van het systeem vind je gedetailleerder terug in sectie \ref{sec:deployment_services}.
@@ -1092,11 +1098,11 @@ Deze node vomt de tweede lijn van verdediging voor het platform. Alle verkeer di
  \item \textbf{Firewall}\\*
 Deze firewall zal ervoor zorgen dat enkel connecties vanuit de DMZ toegelaten worden binnen de services laag van het eHealth platform.
 \item \textbf{Authentication}\\*
-Component die de authenticatie van gebruikers zal afhandelen. Zie sectie \textbf{TODO} voor meer informatie.
+Component die de authenticatie van gebruikers zal afhandelen. Zie sectie \ref{Client and Server View: Security} voor meer informatie.
 \item \textbf{Compession/Decomporession}\\*
-Component die de compressie en decompressie van data zal afhandelen. Weer biedt sectie \textbf{TODO} meer gedetailleerde informatie.
+Component die de compressie en decompressie van data zal afhandelen. Weer biedt sectie \ref{Client and Server View: Security} meer gedetailleerde informatie.
 \item \textbf{Policy}\\*
-Deze component zal verantwoordelijk zijn voor zowel de authorisatie van requests, als ook voor het beheren van access policies, zoals het geven van toestemming aan dokters om het globaal medisch dossier van een patient in te kijken. Sectie \textbf{TODO} legt dit verder uit.
+Deze component zal verantwoordelijk zijn voor zowel de authorisatie van requests, als ook voor het beheren van access policies, zoals het geven van toestemming aan dokters om het globaal medisch dossier van een patient in te kijken. Sectie \ref{Client and Server View: Server} legt dit verder uit.
 \item \textbf{SessionManager}\\*
 We willen niet dat een gebruiker zich voor elke nieuwe request opnieuw moet inloggen. We zullen dus sessie data nodig hebben. Deze component zal het beheer van die sessie data controleren.
 \end{enumerate}
@@ -1109,7 +1115,7 @@ Component die alle functionaliteit aanbiedt voor het lezen, schrijven en aanpass
 \item \textbf{Doctor Management}\\*
 Beheert alle data gerelateerd met dokters. Registratie van dokters en de registratie van patiënten van dokters gebeurt aan de hand van deze component.
 \item \textbf{VDS}\\*
-Dit stuk software zal alle functionaliteit aanbieden om data te kunnen ophalen van de \textit{validated data sources}, alsook functionaliteit voor het toevoegen van validated data sources aan het systeem. Wanneer zo'n gegevensbron toegevoegd dient te worden, zal die gegevensbron aangeboden moeten worden met een interface die vastgelegd wordt door ons systeem. \textbf{TODO : nog meer over die interface zeggen?}
+Dit stuk software zal alle functionaliteit aanbieden om data te kunnen ophalen van de \textit{validated data sources}, alsook functionaliteit voor het toevoegen van validated data sources aan het systeem. Wanneer zo'n gegevensbron toegevoegd dient te worden, zal die gegevensbron aangeboden moeten worden met een interface die vastgelegd wordt door ons systeem. 
 \item \textbf{ExternalActions}\\*
 Component die de link met de \textit{Governmental Services} voorziet (loggen en RIZIV).
 \item \textbf{ExternalActionsStorage}\\*
@@ -1126,7 +1132,7 @@ Deze node zal verantwoordelijk zijn voor het beheren van de verschillende servic
 Zie sectie \ref{subsubsec:relations_deployment} voor meer info over de verschillende connecties tussen de nodes.
 
 \subsubsection{Element interfaces}
-Niet van toepassing.
+[Niet van toepassing]
 
 \subsubsection{Element behavior}
 Wanneer een request gemaakt wordt naar het platform, zal deze via de \textit{Public Services Proxy} moeten. Deze zal moeten beslissen naar welke van de actieve \textit{Security Services} servers de request doorgestuurd zal worden. Zoals eerder vermeld zal dit voor een bepaalde sessie steeds dezelfde moeten zijn om authenticatie bij te kunnen houden. Dus als de \textit{Public Services Proxy} een request krijgt van een sessie die reeds in het \textit{Distributed Session Management} geregistreerd staat, moet er geen keuze gemaakt worden. Wanneer een request binnenkomt die nog niet geregistreerd is, zal de \textit{Public Services Proxy} een korte ping-boodschap sturen naar de 3 \textit{Security Services} servers die het minst in het \textit{Distributed Session Management} gekoppeld zijn aan een sessie. De eerste die hierop antwoord zal dan gekozen worden om de request naar door te sturen.
@@ -1144,6 +1150,7 @@ Dit zelfde systeem wordt gebruikt voor de connectie tussen de \textit{Security S
   \end{center}
 
 \subsection{Variability guide}
+[Niet van toepassing]
 
 \subsection{Architecture background}
 \label{subsec:arch_back_dep_serv}
@@ -1160,7 +1167,8 @@ Performantie is natuurlijk ook belangrijk. Bepaalde gegevens moeten binnen bepaa
 Het aantal \textit{Public Services Proxies} moet nog bepaald worden. Hiervoor zal eerst onderzoek gedaan moeten worden naar de verwachte load van het systeem en moeten we weten welke systemen we beschikbaar hebben.
 
 \subsection{Related view packets}
-
+Voor meer uitleg over het data gedeelte verbonden met dit service gedeelte, zie sectie \ref{sec:deployment_data}.\\*
+Sectie \ref{Client and Server View: Server} geeft wat meer info over de verschillende componenten besproken in dit view.
 
 \clearpage
 \section{Deployment view data}
@@ -1193,6 +1201,8 @@ Dit stuk software is verantwoordelijk voor de consistentie van de GMR data. Wann
 Dit element zal tijdelijk de laatste queries die uitgevoerd zijn op de GMR data bijhouden, dit zal nodig zijn voor eventuele herstellingsoperaties bij het falen van 1 van de data servers zoals uitgelegd in sectie \ref{subsubsec:dep_data_behavior}.
 \item \textbf{Data Server Management}\\*
 Dit element biedt functionaliteit om de aparte data servers te beheren.
+\item \textbf{Indexation}\\*
+Deze component stelt de opslag voor van een indexatie van de data server zodat gemakkelijk teruggevonden kan worden waar het GMR van een bepaalde patiënt gevonden kan worden.
 \end{enumerate}
 
 \item \textbf{Partial GMR Text Data Server}\\*
@@ -1229,7 +1239,7 @@ zie item \ref{massecserv}.
 Zie sectie \ref{subsubsec:relations_deployment} voor een uitleg over de types van connecties.
 
 \subsubsection{Element interfaces}
-Niet van toepassing.
+[Niet van toepassing]
 
 \subsubsection{Element behavior}
 \label{subsubsec:dep_data_behavior}
@@ -1253,6 +1263,8 @@ De GMR data servers hebben elk een backup data server. Op geregelde tijdstippen 
 \subsection{Variability guide}
 Op het diagram, wordt 1 GMR nu opgedeeld in drie stukken : 2 tekstuele stukken en 1 stuk voor andere data (zoals bijv. figuren). Dit kan eventueel nog gewijzigd worden, afhankelijk van de exacte wettelijke voorschriften over de scheiden van de data. Het functioneren van het systeem zal hierdoor niet wijzigen.
 
+Het juiste aantal nodes voor de statisch gerepliceerde servers zal nog bepaald moeten worden aan de hand van een analyse van de verwachte load en de beschikbare communicatie-lijnen en servers. Belangrijk is dat het systeem om moet kunnen met eender welk aantal zodat deze beslissingen later nog aangepast kunnen worden.
+
 \subsection{Architecture background}
 Het is bij wet verplicht om de data voor een bepaald GMR verspreid bij te houden, vandaar dat het mechanisme met de virtuele data servers in het systeem geplaatst wordt. Door een data server management component te voorzien in de virtuele data servers, wordt het mogelijk om het aantal servers uit te breiden indien dit nodig moest zijn, wat de variabiliteit van het systeem bevordert. Het verspreiden van de data is ook zeer gunstig vanuit een security standpunt. Moest het zijn dat een aanvaller de disk op 1 van de servers kan kopiëren, zal deze nog steeds niet zijn met de data die hij ervan af gehaald heeft. Ook wordt de data geëncrypteerd, wat de data nog nuttelozer maakt voor een aanvaller.
 
@@ -1260,11 +1272,13 @@ Om aan de beschikbaarheids-vereisten te voldoen, wordt er gebruik gemaakt van re
 
 Voor de GMR data zou dit wel een performantie bottleneck zijn aangezien deze data veel frequenter aangepast wordt. Daarom voorzien we hier een ander mechanisme. De partiële data servers worden statisch gerepliceerd, zonder hier een master in aan te duiden, er mag naar alle replica's geschreven worden. Wanneer deze servers met elkaar synchroniseren, zal er bij conflicten een merging-techniek gebruikt worden zoals beschreven in sectie \ref{Client and Server View: Server}. Indien het mergen niet lukt, zal 1 van de updates op alle replica's doorgevoerd worden en de andere zal ongedaan gemaakt worden en falen. We kunnen zo'n merging techniek gebruiken aangezien het zeer onwaarschijnlijk is dat dezelfde data op dezelfde moment aangepast wordt.
 
-De performantie-vereisten voor het ophalen van tekstuele data en andere data verschillen nogal wat. Om ervoor te zorgen dat het ophalen van tekst nooit moet wachten op het ophalen van figuren, worden tekst en figuren volledig van elkaar gescheiden. Aangezien tekstuele data striktere performantie-vereisten heeft, geven we telkens eerst de tekstuele data terug en daarna de figuren.
+De performantie-vereisten voor het ophalen van tekstuele data en andere data verschillen nogal wat. Om ervoor te zorgen dat het ophalen van tekst nooit moet wachten op het ophalen van figuren, worden tekst en figuren volledig van elkaar gescheiden. Aangezien tekstuele data striktere performantie-vereisten heeft, geven we telkens eerst de tekstuele data terug en daarna de figuren. Het zoeken naar de locatie van de data zelf mag ook niet langer duren dan 3 seconden. Daarom wordt op de virtuele data servers een index bijgehouden die telkens wanneer nieuwe data toegevoegd wordt ook ge-update zal worden.
 
 \subsection{Other information}
+[Niet van toepassing]
 
 \subsection{Related view packets}
+Een gedetailleerder zicht op de services verbonden met deze data laag vind je in sectie \ref{sec:deployment_services}.
 
 
 \clearpage
