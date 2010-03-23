@@ -64,6 +64,7 @@ Er is een afzonderlijke component voorzien die de functionaliteiten die de reger
 
 \clearpage
 \section{Mapping between views}
+\label{Mappingbetweenviews}
 
 \clearpage
 \section{Directory}
@@ -558,7 +559,7 @@ Daarna wordt gecontroleerd of er al een sessie bestaat en of die al dan niet gel
 Wanneer dat gebeurd is zal het systeem de oproep doorgeven aan de policy component.  Deze zal de GMR laten weten of de actie die de GMR binnen krijgt al dan niet toegelaten is.\\
 Als de actie toegelaten is voor de gebruiker zal de GMR de actie uitvoeren en een gepaste respons sturen naar de client.\\
 Als het nodig is worden acties gelogd of verzonden naar het RIZIV.\\
-%TODO Dit hierboven komt niet overeen met wat er in het deployment view staat. Daar komen alle inkomende berichten van de security component, die daarvoor al alle authenticatie en authorisatie heeft gedaan. Dat is ook een meer modulaire aanpak omdat je je zo niet echt veel moet aantrekken van security in die GMR component. Zou dit nog aangepast kunnen worden? Ik denk niet dat ik het zoals hier kan aanpassen in het deployment view. De security component voorziet ook een firewall, dus hier zal alle inkomende verkeer eerst van moeten komen en aangezien de security component en de GMR component fysiek gescheiden zijn, zou het stom zijn om nog eens extra communicatie heen en weer te laten gaan.
+(Het gedrag dat hier beschreven is komt niet volledig overeen met het deployment model.  Zie \ref{Mappingbetweenviews} Mapping between views en \ref{sec:deployment_services} Deployment view services.)
 
 
 \paragraph{SessionManager}
