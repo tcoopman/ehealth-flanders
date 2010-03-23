@@ -126,6 +126,7 @@ Er is een afzonderlijke component voorzien die de functionaliteiten die de reger
   \caption{Client and Server View: Overview}
 \end{figure}
 
+%TODO In de figuur die hierboven staat een fout in de legende, bij vereiste interface staat het symbool van een aangeboden interface.
 
 \subsection{Element catalog}
 
@@ -150,6 +151,7 @@ De card component stelt de e-Card van de gebruiker voor.  De e-Card bevat gebrui
   \includegraphics[width=\textwidth]{../images/ClientServer_Context.png}
   \caption{Client and Server View: Context diagram}
 \end{figure}
+%TODO In figuur hierboven misschien ook nog added value services toevoegen, en misschien external data sources gewoon hernoemen naar validated data sources.
 
 De belangrijkste extra entiteiten in het context diagram zijn de government en de external data sources.  De government component bevat toegang tot de logging en RIZIV database.  De external component bevat de validated data sources die gebruikers van de client kunnen opvragen via de server.
 
@@ -160,9 +162,12 @@ De belangrijkste extra entiteiten in het context diagram zijn de government en d
 %TODO
 
 \subsubsection{Rationale}
-Enkele design beslissingen die hier te zien zijn is het gebruik van de card reader voor het identifici\"{e}ren van de gebruikers op de centrale database, meer hierover is te vinden in het ...TODO.
+Enkele design beslissingen die hier te zien zijn is het gebruik van de card reader voor het identifici\"{e}ren van de gebruikers 
+op de centrale database, meer hierover is te vinden in het ...TODO.
 %TODO security
 %TODO voorschriften.
+
+%TODO misschien beter zeggen identificiëren van gebruikers in het systeem, er is niet echt een centrale database.
 
 \subsection{Related view packets}
 De volgende client-server views bekijken dit overview diagram in meer detail.  Ook in het deployment diagram is extra informatie te vinden vooral dan in verband met de opslag van de global medical records en dokter data.
@@ -175,10 +180,12 @@ De volgende client-server views bekijken dit overview diagram in meer detail.  O
 \subsection{Primary presentation}
 
 \begin{figure}[!h]
-  \includegraphics[width=\textwidth]{../images/ClientServer_Server.png}
+  \includegraphics[scale=0.60]{../images/ClientServer_Server.png}
   \caption{Client and Server View: Server}
 \end{figure}
 %TODO Key aanpassen!
+
+%TODO In de figuur hierboven is er een poort te zien die naar de interface grantAccess gaat, deze ontbreekt bij het overzichts-figuur, ook mis ik daar de readExternal required interface
 
 \subsection{Element catalog}
 
@@ -195,6 +202,8 @@ read(data\_key, id\_key)\\
 \indent De id\_key wordt geauthenticeerd en daarna wordt een sessie geopent.  De session\_key wordt samen met data die bij de data\_key hoort teruggegeven.\\
 read(data\_key, session\_key)\\
 \indent De data met data\_key wordt gelezen en teruggeven aan het systeem.\\
+
+%TODO Hierboven misschien ook vermelden dat de data die teruggegeven wordt geëncrypteerd wordt met de id_key.
 
 \underline{Error handling:}\\
 Wanneer de data\_key niet geldig is wordt een error teruggegeven.\\
@@ -218,6 +227,8 @@ modify(data\_key, data, session\_key)\\
 Het inloggen en valideren gebeurt zoals beschreven bij \textbf{read}.
 De aanpassing van de data verloopt door het mergen van data met de bestaande data.  Wanneer de GMR een antwoord krijgt van de database dat alles correct is geschreven verstuurt de GMR een antwoord naar de client dat alle data correct is geschreven.  Deze handelingen gebeuren asynchroon.
 
+%TODO meer een vraagje dan iets dat nog moet gebeuren : waarom asynchroon?
+
 \underline{Error handling:}\\
 Gelijkaardige errors zoals bij \textbf{read}.\\
 Wanneer het mergen van de data faalt zal een error teruggegeven worden.
@@ -225,6 +236,7 @@ Wanneer het mergen van de data faalt zal een error teruggegeven worden.
 \underline{Element requirements:}\\
 data\_key: de key om de data op te vragen.\\
 data: een patch van data die moet aangepast worden op locatie data\_key.\\ 
+%TODO misschien meer uitleg wat die patch juist is, ik denk niet dat een gewone gebruiker van het systeem weet waar het hier over gaat, aan de andere kant is deze informatie misschien ook wel meer gericht op de tester en niet op de patiënt
 id\_key: de key die gebruikt wordt om de uitvoerder van de actie op te vragen.\\
 session\_key: de key die gebruikt wordt om een sessie te identifici\"{e}ren.\\
 
@@ -265,6 +277,7 @@ Daarna wordt gecontroleerd of er al een sessie bestaat en of die al dan niet gel
 Wanneer dat gebeurd is zal het systeem de oproep doorgeven aan de policy component.  Deze zal de GMR laten weten of de actie die de GMR binnen krijgt al dan niet toegelaten is.\\
 Als de actie toegelaten is voor de gebruiker zal de GMR de actie uitvoeren en een gepaste respons sturen naar de client.\\
 Als het nodig is worden acties gelogd of verzonden naar het RIZIV.\\
+%TODO Dit hierboven komt niet overeen met wat er in het deployment view staat. Daar komen alle inkomende berichten van de security component, die daarvoor al alle authenticatie en authorisatie heeft gedaan. Dat is ook een meer modulaire aanpak omdat je je zo niet echt veel moet aantrekken van security in die GMR component. Zou dit nog aangepast kunnen worden? Ik denk niet dat ik het zoals hier kan aanpassen in het deployment view. De security component voorziet ook een firewall, dus hier zal alle inkomende verkeer eerst van moeten komen en aangezien de security component en de GMR component fysiek gescheiden zijn, zou het stom zijn om nog eens extra communicatie heen en weer te laten gaan.
 
 \paragraph{SessionManager}
 De SessionManager voorziet in session management.  Deze component zorgt ervoor dat een gebruiker niet telkens opnieuw hoeft in te loggen wanneer hij een actie naar het systeem uitvoert.
@@ -313,6 +326,8 @@ id\_key: de key die de uitvoerder van de actie identifici\"{e}ert.\\
 
 \underline{Rationale and design issues:}\\
 zie ook \ref{sec:deployment_data} Deployment view data voor toegang tot de dokter database.
+%TODO In deployment view wordt hier niet veel over gezegd. En ik denk dat je hier gewoon makkelijk het volgene bij kan zetten : 
+%
 
 \paragraph{grantAccess}
 \underline{Resources provided:}\\
@@ -333,6 +348,7 @@ period: de periode hoe lang de persoon met to\_key toegang krijgt tot de data.
 \underline{Rationale and design issues:}\\
 Door de grantAccess toe te voegen kunnen toegangsrechten worden toegekend aan andere personen en kan dit voor een bepaalde tijdsduur.  Action is hier niet enkel read, modify of push zodat bepaalde personen ook toelating krijgen om toegangsrechten door te geven.  Zo zou een specialist bijvoorbeeld ook toegang kunnen krijgen om read toegang tot het dossier ook door te geven aan een andere specialist.\\
 zie ook \ref{sec:deployment_data} Deployment view data voor toegang tot de key database.
+%TODO In deployment staat wel wat over toegang tot data in de security data server, maar niet echt iets over de inhoud daarvan, dus misschien bovenstaande referentie gewoon weglaten?
 
 \subsubsection{Element behavior}
 De policy component zal authorisatie toekennen aan bepaalde acties, als die persoon de actie mag uitvoeren.  Indien dat niet mag zal de authorisatie geweigerd worden.  Bepaalde personen hebben ook rechten om nieuwe rechten toe te voegen.  Deze worden via \textit{grantAccess} toegevoegd.  In de interactie diagramma's is het verloop duidelijk te volgen (zie \ref{interaction:grantAccess}).
