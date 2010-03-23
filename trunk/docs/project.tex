@@ -73,24 +73,71 @@ Er is een afzonderlijke component voorzien die de functionaliteiten die de reger
 
 \clearpage
 \section{Background, design constraints, and rationale}
-
+Veel van de beslissingen die we genomen hebben zijn telkens te vinden in de gedetailleerdere stukken van de architectuur.  Hier proberen we toch enkele algemene architectuur beslissingen te verantwoorden.\\
+TODO
+%TODO
 
 
 \part{Software Architecture Views}
 \setcounter{section}{0}
 
 \clearpage
-\section{Module Uses View}
+\section{Module Layered View: Client}
 
 \subsection{Primary presentation}
 
-
+\begin{center}
+    \begin{figure}[h!]
+      \includegraphics[width=\textwidth]{../images/LayeredView_Client.jpg}
+    \end{figure}
+  \end{center}
 
 \subsection{Element catalog}
 
 \subsubsection{Elements and their properties}
 
+-Software Layer: naam, verantwoordelijkheid , inhoud\\
+
+Client UI Layer\\
+
+Verantwoordelijkheid:\\
+Uiterlijk presentatie van Client Applications.\\
+
+Inhoud:\\
+GUI (buiten project scope)\\
+
+Client Application Layer\\
+
+Verantwoordelijkheid:\\
+-Implementatie van specifieke business logica.\\
+-Validatie van gebruikers identiteit. Enkel bevoegde personene kunnen bepaalde applicatie gebruiken en toegang krijgen tot bijhorende data.\\
+
+Inhoud:\\
+GP Application (buiten project scope)\\
+Card Reader Module\\
+
+Client Data Layer\\
+
+Verantwoordelijkheid:\\
+-Uniformaliteit aanbieden voor de toegang tot data's. In normaal geval moet de gebruiker niet weten waar de data vandaan gehaald wordt, lokale cache of external data server.\\
+-Standaard voor- en nabewerkingen uitvoeren op data's: encryptie/decryptie, compressie/decompressie.\\
+-Opslaan van lokale data cache en consistentie onderhouden tussen lokale cache en external data server.\\
+
+Inhoud:\\
+Data Manager, Cache, Security (Authentication en Compression)\\
+
+Client Communication Layer\\
+
+Verantwoordelijkheid:\\
+Communicatie met externe systemen (GMR Server).\\
+
+Inhoud:\\
+Network Module (buiten project scope)\\
+
+
 \subsubsection{Relations and their properties}
+
+-Allowed-to-Use: Layer A en Layer B hebben de relatie "A is allowed-to-use B" als A onmiddellijk boven B staat, tenzijn anders expliciet vermeld.\\
 
 \subsubsection{Element interfaces}
 
@@ -111,6 +158,256 @@ Er is een afzonderlijke component voorzien die de functionaliteiten die de reger
 \subsection{Other information}
 
 \subsection{Related view packets}
+
+Sibling: Layered View: Server\\
+Child: Uses View: Client\\
+
+
+\section{Module Layered View: Server}
+
+\subsection{Primary presentation}
+\begin{center}
+    \begin{figure}[h!]
+      \includegraphics[width=\textwidth]{../images/LayeredView_Server.jpg}
+    \end{figure}
+  \end{center}
+
+\subsection{Element catalog}
+
+\subsubsection{Elements and their properties}
+
+-Layer: naam, verantwoordelijkheid , inhoud\\
+
+Server Interface Layer\\
+
+Verantwoordelijkheid:\\
+Verbindingen van gebruikers ontvangen en delegeren naar Public Services Layer.\\
+
+Inhoud:\\
+Proxy\\
+
+Public Services Layer\\
+
+Verantwoordelijkheid:\\
+Publiek service ter beschikking stellen voor gebruikers. Aan de hand van gekozen publiek service worden de onderliggende kern service opgeroepen.\\
+Op dit niveau wordt zijn de gebruikers nog volledige anoniem.\\
+
+Inhoud:\\
+Public Service\\
+
+Core Services Layer\\
+
+Verantwoordelijkheid:\\
+Implementatie van business logica van eHealth platform.\\
+Basis bouwblokken voorzien voor publoek service.\\
+Identificatie van gebruiker en de bevoegdheid van gebruiker controleren.\\
+
+Inhoud:\\
+GMR, Security, Session Management, Policy\\
+
+Virtual Data Layer\\
+
+Verantwoordelijkheid:\\
+Bescherming van data's tegen onbevoegde toegang.\\
+Uniformaliteit aanbieden voor de toegang tot data's.\\
+
+Inhoud:\\
+Virtual GMR Data\\
+
+Fysic Data Layer\\
+
+Verantwoordelijkheid:\\
+Bescherming van data's tegen data-corruptie.\\
+Opslag van Medical Records.\\
+Opslag van Security data's die nodig zijn voor Authorization/Authentication van client gebruikers.\\
+
+Inhoud:\\
+GMR Data Server, Doctor Data Server, Security Server\\
+
+
+Server Communication Layer\\
+
+Verantwoordelijkheid:\\
+Communicatie met externe systemen (RIZIZ, Log).\\
+
+Inhoud:\\
+Network Module (buiten project scope)\\
+
+
+
+
+\subsubsection{Relations and their properties}
+
+-Allowed-to-Use: Layer A en Layer B hebben de relatie "A is allowed-to-use B" als A onmiddellijk boven B staat, tenzijn anders expliciet vermeld.\\
+
+\subsubsection{Element interfaces}
+
+\subsubsection{Element behavior}
+
+\subsection{Context diagram}
+
+\subsection{Variability guide}
+
+\subsection{Architecture background}
+
+\subsubsection{Rationale}
+
+\subsubsection{Analysis results}
+
+\subsubsection{Assumptions}
+
+\subsection{Other information}
+
+\subsection{Related view packets}
+
+Sibling: Layered View: Client\\
+Child: Uses View: Server\\
+
+\section{Module Uses View: Client}
+
+\subsection{Primary presentation}
+\begin{center}
+    \begin{figure}[h!]
+      \includegraphics[width=\textwidth]{../images/UsesView_Client.jpg}
+    \end{figure}
+  \end{center}
+
+\subsection{Element catalog}
+
+\subsubsection{Elements and their properties}
+
+-Software Module: naam, beschrijving\\
+
+GUI\\
+Bebruikers interface\\
+(buiten project scope)\\
+
+GP application\\
+Professionele dokter software applicaties.\\
+(buiten project scope)\\
+
+Card Reader Module\\
+Besturingssoftware voor Card Reader. Software interface van de hardware, maakt het mogelijk om de Card Reader te gebruiken door andere software applicaties.\\
+
+Data Manager\\
+Algemeen data management, camoufleert de exacte lokatie van data's, behandelt basis data bewerkingen en zorgt voor consistentie tussen lokale cache en external server data's.\\
+
+Cache\\
+zie C\&C View: Client\\
+
+Security\\
+zie C\&C View: Client\\
+
+Compression\\
+zie C\&C View: Client\\
+
+Network Module\\
+Standaard network software applicaties.\\
+(buiten project scope)\\
+
+
+\subsubsection{Relations and their properties}
+
+- Uses: een layer of een software module will gebruik maken van een andere layer of software module als de eerste expliciet verbonden is met de tweed. Wanneer de tweede entieit een layer is, mogen alle ingesloten software modules gebruikt worden door de eerste entiteit.\\
+
+\subsubsection{Element interfaces}
+
+Interfaces van elementen die getoond worden in dit view worden gespecifieerd door de overeenkomende elementen in Module C\&C View\\
+
+\subsubsection{Element behavior}
+
+\subsection{Context diagram}
+
+\subsection{Variability guide}
+
+\subsection{Architecture background}
+
+\subsubsection{Rationale}
+
+\subsubsection{Analysis results}
+
+\subsubsection{Assumptions}
+
+\subsection{Other information}
+
+\subsection{Related view packets}
+
+Sibling: Uses View: Server\\
+Parent: Layered View: Client\\
+
+\section{Module Uses View: Server}
+
+\subsection{Primary presentation}
+\begin{center}
+    \begin{figure}[h!]
+      \includegraphics[height=\textheight]{../images/UsesView_Server.jpg}
+    \end{figure}
+  \end{center}
+
+\subsection{Element catalog}
+
+\subsubsection{Elements and their properties}
+
+Proxy\\
+zie Deployment View\\
+
+Public Service\\
+zie Deployment View\\
+
+GMR\\
+zie C\&C View\\
+
+Security\\
+zie C\&C View\\
+
+Policy\\
+zie C\&C View\\
+
+Session Manager\\
+zie C\&C View\\
+
+Virtuam GMR Data\\
+zie Deployment View\\
+
+Virtual GMR Data\\
+zie Deployment View\\
+
+Security Server\\
+zie Deployment View\\
+
+Network Module\\
+Standaard network software applicaties.\\
+(buiten project scope)\\
+
+
+\subsubsection{Relations and their properties}
+
+- Uses: een layer of een software module will gebruik maken van een andere layer of software module als de eerste expliciet verbonden is met de tweed. Wanneer de tweede entieit een layer is, mogen alle ingesloten software modules gebruikt worden door de eerste entiteit.\\
+
+\subsubsection{Element interfaces}
+
+Interfaces van elementen die getoond worden in dit view worden gespecifieerd door de overeenkomende elementen in Module C\&C View\\
+
+\subsubsection{Element behavior}
+
+\subsection{Context diagram}
+
+\subsection{Variability guide}
+
+\subsection{Architecture background}
+
+\subsubsection{Rationale}
+
+\subsubsection{Analysis results}
+
+\subsubsection{Assumptions}
+
+\subsection{Other information}
+
+\subsection{Related view packets}
+
+Sibling: Uses View: Client\\
+Parent: Layered View: Server\\
 
 
 
@@ -150,22 +447,16 @@ De card component stelt de e-Card van de gebruiker voor.  De e-Card bevat gebrui
   \includegraphics[width=\textwidth]{../images/ClientServer_Context.png}
   \caption{Client and Server View: Context diagram}
 \end{figure}
-%TODO In figuur hierboven misschien ook nog added value services toevoegen, en misschien external data sources gewoon hernoemen naar validated data sources.
 
-De belangrijkste extra entiteiten in het context diagram zijn de government en de external data sources.  De government component bevat toegang tot de logging en RIZIV database.  De external component bevat de validated data sources die gebruikers van de client kunnen opvragen via de server.
+De belangrijkste extra entiteiten in het context diagram zijn de government en de validated data sources.  De government component bevat toegang tot de logging en RIZIV database.  De validated data sources kunnen gebruikers van de client opvragen via de server.
 
 \subsection{Variability guide}
 [None]
 
 \subsection{Architecture background}
-%TODO
-
-\subsubsection{Rationale}
-Enkele design beslissingen die hier te zien zijn is het gebruik van de card reader voor het identifici\"{e}ren van de gebruikers op de centrale database, meer hierover is te vinden in het ...TODO.
-%TODO security
+De meeste archituur achtergrond is te vinden in gedetailleerdere views waar reeds eerder naar verwezen is.  De algemene structuur is hier wel duidelijk waarbij de Client kant met behulp van de e-Card zich in het systeem kan identifici\"{e}ren (zie ook \ref{Client and Server View: Security} Client and Server View: Security).  Aan de andere kant is de server te vinden die zorgt voor veilige opslag en toegang tot de data en tot andere externe bronnen (zie ook \ref{Client and Server View: Server} Client and Server View: Server).
 %TODO voorschriften.
 
-%TODO misschien beter zeggen identificiëren van gebruikers in het systeem, er is niet echt een centrale database.
 \subsection{Related view packets}
 De volgende client-server views bekijken dit overview diagram in meer detail.  Ook in het deployment diagram is extra informatie te vinden vooral dan in verband met de opslag van de global medical records en dokter data.
 
@@ -176,12 +467,10 @@ De volgende client-server views bekijken dit overview diagram in meer detail.  O
 \label{Client and Server View: Server}
 \subsection{Primary presentation}
 
-\begin{figure}[!h]
+\begin{figure}[!ht]
   \includegraphics[scale=0.60]{../images/ClientServer_Server.png}
   \caption{Client and Server View: Server}
 \end{figure}
-%TODO Key aanpassen!
-%TODO In de figuur hierboven is er een poort te zien die naar de interface grantAccess gaat, deze ontbreekt bij het overzichts-figuur, ook mis ik daar de readExternal required interface
 
 \subsection{Element catalog}
 
@@ -318,7 +607,7 @@ action: een actie die uitgevoerd zal worden, dit kan read, modify of push zijn.\
 id\_key: de key die de uitvoerder van de actie identifici\"{e}ert.\\
 
 \underline{Rationale and design issues:}\\
-zie ook \ref{sec:deployment_data} Deployment view data voor toegang tot de dokter database.
+De autorisation component keurt de toegang goed voor personen die eerder toegang verkregen hebben tot iets via grantAccess (zie hieronder).
 
 \paragraph{grantAccess}
 \underline{Resources provided:}\\
@@ -338,8 +627,7 @@ period: de periode hoe lang de persoon met to\_key toegang krijgt tot de data.
 
 \underline{Rationale and design issues:}\\
 Door de grantAccess toe te voegen kunnen toegangsrechten worden toegekend aan andere personen en kan dit voor een bepaalde tijdsduur.  Action is hier niet enkel read, modify of push zodat bepaalde personen ook toelating krijgen om toegangsrechten door te geven.  Zo zou een specialist bijvoorbeeld ook toegang kunnen krijgen om read toegang tot het dossier ook door te geven aan een andere specialist.\\
-%zie ook \ref{sec:deployment_data} Deployment view data voor toegang tot de key database.
-%TODO In deployment staat wel wat over toegang tot data in de security data server, maar niet echt iets over de inhoud daarvan, dus misschien bovenstaande referentie gewoon weglaten?
+Zie ook \ref{interaction:grantAccess} Interaction diagram: grant access.
 
 \subsubsection{Element behavior}
 De policy component zal authorisatie toekennen aan bepaalde acties, als die persoon de actie mag uitvoeren.  Indien dat niet mag zal de authorisatie geweigerd worden.  Bepaalde personen hebben ook rechten om nieuwe rechten toe te voegen.  Deze worden via \textit{grantAccess} toegevoegd.  In de interactie diagramma's is het verloop duidelijk te volgen (zie \ref{interaction:grantAccess}).
@@ -386,7 +674,6 @@ Deze queue kan anders uitgewerkt worden voor log en RIZIV.
 Het \ref{Client and Server View: Overview} Client and Server View: Overview diagram kan beschouwd worden als het context diagram voor de server.
 
 \subsection{Variability guide}
-%TODO session management: explicit or implicit login.
 Het inloggen het systeem gebeurt nu impliciet.  Op het moment dat de \textbf{GMR} een actie binnen krijgt met een id\_key zal aan de \textbf{SessionManager} gevraagd worden om een nieuwe sessie te openen.  Dan zal de sessie\_key teruggegeven worden aan de gebruiker.  Dit kan ook aangepast worden om expliciet een login te vereisen voordat de eerste actie in het systeem wordt uitgevoerd.\\
 De \textbf{ExternalActions} component kan ook zo uitgewerkt worden dat de acties slechts op bepaalde tijdstippen naar de server van de overheid worden uitgevoerd.  De acties worden dan altijd gequeued.  Op bepaalde tijdstippen worden de queues dan uitgevoerd en leeggemaakt.  Er zou ook kunnen rekening gehouden worden met het aantal elementen in de queue.  De queue kan dan worden uitgevoerd en leeggemaakt als een bepaalde treshold van elementen bereikt is.  Tenslotte is ook een combinatie van beide vorige mogelijk.  De queue kan normaal op een bepaald tijdstip leeggemaakt worden tenzij er te veel elementen in de queue zitten; dan zou de queue eerder worden geleegd.  Omgekeerd kan het ook dat de queue altijd geleegd worden zodra een bepaald elementen in de queue zitten, maar ook op bepaalde tijdstippen om in het geval van low traffic de berichten niet te lang op de server te houden.\\
 Het is mogelijk verschillende instellingen te gebruiken voor log en RIZIV.\\
@@ -588,6 +875,7 @@ De security component is zowel in de client (\ref{Client and Server View: Client
 
 \clearpage
 \section{Deployment view DMZ}
+\label{sec:deploymentView:DMZ}
 
 \subsection{Primary presentation}
  \begin{center}
@@ -1040,7 +1328,7 @@ Naast de voor de hand liggende acties (die direct door een sequentiediagram word
 \paragraph{specialist zendt informatie naar de huisdokter:}
 Wanneer een patiënt een specialist consulteert, zal deze tijdelijke toegang krijgen tot het dossier van de patiënt. Hij kan hier dan zijn bevindingen in aanpassen en het dossier opslaan. Wanneer de huisdokter dan het dossier opnieuw opent, kan ook hij deze aanpassingen zien. 
 
-\paragraph{Patiënt bekijkt zijn dossier on line:}
+\paragraph{Patiënt bekijkt zijn dossier online:}
 Dit is terug te vinden in het diagram retrieve GMR. Wanneer de patiënt Zijn dossier wil bekijken, zal hij zich eveneens aanmelden bij de client applicatie, hier een webapplicatie. Via zijn identificatie gegevens worden de gegevens in het dossier weergegeven die de patiënt mag zien. Wanneer de patiënt zou proberen om wijzigingen aan te brengen in zijn dossier, zal dit niet mogelijk zijn omdat hij de juiste rechten hiervoor niet bezit.
 
 \subsection{Related view packets}
