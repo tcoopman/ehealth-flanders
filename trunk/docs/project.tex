@@ -804,6 +804,7 @@ In deze component wordt de identificatie van de personen die zich inloggen op he
 \underline{Resources provided:}\\
 identify(id\_key)\\
 De gebruiker gelinkt met de opgegeven id\_key wordt opgezocht en teruggegeven (zie ook Elemenet behavior).
+%TODO: identify kijkt of de gebruiker wel degelijk dit bericht verstuurd heeft.
 
 \underline{Element requirements:}\\
 id\_key: de persoonlijke identificatiekey van de gebruiker.\\
@@ -873,6 +874,86 @@ zie Element behavior.
 
 \subsection{Related view packets}
 De security component is zowel in de client (\ref{Client and Server View: Client} Client and Server View: Client) als de server (\ref{Client and Server View: Server} Client and Server View: Server) component te zien.
+
+
+\clearpage
+\section{C\&C Client and Server View: Card}
+\label{Client and Server View: Card}
+
+\subsection{Primary presentation}
+Zie \ref{Client and Server View: Overview} Client and Server View: Overview.
+
+\subsection{Element interfaces}
+
+\subsubsection{Element interfaces}
+\paragraph{write}
+
+\underline{Resources provided:}\\
+identify(id\_key)\\
+De gebruiker gelinkt met de opgegeven id\_key wordt opgezocht en teruggegeven (zie ook Elemenet behavior).
+%TODO: identify kijkt of de gebruiker wel degelijk dit bericht verstuurd heeft.
+
+\underline{Element requirements:}\\
+id\_key: de persoonlijke identificatiekey van de gebruiker.\\
+
+\underline{Rationale and design issues:}\\
+Wanneer een gebruiker toegang wil tot het systeem, moet hij dit mogen doen. Hiervoor moet zijn identiteit gekend zijn in het systeem. Door zijn persoonlijke identificatiesleutel op te geven, maakt hij duidelijk dat hij is wie hij beweert te zijn en kan het systeem hem identificeren.\\
+
+\paragraph{read}
+
+\underline{Resources provided:}\\
+sign(id\_key)\\
+wanneer de gebruiker een boodschap wil versturen, signeert hij de boodschap via deze methode (zie ook Elemenet behavior).
+
+\underline{Element requirements:}\\
+id\_key: de persoonlijke identificatiekey van de gebruiker.\\
+
+\underline{Rationale and design issues:}\\
+Wanneer de gebruiker een boodschap wil sturen, moet de zender ervan kunnen achterhaald worden. Door de boodschap te signeren met de sign-methode, is de zender ervan bekend bij het systeem en kan achterhaald worden of deze de juiste rechten heeft om deze boodschap uit te voeren.\\
+
+\paragraph{id_key}
+
+\underline{Resources provided:}\\
+compress()\\
+De boodschap die wordt verstuurd, wordt gecompresseerd zodat deze onleesbaar wordt voor iemand die deze niet kan decompresseren en zodat de grootte van de boodschap wordt verkleind  (zie ook Elemenet behavior).
+
+\underline{Element requirements:}\\
+/\\
+
+\underline{Rationale and design issues:}\\
+Door de boodschappen die worden verstuurd te compresseren, wordt de boodschap zowel beveiligd, als verkleind, waardoor ook de verzendtijd wordt verkleind.\\
+
+\paragraph{sign_key}
+
+\underline{Resources provided:}\\
+decompress()\\
+Een boodschap die werd verstuurd en gecompresseerd, moet eveneens worden gedecompresseerd om leesbaar te zijn (zie ook Elemenet behavior).
+
+\underline{Element requirements:}
+[None]
+
+\underline{Rationale and design issues:}\\
+Zie ook compress.\\
+
+\subsubsection{Element behavior}
+Deze component zorgt dat de communicatie tussen het platform en de clients veilig verloopt. Enerzijds door de boodschap te signeren met een gebruiker zijn identificatiesleutel, waar het enkel geldige sleutels wordt toegelaten deze boodschappen te sturen. Anderzijds door de boodschappen die verzonden worden te comprimeren. Dit laatste biedt naast veiligheid ook een manier om de communicatie tussen beide te versnellen.\\
+
+\subsection{Context diagram}
+Zie \ref{Client and Server View: Overview} Client and Server View: Overview.
+
+\subsection{Variability guide}
+De implementatie van zowel de Authentication component als de compression component zal gebeuren met third-party software. Dit is gemakkelijker dan zelf zo een systeem maken en doordat de componenten zo afgezonderd zijn van het systeem, is het later ook gemakkelijk om een nieuw algoritme te voorzien.\\
+
+\subsection{Architecture background}
+
+%TODO 2 keys => qualities.
+
+
+\subsection{Other information}
+[None]
+
+\subsection{Related view packets}
+[None]
 
 \clearpage
 \section{Deployment view DMZ}
@@ -1292,7 +1373,7 @@ Bij de communicatie tussen de user applicaties en het e-health platform wordt de
 Wanneer een patient een dokter toegang tot zijn dossier wil geven, voert deze eerst zijn persoonlijke code in om zijn persoonlijke key aan het systeem van de dokter te koppelen. Vanuit de applicatie van de dokter (we veronderstellen hier dat het toegang geven gebeurt bij de eerste consultatie, en niet thuis op voorhand) wordt dan de vraag om de toegangsrechten te wijzigen verstuurd. Ook de persoonlijke toegangscode van de patient wordt gevraagd en nagegaan om te zien of deze de rechten heeft om toegang te verlenen. Wanneer dit in orde is, worden de toegangsrechten tot het dossier zo aangepast dat de dokter er toegang tot heeft voor de periode die patient heeft opgegeven (kan ook permanent zijn). 
 
 \begin{figure}[!h]
-  \includegraphics[width=\textwidth]{../images/grantAccess.jpg}
+  \includegraphics[width=\textwidth]{../images/grantAccess.png}
   \caption{Interaction diagram: Grant acces}
 \end{figure}
 
@@ -1301,7 +1382,7 @@ Wanneer een dokter het dossier van een patient aanpast, doet hij dit eerst op de
 Wanneer de server niet bereikbaar blijkt wanneer er veranderingen aan een file worden gemaakt, worden de veranderingen enkel lokaal bijgehouden. Zodra de server weer bereikbaar is, worden de veranderingen doorgevoerd. In principe kan dit leiden tot een inconsistentie (het dossier werd bijgewerkt door iemand anders terwijl de dokter offline was) maar in de praktijk is dit bijna onmogelijk, aangezien een patiënt meestal slechts 1 huisdokter heeft die zijn dossier lokaal bewaart en wanneer andere dokters toch veranderingen aanbrengen (bv een specialist), dan zal dit aan andere velden van het dossier zijn als die dat de dokter heeft aangepast (bv XRay foto's toegevoegd). 
 
 \begin{figure}[!h]
-  \includegraphics[width=\textwidth]{../images/modifyGMR.jpg}
+  \includegraphics[width=\textwidth]{../images/modifyGMR.png}
   \caption{Interaction diagram: Modify GMR}
 \end{figure}
 
@@ -1310,7 +1391,7 @@ Wanneer een dokter een medisch dossier van een patient wilt raadplegen, wordt di
 Deze cache wordt ook gebruikt wanneer de server niet bereikbaar is. Zo kan de dokter toch steeds aan een recente kopie van het dossier van zijn patiënten. Ook de aanpassingen aan de dossiers worden dan enkel lokaal bewaard (zie ook modifyGMR). Zodra de server weer bereikbaar is, worden de veranderingen aan de dossiers ook daar doorgevoerd. 
 
 \begin{figure}[!h]
-  \includegraphics[width=\textwidth]{../images/retrieveGMR.jpg}
+  \includegraphics[width=\textwidth]{../images/retrieveGMR.png}
   \caption{Interaction diagram: Retrieve GMR}
 \end{figure}
 
@@ -1320,7 +1401,7 @@ Wanneer een dokter een voorschrift aan het dossier van een patient koppelt, word
 Het verschil is dat er ook een kopie van het voorschrift op de IDCard van de patient wordt gezet, waarmee deze naar de apotheek kan gaan. 
 
 \begin{figure}[!h]
-  \includegraphics[width=\textwidth]{../images/addprescription.jpg}
+  \includegraphics[width=\textwidth]{../images/addprescription.png}
   \caption{Interaction diagram: Add prescription}
 \end{figure}
 
@@ -1329,7 +1410,7 @@ Het verschil is dat er ook een kopie van het voorschrift op de IDCard van de pat
 Wanneer de patient naar de apotheek gaat om zijn medicijnen aan te kopen, wordt eerst het voorschrift van zijn IDCard gehaald. De apotheker overhandigd de benodigde medicijnen en duidt zowel op de IDCard als in het systeem aan dat het voorschrift werd gevalideerd. De boodschap naar het Ehealth platform is een boodschap die geen toegang tot het dossier vereist, enkel de key van de apotheker is belangrijk omdat geen andere persoon deze boodschap kan sturen.
 
 \begin{figure}[!h]
-  \includegraphics[width=\textwidth]{../images/validatePrescription.jpg}
+  \includegraphics[width=\textwidth]{../images/validatePrescription.png}
   \caption{Interaction diagram: Validate prescription}
 \end{figure}
 
