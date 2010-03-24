@@ -75,10 +75,10 @@ Er is een afzonderlijke component voorzien die de functionaliteiten die de reger
 \clearpage
 \section{Background, design constraints, and rationale}
 Veel van de beslissingen die we genomen hebben zijn telkens te vinden in de gedetailleerdere stukken van de architectuur.  Hier proberen we toch enkele algemene architectuur beslissingen te verantwoorden.\\
-TODO
-%TODO
+%TODO: is dit stuk hieronder wel rationale? misschien bij stakeholders?
+We willen opmerken dat dit document zich richt op een werkend systeem en de interactie met het systeem.  We hebben ons gefocust op alle vereisten die het document beschrijven.  Uiteraard zijn een aantal belangrijke aspecten van het systeem bijvoorbeeld ook hoe de overheid nieuwe gebruikers (patiënten, dokter, apothekers) aan het systeem toevoegt, of hoe nieuwe kaarten worden uitgedeeld, hoe het verlies van een id-card door de gebruiker wordt aangepakt.  Deze gevallen beschouwen echter als dingen buiten de scope van dit document.  We hebben ons hier dan ook niet op gericht, tenzij we dit echt nodig vonden om iets duidelijk te kunnen uitleggen. In deze zin kan dit document als onvolledig beschouwt worden omdat bepaalde interfaces of componenten niet of onvolledig gedocumenteerd zijn.  We hebben deze niet opgenomen omdat ze niet bijdragen aan dit document of dat ze niet belangrijk zijn voor de stakeholders van dit document.
 
-
+\clearpage
 \part{Software Architecture Views}
 \setcounter{section}{0}
 
@@ -438,9 +438,7 @@ De data component is een database waar alle informatie zoals patienten dossiers 
 %TODO read write interfaces?
 
 \paragraph{Card}
-De card component stelt de e-Card van de gebruiker voor.  De e-Card bevat gebruikersinformatie alsook twee keys.  Een key voor identificatie van de gebruiker en een key voor authenticatie.  Naast de gebruikersinformatie en de keys heeft de e-Card ook ruimte voor een aantal voorschriften op te slaan.  Meer informatie is terug te vinden in: TODO alsook in enkele interactie diagramma's (zie: \ref{interaction:addPrescription} en \ref{interaction:validatePrescription}).
-%TODO location
-%TODO interfaces van card
+De card component stelt de e-Card van de gebruiker voor.  De e-Card bevat gebruikersinformatie alsook twee keys.  Een key voor identificatie van de gebruiker en een key voor authenticatie.  Naast de gebruikersinformatie en de keys heeft de e-Card ook ruimte voor een aantal voorschriften op te slaan.  Meer informatie is terug te vinden bij \ref{Client and Server View: Card} Client and Server View: Card.
 
 \subsection{Context diagram}
 
@@ -456,7 +454,6 @@ De belangrijkste extra entiteiten in het context diagram zijn de government en d
 
 \subsection{Architecture background}
 De meeste archituur achtergrond is te vinden in gedetailleerdere views waar reeds eerder naar verwezen is.  De algemene structuur is hier wel duidelijk waarbij de Client kant met behulp van de e-Card zich in het systeem kan identifici\"{e}ren (zie ook \ref{Client and Server View: Security} Client and Server View: Security).  Aan de andere kant is de server te vinden die zorgt voor veilige opslag en toegang tot de data en tot andere externe bronnen (zie ook \ref{Client and Server View: Server} Client and Server View: Server).
-%TODO voorschriften.
 
 \subsection{Related view packets}
 De volgende client-server views bekijken dit overview diagram in meer detail.  Ook in het deployment diagram is extra informatie te vinden vooral dan in verband met de opslag van de global medical records en dokter data.
