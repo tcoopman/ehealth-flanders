@@ -4,9 +4,12 @@
 \usepackage{amsmath}
 
 \setlength\textwidth{6.5in}
+\setlength\textheight{10in}
 \setlength\oddsidemargin{0in}
 \setlength\evensidemargin{0in}
-
+\setlength\topmargin{0in}
+\setlength\headheight{0in}
+\setlength\headsep{0in}
 
 %\makeatletter
 % \renewcommand\paragraph{\@startsection{paragraph}{4}{\z@}%
@@ -56,7 +59,6 @@ Voor de tester zijn er uitgewerkte sequentiediagrammen aanwezig, die een overzic
 \paragraph{Regering:}
 Er is een afzonderlijke component voorzien die de functionaliteiten die de regering vereist, uitvoert. Zo worden alle acties gelogd naar een log, buiten het systeem, en ook de boodschappen naar het RIZIV worden via deze component gestuurd. 
 
-\clearpage
 \section{View template}
 
 Onderstaande template wordt gebruikt om elke view te documenteren : 
@@ -1231,7 +1233,6 @@ De interfaces van de verschillende componenten in de nodes staan beschreven in d
 \subsubsection{Element behavior}
 [Niet van toepassing]
 
-\clearpage
 \subsection{Context diagram}
 
 \begin{center}
@@ -1259,6 +1260,7 @@ Tenslotte zien we dat de verbinding tussen de eHealth services en de overheid sl
 
 De verschillende delen in deze view worden nog verder uitgewerkt in aparte secties. Meer info over de verschillende clients is te vinden in sectie \ref{sec:deployment_clients}. Een uitwerking van de DMZ en de services wordt getoond in sectie \ref{sec:deployment_services} en over de data in het platform vind je meer in sectie \ref{sec:deployment_data}.
 
+\clearpage
 \section{Deployment view clients}
 \label{sec:deployment_clients}
 
@@ -1358,9 +1360,11 @@ Via het internet maken alle clients verbinding met het eHealth platform, dit ged
 \label{sec:deployment_services}
 
 \subsection{Primary presentation}
+Zie figuur \ref{fig:dep_services} op de volgende bladzijde.
 \begin{center}
     \begin{figure}[!h]
-      \includegraphics[width=\textwidth]{../images/deployment_services.jpg}
+	\label{fig:dep_services}
+      \includegraphics[scale=0.47]{../images/deployment_services.jpg}
 	\caption{Deployment diagram focused on the services in the platform}
     \end{figure}
   \end{center}
@@ -1389,7 +1393,7 @@ Er moet een API voorzien worden voor externe services die gebruik willen maken v
 \item \textit{\textbf{Distributed Session Management}}\\*
 Het is ongewenst dat een gebruiker zich voor elke actie die hij/zij wil ondernemen terug opnieuw moet inloggen. Er zullen dus sessies bijgehouden moeten worden. Het is niet zo veilig dit te doen binnen de DMZ, dus de authenticatie sessie - data zal bijgehouden worden in de \textit{security services} nodes in de services laag (zie bij security services hier onder). Er zullen meerdere \textit{security services} nodes zijn, dus zal het verkeer van een bepaalde gebruiker gedurende de hele sessie langst dezelfde \textit{security services} node moeten gaan. Het kan zijn, door de structuur en werking van het internet, dat gedurende dezelfde sessie niet dezelfde proxy gebruikt wordt. Om dus toch te kunnen garanderen dat voor één bepaalde sessie steeds dezelfde \textit{security services} node gebruikt wordt, wordt deze component geïntroduceerd. Het enige wat die moet doen is bijhouden welke sessie bij welke \textit{security services} node hoort en dit ook doorgeven aan de andere actieve \textit{Public Services Proxies}.
 \end{enumerate}
-
+\clearpage
 \item \textbf{Security Services}\\*
 Deze node vomt de tweede lijn van verdediging voor het platform. Alle verkeer die de core services van het platform wil gebruiken zal langst hier moeten. Het zorgt ervoor dat enkel geauthenticeerde requests met de juiste authorisatie toegelaten worden. Deze node zal dynamisch gerepliceerd worden, later wordt hier wat verder op in gegaan. Volgende software componenten worden op deze node geplaatst : 
 \begin{enumerate}
