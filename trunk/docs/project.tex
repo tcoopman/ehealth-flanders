@@ -59,12 +59,226 @@ Er is een afzonderlijke component voorzien die de functionaliteiten die de reger
 \clearpage
 \section{View template}
 
+Onderstaande template wordt gebruikt om elke view te documenteren : 
+\subsection{Primary presentation}
+Hier wordt het hoofddiagram getoond, eventueel samen met een korte uitleg over het diagram zelf.
+\subsection{Element catalog}
+\subsubsection{Elements and their properties}
+Alle elementen in het view worden opgesomd samen met een kort woordje uitleg
+\subsubsection{Relations and their properties}
+De relaties tussen de elementen in het view worden opgesomd, samen met een kort woordje uitleg
+\subsubsection{Element interfaces}
+Hier komen de interfaces aangeboden door de verschillende elementen.
+\subsubsection{Element behavior}
+Het gedrag van de elementen in het view worden hier besproken.
+\subsection{Context diagram}
+Een diagram die het deel van het systeem dat in het view besproken wordt plaatst in het grotere geheel.
+\subsection{Variability guide}
+Hier worden mogelijke variaties besproken, alsook eventueel beschouwde alternatieven en waarom deze niet gekozen zijn.
+\subsection{Architecture background}
+De reden waarom de architectuur is zoals die is wordt hier besproken : belangrijke design beslissingen, trade-offs en hoe dit view ervoor zorgt dat bepaalde kwaliteiten van de architectuur gegarandeerd worden.
+\subsection{Other information}
+Op deze plek kan alle andere informatie geplaatst worden die niet onder één van voorgaande noemers past.
+\subsection{Related view packets}
+Gerelateerde views worden hier opgesomd.
+
 \clearpage
 \section{System overview}
+In dit document wordt de architectuur van het eHealth platform voor Vlaanderen gedefiniëerd. Dit is een veilig platform dat services aanbiedt aan alle mensen in de gezondheidssector. De drie voornaamste doelen van het platform zijn : (1) een veilig uitwisselings-platform voorzien voor medische gegevens; (2) veilige elektronische voorschriften voorzien; (3) ondersteuning voorzien voor extra services bovenop de huidige medische services.\\*
+Patiënten in Vlaanderen zullen elk een persoonlijke elektronische kaart krijgen, waarmee ze toegang krijgen tot het platform en die dienst zal doen als opslag voor elektronische voorschriften. Aan de hand van het platform kunnen ze onder andere delen uit hun globaal medisch dossier opvragen. Dokters en specialisten kunnen het platform dan weer gebruiken om de dossiers te beheren van hun patiënten en gemakkelijk data tussen elkaar uit te wisselen.
 
 \clearpage
 \section{Mapping between views}
 \label{Mappingbetweenviews}
+
+\subsection{Mapping tussen uses views client-server views}
+Er bestaat geen 1 op 1 mapping tussen de uses views en client-server views. 1 component uit de client-server views kan overeenkomen met 1 of meerdere modules in de uses views en andersom kan 1 module uit de client-server view overeenkomen met 0, 1 of meerdere componenten uit de client-server views.De mappings zijn hieronder uitgedrukt in de vorm van tabellen. De rijen stellen de modules en lagen in de uses views voor, de kolommen de componenten uit de client-server views. 
+
+\subsubsection{Mappings met de view 'C\&C Client and Server View : Overview' :}
+\begin{table}[h!]
+\begin{center}
+ \begin{tabular}{l|c|c|c|c|} 
+ & Data & Server & Client & IDCard Reader\\ \hline
+eHealth Server System & & x & & \\ \hline
+\hspace{6pt}Virtual Data & x & & & \\ \hline
+\hspace{12pt}Virtual GMR Data & x & & & \\ \hline
+\hspace{6pt}Fysical Data & x & & & \\ \hline
+\hspace{12pt}GMR Data Server & x & & & \\ \hline
+\hspace{12pt}Security Server & x & & & \\ \hline
+eHealth Client system & & & x & \\ \hline
+\hspace{6pt}Card Reader Module & & & & x \\ \hline
+\end{tabular}
+\caption{Mapping the client-server overview to the uses views}
+\end{center}
+\end{table}
+
+\clearpage
+\subsubsection{Mappings met de view 'C\&C Client and Server View : Server' :}
+\begin{table}[h!]
+\begin{center}
+ \begin{tabular}{l|c|c|c|c|c|c|} 
+ & Server & Session Manager & Policy & Security & GMR & External Actions\\ \hline
+eHealth Server System & x & & & & &  \\ \hline
+\hspace{6pt}Server Interface & x & & & & & \\ \hline
+\hspace{12pt}Proxy & x & & & & & \\ \hline
+\hspace{6pt}Public Services & x & & & & & \\ \hline
+\hspace{12pt}Public Service & x & & & & & \\ \hline
+\hspace{6pt}Core Services & x & & & & & x \\ \hline
+\hspace{12pt}Security & x & & & x & & \\ \hline
+\hspace{12pt}GMR & x & & & & x & \\ \hline
+\hspace{12pt}Policy & x & & x & & & \\ \hline
+\hspace{12pt}Session Manager & x & x & & & & \\ \hline
+\hspace{6pt}Virtual Data & x & & & & & \\ \hline
+\hspace{12pt}Virtual GMR Data & x  & & & & & \\ \hline
+\hspace{6pt}Fysical Data & x & & & & & \\ \hline
+\hspace{12pt}GMR Data Server & x & & & & & \\ \hline
+\hspace{12pt}Security Server & x & & & & & \\ \hline
+\hspace{6pt}Server Communication & x & & & & & \\ \hline
+\hspace{12pt}Network Module & x & & & & & \\ \hline
+\end{tabular}
+\caption{Mapping the client-server server view to the uses views}
+\end{center}
+\end{table}
+
+\subsubsection{Mappings met de view 'C\&C Client and Server View : Client' :}
+\begin{table}[h!]
+\begin{center}
+ \begin{tabular}{l | c | c | c |} 
+ & Client & Cache & Security\\ \hline
+eHealth Client System & x & & \\ \hline
+\hspace{6pt}Client UI & x & & \\ \hline
+\hspace{12pt}UI & x & & \\ \hline
+\hspace{6pt}Client Application & x & & \\ \hline
+\hspace{12pt}GP Application & x & & \\ \hline
+\hspace{12pt}Card Reader Module & x & & \\ \hline
+\hspace{6pt}Client Data & x & & \\ \hline
+\hspace{12pt}Data Manager & x & & \\ \hline
+\hspace{12pt}Security & x & & x \\ \hline
+\hspace{12pt}Compression & x & & \\ \hline
+\hspace{12pt}Cache & x & x & \\ \hline
+\hspace{6pt}Client Communication & x & & \\ \hline
+\hspace{12pt}Network Module & x & & \\ \hline
+\end{tabular}
+\caption{Mapping the client-server client view to the uses views}
+\end{center}
+\end{table}
+
+\clearpage
+\subsubsection{Mappings met de view 'C\&C Client and Server View : Security' :}
+\begin{table}[h!]
+\begin{center}
+ \begin{tabular}{l| c | c | c |} 
+ & Security & Authentication & Compression \\ \hline
+eHealth Server System & & & \\ \hline
+\hspace{6pt} & & & \\ \hline
+\hspace{12pt}Security & x & & \\ \hline
+\hspace{6pt}Fysical Data & & & \\ \hline
+\hspace{12pt}Security Server & x & x & x \\ \hline
+\hspace{6pt}Client Data & & & \\ \hline
+\hspace{12pt}Security & x & x & \\ \hline
+\hspace{12pt}Compression & & & x \\ \hline
+\end{tabular}
+\caption{Mapping the client-server security view to the uses views}
+\end{center}
+\end{table}
+
+\subsection{Mapping tussen uses views en deployment views}
+Deze mapping toont op welke nodes elke module of laag uit de uses views zal komen. Weer wordt dit uitgedrukt in de vorm van tabellen. De rijen zijn de verschillende modules en lagen uit de uses views, de kolommen de nodes uit de deployment views.
+
+\subsubsection{Mappings met de view 'Deployment Clients' : }
+\begin{table}[h!]
+\begin{center}
+ \begin{tabular}{l| c | c | c |} 
+ & Patient Client & Doctor Client & Pharmacist Client \\ \hline
+eHealth Client System & x & x & x \\ \hline
+\hspace{6pt}Client UI & x & x & x \\ \hline
+\hspace{12pt}UI & x & x & x \\ \hline
+\hspace{6pt}Client Application & x & x & x \\ \hline
+\hspace{12pt}GP Application & & x & \\ \hline
+\hspace{12pt}Card Reader Module & x & x & x \\ \hline
+\hspace{6pt}Client Data & & x & \\ \hline
+\hspace{12pt}Data Manager & & x & \\ \hline
+\hspace{12pt}Security & & x & \\ \hline
+\hspace{12pt}Compression & & x & \\ \hline
+\hspace{12pt}Cache & & x & \\ \hline
+\hspace{6pt}Client Communication & x & x & x \\ \hline
+\hspace{12pt}Network Module & x & x & x \\ \hline
+\end{tabular}
+\caption{Mapping the deployment clients view to the uses views}
+\end{center}
+\end{table}
+
+\clearpage
+\subsubsection{Mappings met de view 'Deployment Services' : }
+\begin{table}[h!]
+\begin{center}
+ \begin{tabular}{l| c | c | c | c |} 
+ & Public Services Proxy & Security Services & Service Management & Core Services \\ \hline
+eHealth Server System & x & x & x & x \\ \hline
+\hspace{6pt}Server Interface & x & & & \\ \hline
+\hspace{12pt}Proxy & x & & & \\ \hline
+\hspace{6pt}Public Services & x & & & \\ \hline
+\hspace{12pt}Public Service & x & & & \\ \hline
+\hspace{6pt}Core Services & & & & x \\ \hline
+\hspace{12pt}Security & & x & & \\ \hline
+\hspace{12pt}GMR & & & & x \\ \hline
+\hspace{12pt}Policy & & & & x \\ \hline
+\hspace{12pt}Session Manager & & x & & \\ \hline
+\end{tabular}
+\caption{Mapping the deployment services view to the uses views}
+\end{center}
+\end{table}
+
+\subsubsection{Mappings met de view 'Deployment Data' : }
+\begin{table}[h!]
+\begin{center}
+ \begin{tabular}{l| c | c | c | c | c | c |} 
+ & Virtual GMR & Partial GMR & GMR Figure & Backup Data & Data& Security \\
+ & Text Data Server & Text Data Server & Data Server & Server & Server & Server \\ \hline
+eHealth Server System & x & x & x & x & x & x \\ \hline
+\hspace{6pt}Virtual Data & x & & & & & \\ \hline
+\hspace{12pt}Virutal GMR Data & x & & & & & \\ \hline
+\hspace{6pt}Fysical Data & & x & x & x & x & x \\ \hline
+\hspace{12pt}GMR Data Server & & x & x & & & \\ \hline
+\hspace{12pt}Security Server & & & & & & x \\ \hline
+\end{tabular}
+\caption{Mapping the deployment data view to the uses views}
+\end{center}
+\end{table}
+
+\subsection{Mapping tussen client-server views en deployment views}
+In deze sectie tonen we op welke nodes in de deployment views de verschillende componenten uit de client-server views geplaatst zullen worden. Er dient wel opgemerkt te worden dat deze twee views niet echt helemaal overeen komen. In de client-server views wordt een extra abstractie gebruikt. Daarin maakt de GMR component gebruik van vanalle security services, terwijl je in de deploment views kan zien dat er eerst langst de security services gegaan wordt. Dit is zo gedaan om de diagramma duidelijker en logischer te maken. Ook hier worden tabellen gebruikt om de mappings te tonen. Ditmaal zijn de rijen de componenten uit de client-server views en de kolommen de nodes uit de deployment views.
+\clearpage
+\subsubsection{Mappings met de view 'Deployment Clients' : }
+\begin{table}[h!]
+\begin{center}
+ \begin{tabular}{l| c | c | c |} 
+ & Patient Client & Doctor Client & Pharmacist Client \\ \hline
+Client & x & x & x \\ \hline
+\hspace{6pt}Cache & & x & \\ \hline
+\hspace{6pt}Security & x & x & x \\ \hline
+\end{tabular}
+\caption{Mapping the deployment clients view to the client-server views}
+\end{center}
+\end{table}
+
+\subsubsection{Mappings met de view 'Deployment Services' : }
+\begin{table}[h!]
+\begin{center}
+ \begin{tabular}{l| c | c |} 
+ & Security Services & Core Services \\ \hline
+Server & x & x \\ \hline
+\hspace{6pt}GMR & & x \\ \hline
+\hspace{6pt}SessionManager & x & \\ \hline
+\hspace{6pt}Policy & x & \\ \hline
+\hspace{6pt}Security & x & \\ \hline
+\hspace{12pt}Authentication & x & \\ \hline
+\hspace{12pt}Compression & x & \\ \hline
+\hspace{6pt}ExternalAction & & x \\ \hline
+\end{tabular}
+\caption{Mapping the deployment services view to the client-server views}
+\end{center}
+\end{table}
 
 \clearpage
 \section{Directory}
@@ -82,7 +296,6 @@ We willen opmerken dat dit document zich richt op een werkend systeem en de inte
 \part{Software Architecture Views}
 \setcounter{section}{0}
 
-\clearpage
 \section{Module Layered View: Client}
 
 \subsection{Primary presentation}
@@ -265,6 +478,7 @@ Sibling: Layered View: Client\\
 Child: Uses View: Server\\
 
 \section{Module Uses View: Client}
+\label{Module Uses View : Client}
 
 \subsection{Primary presentation}
 \begin{center}
@@ -337,6 +551,7 @@ Sibling: Uses View: Server\\
 Parent: Layered View: Client\\
 
 \section{Module Uses View: Server}
+\label{Module Uses View : Server}
 
 \subsection{Primary presentation}
 \begin{center}
@@ -1063,35 +1278,35 @@ De verschillende delen in deze view worden nog verder uitgewerkt in aparte secti
  \item \textbf{Digital Card}\\
 Deze node stelt een digitale kaart voor die elke patient en dokter toegewezen krijgt van de overheid. Deze node zal geen echte software bevatten, maar dient enkel als data opslag. Volgende twee soorten data kunnen we onderscheiden :
 \begin{enumerate}
- \item \textbf{Key Data}\\*
+ \item \textit{\textbf{Key Data}}\\*
 De keys op de kaart. Elke kaart zal een publieke en private sleutel bevatten waarmee getekend en/of geëncrypteerd kan worden met behulp van de elektronische kaartlezer.
-\item \textbf{Prescription Data}\\*
+\item \textit{\textbf{Prescription Data}}\\*
 De voorschriften die een dokter voorschrijft voor een patient zullen op de kaart bijgehouden worden, zodat deze terug uitgelezen kunnen worden bij het ophalen/bestellen van medicatie bij de apotheker/e-pharmacy.
 \end{enumerate}
 
 \item \textbf{Card Reader}\\*
 De elektronische kaartlezer bevat volgende software componenten : 
 \begin{enumerate}
-\item \textbf{Signing}\\*
+\item \textit{\textbf{Signing}}\\*
 Software verantwoordelijk voor het tekenen van documenten (voorschriften).
-\item \textbf{Encryption/Decryption}\\*
+\item \textit{\textbf{Encryption/Decryption}}\\*
 Deze component kan data versleutelen en terug ontcijferen met behulp van de keys die op de kaart staan die in de kaartlezer zit.
-\item \textbf{Key Generation}\\*
+\item \textit{\textbf{Key Generation}}\\*
 Sleutels kunnen ook gegenereerd worden. Dit zal ondermeer gebruikt worden voor het tijdelijk toekennen van toegang tot het globaal medisch dossier.
-\item \textbf{Data Access}\\*
+\item \textit{\textbf{Data Access}}\\*
 Deze component is verantwoordelijk voor het ophalen en schrijven van data van/op de elektronische kaart.
 \end{enumerate}
 
 \item \textbf{Doctor Client}\\*
 Stelt een node voor gebruikt door een dokter. Dit kan eender welke soort van node zijn (PC, PDA, laptop, ...). De node bestaat uit volgende componenten : 
 \begin{enumerate}
- \item \textbf{Card Reader UI}\\*
+ \item \textit{\textbf{Card Reader UI}}\\*
 De user interface die toegang biedt tot alle functionaliteit van de elektronische kaartlezer.
-\item \textbf{Patient Management}\\*
+\item \textit{\textbf{Patient Management}}\\*
 Deze software staat in voor het beheer van het klantenbestand van de dokter.
-\item \textbf{Cache Controller}\\*
+\item \textit{\textbf{Cache Controller}}\\*
 Component die het ophalen en wegschrijven van patiënt data in zijn/haar globaal medisch dossier controleert. Een meer gedetailleerde uitleg kan gevonden worden in sectie \ref{Client and Server View: Client}.
-\item \textbf{Cache}\\*
+\item \textit{\textbf{Cache}}\\*
 In de nodes die dokters gebruiken wordt een cache gebruikt met globaal medische dossiers van patiënten van de dokter. Het lezen en schrijven van deze cache wordt beheert door de \textit{Cache Controller}.
 \end{enumerate}
 
@@ -1165,43 +1380,43 @@ Stelt de \textit{added value services} voor, weer zullen dit er meerdere zijn.
 \item \textbf{Public Services Proxy}\\*
 Deze node doet dienst als proxy, zoals z'n naam doet vermoeden. Meer specifiek is het een \textit{reverse proxy}. Deze wordt ingezet om de belasting vanuit het internet naar de security services nodes gelijkmatiger te verdelen, zowel om beveiligings als om \textit{loadbalancing} redenen. Buiten dat, bevat deze node ook een web server en biedt die de API aan aan externe \textit{added value services}. Deze nodes worden statisch gerepliceerd. De public services proxy bevat volgende software componenten : 
 \begin{enumerate}
- \item \textbf{Firewall}\\*
+ \item \textit{\textbf{Firewall}}\\*
  Deze firewall is de eerste verdedigings linie voor het platform en dient het verkeer naar de DMZ toe te filteren zodat enkel connecties specifiek naar de DMZ doorgelaten worden.
-\item \textbf{Web Server}\\*
+\item \textit{\textbf{Web Server}}\\*
 De web server biedt de publieke web services van het systeem aan. Indien dit om zeer algemene data gaat, dient het verkeer niet verder te komen dan de DMZ. Is er echter medische data nodig, dan zal de web server requests doorsturen naar de services laag in het platform.
-\item \textbf{API}\\*
+\item \textit{\textbf{API}}\\*
 Er moet een API voorzien worden voor externe services die gebruik willen maken van het platform. Deze component voorziet deze API en zal alle calls doorsturen naar de services laag van het platform.
-\item \textbf{Distributed Session Management}\\*
+\item \textit{\textbf{Distributed Session Management}}\\*
 Het is ongewenst dat een gebruiker zich voor elke actie die hij/zij wil ondernemen terug opnieuw moet inloggen. Er zullen dus sessies bijgehouden moeten worden. Het is niet zo veilig dit te doen binnen de DMZ, dus de authenticatie sessie - data zal bijgehouden worden in de \textit{security services} nodes in de services laag (zie bij security services hier onder). Er zullen meerdere \textit{security services} nodes zijn, dus zal het verkeer van een bepaalde gebruiker gedurende de hele sessie langst dezelfde \textit{security services} node moeten gaan. Het kan zijn, door de structuur en werking van het internet, dat gedurende dezelfde sessie niet dezelfde proxy gebruikt wordt. Om dus toch te kunnen garanderen dat voor één bepaalde sessie steeds dezelfde \textit{security services} node gebruikt wordt, wordt deze component geïntroduceerd. Het enige wat die moet doen is bijhouden welke sessie bij welke \textit{security services} node hoort en dit ook doorgeven aan de andere actieve \textit{Public Services Proxies}.
 \end{enumerate}
 
 \item \textbf{Security Services}\\*
 Deze node vomt de tweede lijn van verdediging voor het platform. Alle verkeer die de core services van het platform wil gebruiken zal langst hier moeten. Het zorgt ervoor dat enkel geauthenticeerde requests met de juiste authorisatie toegelaten worden. Deze node zal dynamisch gerepliceerd worden, later wordt hier wat verder op in gegaan. Volgende software componenten worden op deze node geplaatst : 
 \begin{enumerate}
- \item \textbf{Firewall}\\*
+ \item \textit{\textbf{Firewall}}\\*
 Deze firewall zal ervoor zorgen dat enkel connecties vanuit de DMZ toegelaten worden binnen de services laag van het eHealth platform.
-\item \textbf{Authentication}\\*
+\item \textit{\textbf{Authentication}}\\*
 Component die de authenticatie van gebruikers zal afhandelen. Zie sectie \ref{Client and Server View: Security} voor meer informatie.
-\item \textbf{Compession/Decomporession}\\*
+\item \textit{\textbf{Compession/Decomporession}}\\*
 Component die de compressie en decompressie van data zal afhandelen. Weer biedt sectie \ref{Client and Server View: Security} meer gedetailleerde informatie.
-\item \textbf{Policy}\\*
+\item \textit{\textbf{Policy}}\\*
 Deze component zal verantwoordelijk zijn voor zowel de authorisatie van requests, als ook voor het beheren van access policies, zoals het geven van toestemming aan dokters om het globaal medisch dossier van een patient in te kijken. Sectie \ref{Client and Server View: Server} legt dit verder uit.
-\item \textbf{SessionManager}\\*
+\item \textit{\textbf{SessionManager}}\\*
 We willen niet dat een gebruiker zich voor elke nieuwe request opnieuw moet inloggen. We zullen dus sessie data nodig hebben. Deze component zal het beheer van die sessie data controleren.
 \end{enumerate}
 
 \item \textbf{Core Services}\\*
 Deze node bundelt alle kern services samen die nodig zijn voor de werking van het eHealth platform. Volgende componenten in deze node stellen al die services voor : 
 \begin{enumerate}
- \item \textbf{GMR}\\*
+ \item \textit{\textbf{GMR}}\\*
 Component die alle functionaliteit aanbiedt voor het lezen, schrijven en aanpassen van data in globaal medische dossiers.
-\item \textbf{Doctor Management}\\*
+\item \textit{\textbf{Doctor Management}}\\*
 Beheert alle data gerelateerd met dokters. Registratie van dokters en de registratie van patiënten van dokters gebeurt aan de hand van deze component.
-\item \textbf{VDS}\\*
+\item \textit{\textbf{VDS}}\\*
 Dit stuk software zal alle functionaliteit aanbieden om data te kunnen ophalen van de \textit{validated data sources}, alsook functionaliteit voor het toevoegen van validated data sources aan het systeem. Wanneer zo'n gegevensbron toegevoegd dient te worden, zal die gegevensbron aangeboden moeten worden met een interface die vastgelegd wordt door ons systeem. 
-\item \textbf{ExternalActions}\\*
+\item \textit{\textbf{ExternalActions}}\\*
 Component die de link met de \textit{Governmental Services} voorziet (loggen en RIZIV).
-\item \textbf{ExternalActionsStorage}\\*
+\item \textit{\textbf{ExternalActionsStorage}}\\*
 Indien het RIZIV of de log-functionaliteit van de overheid tijdelijk niet beschikbaar zijn, zullen alle requests naar de ExternalActions component tijdelijk bijgehouden worden in deze component in twee FIFO-queues, één voor elke dienst. Wanneer de diensten terug online komen, zullen de queues verwerkt worden waardoor de nodige data naar de diensten verstuurd kan worden.
 \end{enumerate}
 
@@ -1276,24 +1491,24 @@ Node die alle security services van het systeem bundelt. Meer info vind je in se
 \item \textbf{Virtual GMR Data Server}\\*
 Deze server zal alle GMR data als een coherent geheel beschikbaar stellen. Aangezien volgens de wetgeving niet alle data van één enkel GMR op 1 plaats opgeslagen mag worden, hebben we deze node nodig die de nodige delen van een opgevraagd GMR zal ophalen op de aparte data servers. Deze node zal dynamisch gerepliceerd worden volgens de load, net zoals de \textit{Security Services} en de \textit{Core Services} in de services laag. Volgende componenten zitten in deze node : 
 \begin{enumerate}
- \item \textbf{Distributed Query Processor}\\*
+ \item \textit{\textbf{Distributed Query Processor}}\\*
 Deze component zal ervoor zorgen dat queries voor GMR data correct opgesplitst zullen worden in aparte queries voor de aparte data servers. Het laat die aparte queries hun werk doen en zal achteraf alle verkregen dat terug bijeenzetten tot een geheel dat dan als antwoord dient op de orginele query.
-\item \textbf{Distributed Transaction Manager}\\*
+\item \textit{\textbf{Distributed Transaction Manager}}\\*
 Dit stuk software is verantwoordelijk voor de consistentie van de GMR data. Wanneer er een query uitgevoerd moet worden die gegevens update of wegschrijft, zal deze component er verantwoordelijk voor zijn dat alle subqueries uitgevoerd worden. Indien er 1 van de subqueries faalt, zullen de andere subqueries ongedaan gemaakt worden door dit element.
-\item \textbf{Query Cache}\\*
+\item \textit{\textbf{Query Cache}}\\*
 Dit element zal tijdelijk de laatste queries die uitgevoerd zijn op de GMR data bijhouden, dit zal nodig zijn voor eventuele herstellingsoperaties bij het falen van 1 van de data servers zoals uitgelegd in sectie \ref{subsubsec:dep_data_behavior}.
-\item \textbf{Data Server Management}\\*
+\item \textit{\textbf{Data Server Management}}\\*
 Dit element biedt functionaliteit om de aparte data servers te beheren.
-\item \textbf{Indexation}\\*
+\item \textit{\textbf{Indexation}}\\*
 Deze component stelt de opslag voor van een indexatie van de data server zodat gemakkelijk teruggevonden kan worden waar het GMR van een bepaalde patiënt gevonden kan worden.
 \end{enumerate}
 
 \item \textbf{Partial GMR Text Data Server}\\*
 Deze server zal tekstuele GMR data bevatten. Het zal niet alle data van 1 GMR bevatten, maar slechts gedeeltes van die date, aangezien dit bij wet voorgeschreven wordt. Deze servers zullen statisch gerepliceerd worden. De node bevat volgende software componenten : 
 \begin{enumerate}
- \item \textbf{Encryption/Decryption}\\*
+ \item \textit{\textbf{Encryption/Decryption}}\\*
 Alle data op deze node dient geëncypteerd opgeslagen worden.Deze component zorgt daarvoor en zorgt er ook voor dat wanneer er data opgevraagd wordt, deze data ontcijferd wordt.
-\item \textbf{DB Controller}\\*
+\item \textit{\textbf{DB Controller}}\\*
 Algemene database controller die de eigenlijke data access verzorgt.
 \end{enumerate}
 
@@ -1381,6 +1596,7 @@ Wanneer een patient een dokter toegang tot zijn dossier wil geven, voert deze ee
 \end{figure}
 
 \subsection{Modify GMR}
+\label{interaction:modifyGMR}
 Wanneer een dokter het dossier van een patient aanpast, doet hij dit eerst op de lokale kopie in zijn cache. De dokter heeft eerst, bij het openen van het dossier, de laatste versie bemachtigd zoals beschreven in het 'access file' diagram. Wanneer hij de wijzigingen hefet opgelagen in zijn cache, worden deze naar de database overgebracht. Er wordt eerst nog gekeken of de dokter ook het recht heeft om te schrijven naar het dossier. Dan worden de wijzigingen opgeslagen in de database. Alle wijzigingen worden op deze manier doorgevoerd, zowel het aanpassen van gegevens, opladen van voorschriften en toevoegen van beeldmateriaal(bv röntgenfotos)\\
 Wanneer de server niet bereikbaar blijkt wanneer er veranderingen aan een file worden gemaakt, worden de veranderingen enkel lokaal bijgehouden. Zodra de server weer bereikbaar is, worden de veranderingen doorgevoerd. In principe kan dit leiden tot een inconsistentie (het dossier werd bijgewerkt door iemand anders terwijl de dokter offline was) maar in de praktijk is dit bijna onmogelijk, aangezien een patiënt meestal slechts 1 huisdokter heeft die zijn dossier lokaal bewaart en wanneer andere dokters toch veranderingen aanbrengen (bv een specialist), dan zal dit aan andere velden van het dossier zijn als die dat de dokter heeft aangepast (bv XRay foto's toegevoegd). 
 
@@ -1390,6 +1606,7 @@ Wanneer de server niet bereikbaar blijkt wanneer er veranderingen aan een file w
 \end{figure}
 
 \subsection{Retrieve GMR}
+\label{interaction:retrieveGMR}
 Wanneer een dokter een medisch dossier van een patient wilt raadplegen, wordt dit dossier eerst in zijn cache opgezocht. Wanneer het hier gevonden wordt, wordt de timestamp van het dossier in de cache vergeleken met de timestamp van het dossier in de database (indien mogelijk). Wanneer het dossier up to date blijkt, wordt gewerkt met de versie uit de cache. wanneer er aanpassingen zijn geweest, wordt het dossier eerst geupdated in de cache. Wanneer het dossier niet aanwezig blijkt in de cache, wordt het dossier opgehaald en opgeslagen in de cache. 
 Deze cache wordt ook gebruikt wanneer de server niet bereikbaar is. Zo kan de dokter toch steeds aan een recente kopie van het dossier van zijn patiënten. Ook de aanpassingen aan de dossiers worden dan enkel lokaal bewaard (zie ook modifyGMR). Zodra de server weer bereikbaar is, worden de veranderingen aan de dossiers ook daar doorgevoerd. 
 
