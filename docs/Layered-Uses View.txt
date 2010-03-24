@@ -1,0 +1,179 @@
+Layered View : Client
+
+Element Catalog
+
+Element Properties
+(Voornaamste inhoud van elke laag is terug te vinden in Uses View)
+
+Client UI
+Interface tussen programma's aan de ene kant, gebruiker en hardware (Card Reader) langs de andere kant.
+
+Client Application
+Bevat toepassingsspecifieke applicaties die afhankelijk van gebruiker kan varieën. Een gemeenschapeelijk punt tussen deze applicaties is dat ze toegang tot medische dossieren nodig hebben.
+
+Client Data
+Dit laag is verantwoordelijk voor het Opslaan van lokale data cache en consistentie onderhouden tussen lokale cache en external data server.
+Voor boven liggende laag zijn de excate lokatie van medische dosieren niet van belang, als ook hoe de data's gecomprimeerd en beveilig zijn. Dit laag camoufleert het verschil tussen cache en server data's en voorzient standaard data transformatie (transformatie tussen volledige uitgepakt vorm die direct gebruikt kan worden door gebruiker en beveilig/gecomprimeerd vorm waaronder data opgeslagen wordt).
+
+Client Communication
+Dit communicatie laag is gespecialiseerd om met de Server Interface laag te connecteren.
+Zijn voornaamste taak bestaat eruit de data synchronisatie  mogelijk te maken tussen gebruikers cache en server database.
+
+Relation Properties
+
+Allowed-to-Use: Layer A en Layer B hebben de relatie ”A is allowed-to-use B” als A onmiddellijk boven B
+staat, tenzijn anders expliiciet vermeld.
+
+Architecture Back Ground
+Communication Layer is niet verantwoordelijk voor algemeen communicatie over het netwerk. Het communiceert enkel en alleen met eHealth server en het wordt het enkel gebruikt door de bovenliggende data laag, omdat data laag alleen weet precies wat er gelezen en geschreven worden naar de server.
+
+Related view
+Sibling: Layered View: Server
+Child: Uses View: Client
+
+Uses View : Client
+
+Element Catalog
+
+Element Properties
+
+UI
+User Interface, uiterlijk presentatie van gebruikersapplicaties
+
+Card Reader UI
+Speciale use interface gebruikt om met extern hardware "Card Reader" te communiceren.
+meer info zie Deployment View
+
+Client Application
+Toepassingsspecifieke applicaties die afhankelijk van gebruiker kan varieën.
+
+Patient Management
+Gespecialiseerd toepassing voor een GP, organiseert alle patientendossiers.
+meer info zie Deployment View
+
+Data Manegement
+Toegang voorzien voor alle data, coordineert de nodige standaard verwerkingen op data's.
+meer info zie Deployment View
+
+Data Security
+Implementeert standaard beveiliging op data's
+meer info zie C&C View
+
+Data Cache
+Lokale data cache
+meer info zie C&C View
+
+Client Network Module
+Gespecialiseerd netwerk module om met eHealth server te communiceren.
+
+Relation Properties
+Uses: een layer of een layer component wil gebruik maken van een andere layer of component module als de eerste expliciet verbonden is met de tweede.
+Wanneer de eerste entieit een layer is, mogen alle ingesloten component gebruikt maken van de tweede entiteit.
+Wanneer de tweede entieit een layer is, mogen alle ingesloten component gebruikt worden door de eerste entiteit.
+
+Related view
+Sibling: Uses View: Server
+Parent: Layered View: Client
+
+Layered View : Server
+
+Element Catalog
+
+Element Properties
+(Voornaamste inhoud van elke laag is terug te vinden in Uses View)
+
+Server Interface
+Gespecialiseerd communicatie voorzien met RIZIV en Log.
+
+Business Services
+Bevat hoge niveau functies die ingewikkelde business logica's implementeren, ze worden opgebouwd door gebruik te maken van lage niveau functie bouw-blokken uit de Basic Services laag.
+
+Basic Services
+Sommige functie bouw-blokken kunnen door verschillende hoge niveau functie gebruikt worden (bv read), door die basis bouw-blokken in apart laag te implmenteren kunnen ze makkelijker herbruikt worden. Verandering van implementatie op lage functie niveau wordt ook vermakkelijkt, zolang de nieuwe versie van de Core Service laag de zelfde interface handeert als de oude versie, wordt de bovenliggende laag niet gestoord.
+
+Virtual Data
+data behandeling op volledige bestanden - niveau
+
+Anonymous Data
+data behandeling op (anoniem) data - niveau
+
+Variability guide
+De vereisten op dit moment vraagt nog geen ingewikkeld business logica, daarom is het misschien niet direct duidelijk waarom er een apart Business Services laag staat.
+Maar met oog op toekomstige uitbreidingen en nieuw politiek moet het systeem veel meer kunnen doen dan gewoon lezen en schrijven.
+Bijvoorbeeld als er gevraagd wordt aan ons systeem om een statistische overzicht te maken van bepaalde soort medische dossieren, dan kan de software die verantwoordelijk staat voor die statistische berekening geimporteerd worden in de Business Services laag, het kan daarna direct de basis functie (in dit geval anoniem dossier lezen) gebruiken die door de Basic Services laag geimplementeerd zijn.
+
+Relation Properties
+
+Allowed-to-Use: Layer A en Layer B hebben de relatie ”A is allowed-to-use B” als A onmiddellijk boven B staat, tenzijn anders expliiciet vermeld.
+
+
+Architecture Back Ground
+Gezien de beperking opgelegd door de wetgeving en andere veiligheids / performantie redenen worden de GMR data niet in integrale dossier-bestanden opgeslaan, maar opgesplitste en verdeeld over verschillende fysiche opslagruimten. Daardoor maakt bv het reconstrueren van de data een belangrijke taak.
+Daarom worden er gekozen om een Virtual Data laag toe te voegen, het is verantwoordelijk voor de opslitsing en verdeling van data bij het schrijven, eveneens het ophalen en reconstrutie bij het lezen. Bovenliggende laggen communiceert enkel met Virtual Layer en worden niet gestoord door de het feit dat data's niet integrale opgeslagen zijn.
+
+Andere data's waarvan geen extra opsplitsing nodige zijn (dokterbestanden) bevinden eveneens op dit niveau.
+
+In principe zijn de data die op Anonymous Data laag terug te vinden zijn "onbruikbaar" in de zin van dat er geen valide dossier-bestanden bevinden. Maar de basis behandeling van lage niveau data is nog altijd de verantwoordelijk heid van Anonymous Data laag, bv data dusplicatie ten gunst van perfermence.
+
+Related view
+Sibling: Layered View: Client
+Child: Uses View: Server
+
+Uses View : Server
+
+Element Catalog
+
+Element Properties
+
+Web Server
+Algemeen publieke services.
+meer info zie Deployment View
+
+API
+Interface voor extern services.
+meer info zie Deployment View
+
+GMR
+Delegatie van alle binnenkomende service aanvraag.
+meer info zie C&C View
+
+Basic GMR Services
+Implementatie van basis laag niveau functionaliteiten.
+In huidige versie zijn dat enkel triviale services zoals lezen en schrijven, zie Variability guide Layered View: Server
+
+Policy
+Toegangscontrole van gevraagd services.
+meer info zie C&C View
+
+Session Manager
+Geauthenticeerd werksessie koppelen aan gebruiker.
+meer info zie C&C View
+
+Security
+authenticatie en authorisatie van gebruiker.
+meer info zie C&C View
+
+Virtual GMR Data
+GMR data oplslag van volledige medische dossieren.
+meer info zie Deployment View
+
+Doctor Data Server
+Data opslag voor dokter/patient relatie.
+meer info zie Deployment View
+
+Security Data Server
+Data opslag voor authenticatie en authorisatie.
+meer info zie Deployment View
+
+GMR Data Server
+GMR data oplslag van opgesplitste medische dossieren.
+meer info zie Deployment View
+
+Relation Properties
+Uses: een layer of een layer component wil gebruik maken van een andere layer of component module als de eerste expliciet verbonden is met de tweede.
+Wanneer de eerste entieit een layer is, mogen alle ingesloten component gebruikt maken van de tweede entiteit.
+Wanneer de tweede entieit een layer is, mogen alle ingesloten component gebruikt worden door de eerste entiteit.
+
+Related view
+Sibling: Uses View: Client
+Parent: Layered View: Server
