@@ -886,68 +886,74 @@ Zie \ref{Client and Server View: Overview} Client and Server View: Overview.
 \subsection{Element interfaces}
 
 \subsubsection{Element interfaces}
-\paragraph{write}
+\paragraph{writePrescription}
 
 \underline{Resources provided:}\\
-identify(id\_key)\\
-De gebruiker gelinkt met de opgegeven id\_key wordt opgezocht en teruggegeven (zie ook Elemenet behavior).
-%TODO: identify kijkt of de gebruiker wel degelijk dit bericht verstuurd heeft.
+writePrescription(prescription)\\
+De prescription wordt op de ID card van de gebruiker geschreven.
 
 \underline{Element requirements:}\\
-id\_key: de persoonlijke identificatiekey van de gebruiker.\\
+prescription: de prescription die wordt weggeschreven.
 
 \underline{Rationale and design issues:}\\
-Wanneer een gebruiker toegang wil tot het systeem, moet hij dit mogen doen. Hiervoor moet zijn identiteit gekend zijn in het systeem. Door zijn persoonlijke identificatiesleutel op te geven, maakt hij duidelijk dat hij is wie hij beweert te zijn en kan het systeem hem identificeren.\\
+Om ook wanneer er geen internet toegang is voor de dokter (dit kan bijvoorbeeld bij een huisbezoek zijn) ervoor te zorgen dat de patient toch reeds naar de apotheek kan gaan, worden voorschriften (tijdelijk) opgeslaan op de ID card.  (Ze worden ook opgeslaan in de GMR).  Zie ook \ref{interaction:addPrescription} interactie diagram add prescription.
 
-\paragraph{read}
+\paragraph{readPrescription}
 
 \underline{Resources provided:}\\
-sign(id\_key)\\
-wanneer de gebruiker een boodschap wil versturen, signeert hij de boodschap via deze methode (zie ook Elemenet behavior).
+readPrescription()\\
+Lees de niet gevalideerde voorschriften uit en geef die terug.
+
+\underline{Element requirements:} [None]
+
+\underline{Rationale and design issues:}\\
+De apotheek kan de voorschriften uitlezen zonder toegang te moeten verkrijgen tot het ehealth platform.  Zie ook \ref{interaction:validatePrescription} interactie diagram validate prescription.
+
+\paragraph{validatePrescription}
+
+\underline{Resources provided:}\\
+validatePrescription(prescription)\\
+Valideer het voorschrift, met andere woorden, dit voorschrift is aangekocht.
 
 \underline{Element requirements:}\\
-id\_key: de persoonlijke identificatiekey van de gebruiker.\\
+prescription: het voorschrift dat gevalideerd wordt.
 
-\underline{Rationale and design issues:}\\
-Wanneer de gebruiker een boodschap wil sturen, moet de zender ervan kunnen achterhaald worden. Door de boodschap te signeren met de sign-methode, is de zender ervan bekend bij het systeem en kan achterhaald worden of deze de juiste rechten heeft om deze boodschap uit te voeren.\\
+\underline{Rationale and design issues:} [None]
 
-\paragraph{id_key}
-
-\underline{Resources provided:}\\
-compress()\\
-De boodschap die wordt verstuurd, wordt gecompresseerd zodat deze onleesbaar wordt voor iemand die deze niet kan decompresseren en zodat de grootte van de boodschap wordt verkleind  (zie ook Elemenet behavior).
-
-\underline{Element requirements:}\\
-/\\
-
-\underline{Rationale and design issues:}\\
-Door de boodschappen die worden verstuurd te compresseren, wordt de boodschap zowel beveiligd, als verkleind, waardoor ook de verzendtijd wordt verkleind.\\
-
-\paragraph{sign_key}
+\paragraph{id\_key}
 
 \underline{Resources provided:}\\
-decompress()\\
-Een boodschap die werd verstuurd en gecompresseerd, moet eveneens worden gedecompresseerd om leesbaar te zijn (zie ook Elemenet behavior).
+id\_key()\\
+Geeft de identificatie key terug van de gebruiker.
 
-\underline{Element requirements:}
-[None]
+\underline{Element requirements:} [None]
 
 \underline{Rationale and design issues:}\\
-Zie ook compress.\\
+Deze key wordt in het systeem gebruikt om de gebruiker te identifici\"{e}ren.  Op deze manier wordt ervoor gezorgd dat data en identificatie niet samen opgeslaan worden in het systeem.
+
+\paragraph{sign\_key}
+
+\underline{Resources provided:}\\
+sign\_key()\\
+Geeft de sign key terug van de gebruiker.
+
+\underline{Element requirements:} [None]
+
+\underline{Rationale and design issues:}\\
+Deze key wordt in het systeem gebruikt om berichten af te tekenen.  Wanneer een bericht is afgetekend met deze key weet het systeem dus dat de verzender van het bericht de gebruiker is.
 
 \subsubsection{Element behavior}
-Deze component zorgt dat de communicatie tussen het platform en de clients veilig verloopt. Enerzijds door de boodschap te signeren met een gebruiker zijn identificatiesleutel, waar het enkel geldige sleutels wordt toegelaten deze boodschappen te sturen. Anderzijds door de boodschappen die verzonden worden te comprimeren. Dit laatste biedt naast veiligheid ook een manier om de communicatie tussen beide te versnellen.\\
+De kaart lezer is een component die nodig is om informatie van de gebruiker van de kaart te kunnen lezen.  De kaart lezer voorziet een mechanisme om dit alles veilig te kunnen laten verlopen.
 
 \subsection{Context diagram}
 Zie \ref{Client and Server View: Overview} Client and Server View: Overview.
 
 \subsection{Variability guide}
-De implementatie van zowel de Authentication component als de compression component zal gebeuren met third-party software. Dit is gemakkelijker dan zelf zo een systeem maken en doordat de componenten zo afgezonderd zijn van het systeem, is het later ook gemakkelijk om een nieuw algoritme te voorzien.\\
+[None]
 
 \subsection{Architecture background}
-
-%TODO 2 keys => qualities.
-
+Door het gebruik van 2 verschillende keys in het systeem kan extra veiligheid voorzien worden.  De eerste key, de id\_key, kan een gebruiker identifici\"{e}ren in het systeem.  Op deze manier voorzien we dat de identificatie gegevens van de gebruikers niet samen met de data moet worden opgeslaan.  Daarnaast hebben we ook een sign\_key.  De sign\_key wordt steeds gebruikt bij het tekenen van berichten, op die manier kan de server steeds met zekerheid weten dat de verzonden data effectief verzonden is door die gebruiker.\\
+Het spreekt voor zich dat dit systeem niet veilig zou zijn als iedereen met een kaart deze keys zou kunnen gebruiken.  Daarom is er de kaart lezer.  Iedere kaart heeft een pin code die door de gebruiker moet ingegeven worden in de kaart lezer.  Bovendien hoeft niet alles even sterk beveiligd te zijn.  Voorschriften kunnen afhalen moet mogelijk zijn door een andere gebruiker, m.a.w. het moet mogelijk zijn voor de apotheek om voorschriften te kunnen lezen.  Hiervoor moet de kaart lezer voldoende faciliteiten voorzien, maar dit valt buiten de scope van deze architectuur.
 
 \subsection{Other information}
 [None]
