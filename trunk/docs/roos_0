@@ -1,0 +1,24 @@
+toch al een paar vorm-opmerkingen
+
+Misschien de titels ook in het nederlands zetten? (toch de titels à la 'how stakeholders might use the package')
+titels waar niets onder komt, misschien gewoon weglaten (ipv none)
+bij interfaces: resources provided op volgende regel beginnen
+nummering bij CS: Server klopt niet helemaal, zijn genummerd volgens interfaces en behaviour, maar zou beter volgens element naam zijn: 
+3.2 element catalog
+	3.2.1 GMR
+		interfaces
+		behaviour
+	3.2.2 sessionmanager
+		interfaces
+		behaviour
+	3.2.3 policy 	
+		interfaces
+		behaviour
+
+	3.2.4 security
+
+	3.2.5 externalActions
+		interfaces
+		behaviour
+
+titel Part 1 => documentation beyond views (zonder u)
