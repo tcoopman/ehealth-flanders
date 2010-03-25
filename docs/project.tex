@@ -423,12 +423,12 @@ Gespecialiseerd toepassing voor een GP, organiseert alle patientendossiers.\\
 Meer info zie Deployment View\\
 
 \paragraph{Client Data Layer}
-Deze laag is verantwoordelijk voor het opslaan van lokale data cache en consistentie onderhouden tussen lokale cache en external data server.
-Voor boven liggende laag zijn de excate lokatie van medische dosieren niet van belang, als ook hoe de data's gecomprimeerd en beveilig zijn. Deze laag camoufleert het verschil tussen cache en server data's en voorzient standaard data transformatie (transformatie tussen volledige uitgepakt vorm die direct gebruikt kan worden door gebruiker en beveilig/gecomprimeerd vorm waaronder data opgeslagen wordt).\\
+Deze laag is verantwoordelijk voor het opslaan van de lokale data cache en onderhoudt consistentie tussen lokale cache en external data server.
+Voor de bovenliggende laag zijn de excate locatie van de GMRs niet van belang noch hoe de data gecomprimeerd en beveiligd is. Deze laag camoufleert het verschil tussen de lokale cache en de server data en voorziet standaard data transformatie (transformatie tussen volledige uitgepakt vorm die gebruikt kan worden door de gebruiker en beveiligde/gecomprimeerde vorm voor data opgeslag).\\
 
-\underline{Data Manegement}\\
-Toegang voorzien voor alle data, coordineert de nodige standaard verwerkingen op data's.\\
-meer info zie Deployment View\\
+\underline{Data Management}\\
+Voorziet toegang voor alle data, co\"{o}rdineert de nodige verwerkingen van data.\\
+Meer info zie Deployment View\\
 
 \underline{Data Security}\\
 Implementeert standaard beveiliging op data's\\
@@ -539,12 +539,12 @@ meer info zie Deployment View\\
 Data opslag voor authenticatie en authorisatie.\\
 meer info zie Deployment View\\
 
-\paragraph{Anonymous Data Layer}
-data behandeling op (anoniem) data - niveau\\
+\paragraph{Physical Data Layer}
+Data behandeling op fysiek - niveau\\
 
 \underline{GMR Data Server}
 GMR data oplslag van opgesplitste medische dossieren.\\
-meer info zie Deployment View\\
+Meer info zie Deployment View\\
 
 \paragraph{Server Communication Layer}
 Communicatie met externe systemen (RIZIZ, Log).\\
@@ -564,7 +564,7 @@ Gezien de beperking opgelegd door de wetgeving en andere veiligheids / performan
 Daarom wordt er gekozen om een Virtual Data laag toe te voegen, deze is verantwoordelijk voor de opslitsing en verdeling van data bij het schrijven, eveneens voor het ophalen en reconstrutie bij het lezen. Bovenliggende lagen communiceren enkel met de Virtual Layer en worden niet gestoord door de het feit dat data's niet integrale opgeslagen zijn.\\
 
 
-In principe is de data die op de Anonymous Data laag terug te vinden is "onbruikbaar" in de zin van dat er geen volledige dossier-bestanden te vinden zijn. Maar de basis behandeling van laag niveau data is nog altijd de verantwoordelijkheid van de Anonymous Data laag, bv data duplicatie ten gunst van performantie.\\
+In principe is de data die op de Physical Data laag terug te vinden is "onbruikbaar" in de zin van dat er geen volledige dossier-bestanden te vinden zijn.  De fysieke data laag is wel verantwoordelijk voor de duplicatie (dit is ten gunste van de performantie en availability).
 \subsection{Other information}
 [Geen]
 
