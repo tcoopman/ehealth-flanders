@@ -51,10 +51,10 @@
  
  
 % Title
-\HRule \\[0.4cm]
+%\HRule \\[0.4cm]
 { \huge \bfseries Architecture of E-Health Flanders platform}\\[0.4cm]
  
-\HRule \\[1.5cm]
+%\HRule{1.5cm}
  
 % Author and supervisor
 \begin{minipage}{0.4\textwidth}
@@ -72,7 +72,6 @@ Xiaoqian Zhang
 Danny Weyns\\
 Robrecht Haesevoets\\
 Tom Holvoet\\
- \\
 \end{flushright}
 \end{minipage}
  
@@ -106,7 +105,7 @@ De tester wil de eHealth applicatie grondig testen en alle mogelijke scenarios u
 \paragraph{Regering:}
 De regering wil kunnen beslissen hoe de toegang tot de medische dossiers wordt geregeld (hoeveel van hun dossier kunnen patiënten zelf zien, welke dokter kan wat aanpassen etc). Ook wil de regering een log kunnen raadplegen waarin alle activiteiten op het eHealth platform gelogd worden. Hieronder vallen onder andere inloggen, medische dossiers raadplegen, medische dossiers aanpassen en voorschriften valideren. Een tak van de regering bestaat uit het RIZIV, die informatie over de uitgeschreven en gevalideerde voorschriften wil bijhouden.
 
-\subsubsection{How stakeholders might use the package}
+\subsubsection*{How stakeholders might use the package}
 
 \paragraph{Patiënt:}
 De patiënt gebruikt een client-applicatie om het eHealth platform te raadplegen. Wanneer hij op consultatie is, gebeuren de gewenste acties via de client-applicatie van de dokter. Voor de patiënt is de client-kant van deze applicatie dus belangrijk.
@@ -123,13 +122,13 @@ Onderstaande template wordt gebruikt om elke view te documenteren :
 \subsection{Primary presentation}
 Hier wordt het hoofddiagram getoond, eventueel samen met een korte uitleg over het diagram zelf.
 \subsection{Element catalog}
-\subsubsection{Elements and their properties}
+\subsubsection*{Elements and their properties}
 Alle elementen in het view worden opgesomd samen met een kort woordje uitleg
-\subsubsection{Relations and their properties}
+\subsubsection*{Relations and their properties}
 De relaties tussen de elementen in het view worden opgesomd, samen met een kort woordje uitleg
-\subsubsection{Element interfaces}
+\subsubsection*{Element interfaces}
 Hier komen de interfaces aangeboden door de verschillende elementen.
-\subsubsection{Element behavior}
+\subsubsection*{Element behavior}
 Het gedrag van de elementen in het view worden hier besproken.
 \subsection{Context diagram}
 Een diagram die het deel van het systeem dat in het view besproken wordt plaatst in het grotere geheel.
@@ -154,7 +153,7 @@ Patiënten in Vlaanderen zullen elk een persoonlijke elektronische kaart krijgen
 \subsection{Mapping tussen uses views client-server views}
 Er bestaat geen 1 op 1 mapping tussen de uses views en client-server views. 1 component uit de client-server views kan overeenkomen met 1 of meerdere modules in de uses views en andersom kan 1 module uit de client-server view overeenkomen met 0, 1 of meerdere componenten uit de client-server views.  De mappings zijn hieronder uitgedrukt in de vorm van tabellen. De rijen stellen de modules en lagen in de uses views voor, de kolommen de componenten uit de client-server views. 
 
-\subsubsection{Mappings met de view 'C\&C Client and Server View : Overview' :}
+\subsubsection*{Mappings met de view 'C\&C Client and Server View : Overview' :}
 \begin{table}[h!]
 \begin{center}
  \begin{tabular}{l|c|c|c|c|} 
@@ -173,7 +172,7 @@ eHealth Client system & & & x & \\ \hline
 \end{table}
 
 \clearpage
-\subsubsection{Mappings met de view 'C\&C Client and Server View : Server' :}
+\subsubsection*{Mappings met de view 'C\&C Client and Server View : Server' :}
 \begin{table}[h!]
 \begin{center}
  \begin{tabular}{l|c|c|c|c|c|c|} 
@@ -200,7 +199,7 @@ eHealth Server System & x & & & & &  \\ \hline
 \end{center}
 \end{table}
 
-\subsubsection{Mappings met de view 'C\&C Client and Server View : Client' :}
+\subsubsection*{Mappings met de view 'C\&C Client and Server View : Client' :}
 \begin{table}[h!]
 \begin{center}
  \begin{tabular}{l | c | c | c |} 
@@ -224,7 +223,7 @@ eHealth Client System & x & & \\ \hline
 \end{table}
 
 \clearpage
-\subsubsection{Mappings met de view 'C\&C Client and Server View : Security' :}
+\subsubsection*{Mappings met de view 'C\&C Client and Server View : Security' :}
 \begin{table}[h!]
 \begin{center}
  \begin{tabular}{l| c | c | c |} 
@@ -245,7 +244,7 @@ eHealth Server System & & & \\ \hline
 \subsection{Mapping tussen uses views en deployment views}
 Deze mapping toont op welke nodes elke module of laag uit de uses views zal komen. Weer wordt dit uitgedrukt in de vorm van tabellen. De rijen zijn de verschillende modules en lagen uit de uses views, de kolommen de nodes uit de deployment views.
 
-\subsubsection{Mappings met de view 'Deployment Clients' : }
+\subsubsection*{Mappings met de view 'Deployment Clients' : }
 \begin{table}[h!]
 \begin{center}
  \begin{tabular}{l| c | c | c |} 
@@ -269,7 +268,7 @@ eHealth Client System & x & x & x \\ \hline
 \end{table}
 
 \clearpage
-\subsubsection{Mappings met de view 'Deployment Services' : }
+\subsubsection*{Mappings met de view 'Deployment Services' : }
 \begin{table}[h!]
 \begin{center}
  \begin{tabular}{l| c | c | c | c |} 
@@ -289,7 +288,7 @@ eHealth Server System & x & x & x & x \\ \hline
 \end{center}
 \end{table}
 
-\subsubsection{Mappings met de view 'Deployment Data' : }
+\subsubsection*{Mappings met de view 'Deployment Data' : }
 \begin{table}[h!]
 \begin{center}
  \begin{tabular}{l| c | c | c | c | c | c |} 
@@ -309,7 +308,7 @@ eHealth Server System & x & x & x & x & x & x \\ \hline
 \subsection{Mapping tussen client-server views en deployment views}
 In deze sectie tonen we op welke nodes in de deployment views de verschillende componenten uit de client-server views geplaatst zullen worden. Er dient wel opgemerkt te worden dat deze twee views niet echt helemaal overeen komen. In de client-server views wordt een extra abstractie gebruikt. Daarin maakt de GMR component gebruik van vanalle security services, terwijl je in de deploment views kan zien dat er eerst langst de security services gegaan wordt. Dit is zo gedaan om de diagramma duidelijker en logischer te maken. Ook hier worden tabellen gebruikt om de mappings te tonen. Ditmaal zijn de rijen de componenten uit de client-server views en de kolommen de nodes uit de deployment views.
 \clearpage
-\subsubsection{Mappings met de view 'Deployment Clients' : }
+\subsubsection*{Mappings met de view 'Deployment Clients' : }
 \begin{table}[h!]
 \begin{center}
  \begin{tabular}{l| c | c | c |} 
@@ -322,7 +321,7 @@ Client & x & x & x \\ \hline
 \end{center}
 \end{table}
 
-\subsubsection{Mappings met de view 'Deployment Services' : }
+\subsubsection*{Mappings met de view 'Deployment Services' : }
 \begin{table}[h!]
 \begin{center}
  \begin{tabular}{l| c | c |} 
@@ -347,7 +346,7 @@ Server & x & x \\ \hline
 \clearpage
 \section{Glossary and acronym list}
 GMR:\\
-General Medical Record\\
+Global Medical Record\\
 
 GP:\\
 General Practitioner\\
@@ -374,7 +373,7 @@ Virtual Private Network\\
 \clearpage
 \section{Background, design constraints, and rationale}
 Veel van de beslissingen die we genomen hebben zijn telkens te vinden in de gedetailleerdere stukken van de architectuur.  Hier proberen we toch enkele algemene architectuur beslissingen te verantwoorden.\\
-%TODO: is dit stuk hieronder wel rationale? misschien bij stakeholders?
+
 We willen opmerken dat dit document zich richt op een werkend systeem en de interactie met het systeem.  We hebben ons gefocust op alle vereisten die het document beschrijven.  Uiteraard zijn een aantal belangrijke aspecten van het systeem bijvoorbeeld ook hoe de overheid nieuwe gebruikers (patiënten, dokter, apothekers) aan het systeem toevoegt, of hoe nieuwe kaarten worden uitgedeeld, hoe het verlies van een id-card door de gebruiker wordt aangepakt.  Deze gevallen beschouwen echter als dingen buiten de scope van dit document.  We hebben ons hier dan ook niet op gericht, tenzij we het nodig vonden om iets duidelijk te kunnen uitleggen. In deze zin kan dit document als onvolledig beschouwt worden omdat bepaalde interfaces of componenten niet of onvolledig gedocumenteerd zijn.  We hebben deze niet opgenomen omdat ze niet bijdragen aan dit document of dat ze niet belangrijk zijn voor de stakeholders van dit document.
 
 \clearpage
@@ -400,99 +399,79 @@ We willen opmerken dat dit document zich richt op een werkend systeem en de inte
 
 \subsection{Element catalog}
 
-\subsubsection{Elements and their properties}
+\subsubsection*{Elements and their properties}
 
--Software Layer: naam, verantwoordelijkheid (Voornaamste inhoud van elke laag is terug te vinden in Uses View)\\
-
-Client UI Layer\\
-
-Verantwoordelijkheid:\\
+\paragraph{Client UI Layer}
 Interface tussen programma's aan de ene kant, gebruiker en hardware (Card Reader) langs de andere kant.\\
 
-Client Application Layer\\
-
-Verantwoordelijkheid:\\
-Bevat toepassingsspecifieke applicaties die afhankelijk van gebruiker kan varie\"{e}ren. Een gemeenschapeelijk punt tussen deze applicaties is dat ze toegang tot medische dossieren nodig hebben.
-\\
-
-Client Data Layer\\
-
-Verantwoordelijkheid:\\
-Deze laag is verantwoordelijk voor het opslaan van lokale data cache en consistentie onderhouden tussen lokale cache en external data server.
-Voor boven liggende laag zijn de excate lokatie van medische dosieren niet van belang, als ook hoe de data's gecomprimeerd en beveilig zijn. Deze laag camoufleert het verschil tussen cache en server data's en voorzient standaard data transformatie (transformatie tussen volledige uitgepakt vorm die direct gebruikt kan worden door gebruiker en beveilig/gecomprimeerd vorm waaronder data opgeslagen wordt).\\
-
-Client Communication Layer\\
-
-Verantwoordelijkheid:\\
-De communicatie laag is gespecialiseerd om met de Server Interface laag te connecteren.
-Zijn voornaamste taak bestaat eruit de data synchronisatie  mogelijk te maken tussen gebruikers cache en server database.\\
-
--Software Layer Component: naam, verantwoordelijkheid\\
-
-UI\\
+\underline{UI}\\
 User Interface, uiterlijk presentatie van gebruikersapplicaties\\
 
-Card Reader UI\\
+\underline{Card Reader UI}\\
 Speciale use interface gebruikt om met extern hardware "Card Reader" te communiceren.\\
 meer info zie Deployment View\\
 
-Client Application\\
+\paragraph{Client Application Layer}
+Bevat toepassingsspecifieke applicaties die afhankelijk van gebruiker kan varie\"{e}ren. Een gemeenschapeelijk punt tussen deze applicaties is dat ze toegang tot medische dossieren nodig hebben.
+\\
+
+\underline{Client Application}\\
 Toepassingsspecifieke applicaties die afhankelijk van gebruiker kan varie\"{e}ren.\\
 
-Patient Management\\
+\underline{Patient Management}\\
 Gespecialiseerd toepassing voor een GP, organiseert alle patientendossiers.\\
-meer info zie Deployment View\\
+Meer info zie Deployment View\\
 
-Data Manegement\\
+\paragraph{Client Data Layer}
+Deze laag is verantwoordelijk voor het opslaan van lokale data cache en consistentie onderhouden tussen lokale cache en external data server.
+Voor boven liggende laag zijn de excate lokatie van medische dosieren niet van belang, als ook hoe de data's gecomprimeerd en beveilig zijn. Deze laag camoufleert het verschil tussen cache en server data's en voorzient standaard data transformatie (transformatie tussen volledige uitgepakt vorm die direct gebruikt kan worden door gebruiker en beveilig/gecomprimeerd vorm waaronder data opgeslagen wordt).\\
+
+\underline{Data Manegement}\\
 Toegang voorzien voor alle data, coordineert de nodige standaard verwerkingen op data's.\\
 meer info zie Deployment View\\
 
-Data Security\\
+\underline{Data Security}\\
 Implementeert standaard beveiliging op data's\\
 meer info zie C\&C View\\
 
-Data Cache\\
+\underline{Data Cache}\\
 Lokale data cache\\
 meer info zie C\&C View\\
 
-Client Network Module\\
+\paragraph{Client Communication Layer}
+De communicatie laag is gespecialiseerd om met de Server Interface laag te connecteren.
+Zijn voornaamste taak bestaat eruit de data synchronisatie  mogelijk te maken tussen gebruikers cache en server database.\\
+
+
+\underline{Client Network Module}\\
 Gespecialiseerd netwerk module om met eHealth server te communiceren.\\
 
 
-\subsubsection{Relations and their properties}
+\subsubsection*{Relations and their properties}
+\textbf{Allowed-to-Use:} Layer A en Layer B hebben de relatie A is allowed-to-use B als A onmiddellijk boven B staat, tenzijn anders expliciet vermeld.\\
 
-Layered View:\\
--Allowed-to-Use: Layer A en Layer B hebben de relatie A is allowed-to-use B als A onmiddellijk boven B staat, tenzijn anders expliciet vermeld.\\
-
-Uses View:\\
--Uses: een layer of een layer component wil gebruik maken van een andere layer of component module als de eerste expliciet verbonden is met de tweede.\\
+\textbf{Uses:} een layer of een layer component wil gebruik maken van een andere layer of component module als de eerste expliciet verbonden is met de tweede.\\
 Wanneer de eerste entieit een layer is, mogen alle ingesloten component gebruikt maken van de tweede entiteit.\\
 Wanneer de tweede entieit een layer is, mogen alle ingesloten component gebruikt worden door de eerste entiteit.\\
 
-
-\subsubsection{Element interfaces}
-
-\subsubsection{Element behavior}
+\subsubsection*{Element behaviour}
+Communication Layer is niet verantwoordelijk voor algemeen communicatie over het netwerk. Het communiceert enkel en alleen met eHealth server en het wordt het enkel gebruikt door de bovenliggende data laag, omdat data laag alleen weet precies wat er gelezen en geschreven worden naar de server.
 
 \subsection{Context diagram}
+Zie context diagram bij \ref{Client and Server View: Overview} Client and Server View: Overview.
 
 \subsection{Variability guide}
+[Geen]
 
 \subsection{Architecture background}
-
-Communication Layer is niet verantwoordelijk voor algemeen communicatie over het netwerk. Het communiceert enkel en alleen met eHealth server en het wordt het enkel gebruikt door de bovenliggende data laag, omdat data laag alleen weet precies wat er gelezen en geschreven worden naar de server.\\
-
-\subsubsection{Rationale}
-
-\subsubsection{Analysis results}
-
-\subsubsection{Assumptions}
+Het gelaagde systeem is gekozen om aan de vereiste van portabiliteit te kunnen voldoen.  De onderste lagen zullen platform specifiek moeten ontwikkeled worden (daarvoor kan ook third-party software gebruikt worden) en bovenste lagen kunnen dan platform onafhankelijk gemaakt worden, waardoor deze gemakkelijk op andere platformen kunnen gebruikt worden.
 
 \subsection{Other information}
+[Geen]
 
 \subsection{Related view packets}
+[Geen]
 
-Sibling: Layered/Uses View: Server\\
 \clearpage
 \section{Module Layered/Uses View: Server}
 
@@ -503,134 +482,94 @@ Sibling: Layered/Uses View: Server\\
 \end{figure}
 \end{center}
 
-%\begin{center}
-%\begin{figure}[h!]
-%\includegraphics[width=\textwidth]{../images/UsesView_Server.jpg}
-%\end{figure}
-%\end{center}
-
 \subsection{Element catalog}
 
-\subsubsection{Elements and their properties}
+\subsubsection*{Elements and their properties}
 
--Software Layer: naam, verantwoordelijkheid (Voornaamste inhoud van elke laag is terug te vinden in Uses View)\\
 
-Server Interface Layer\\
-
-Verantwoordelijkheid:\\
+\paragraph{Server Interface Layer}
 Gespecialiseerd communicatie voorzien met RIZIV en Log.\\
 
-Business Services Layer\\
-
-Verantwoordelijkheid:\\
-Bevat hoge niveau functies die ingewikkelde business logica's implementeren, ze worden opgebouwd door gebruik te maken van lage niveau functie bouw-blokken uit de Basic Services laag.\\
-
-Basic Services Layer\\
-
-Verantwoordelijkheid:\\
-Sommige functie bouw-blokken kunnen door verschillende hoge niveau functie gebruikt worden (bv read), door die basis bouw-blokken in apart laag te implmenteren kunnen ze makkelijker herbruikt worden. Verandering van implementatie op lage functie niveau wordt ook vermakkelijkt, zolang de nieuwe versie van de Core Service laag de zelfde interface handeert als de oude versie, wordt de bovenliggende laag niet gestoord.\\
-
-Virtual Data Layer\\
-
-Verantwoordelijkheid:\\
-data behandeling op volledige bestanden - niveau\\
-
-Anonymous Data Layer\\
-
-Verantwoordelijkheid:\\
-data behandeling op (anoniem) data - niveau\\
-
-Server Communication Layer\\
-
-Verantwoordelijkheid:\\
-Communicatie met externe systemen (RIZIZ, Log).\\
-
--Software Layer Component: naam, verantwoordelijkheid\\
-
-Web Server\\
+\underline{Web Server}
 Algemeen publieke services.\\
 meer info zie Deployment View\\
 
-API\\
-Interface voor extern services.\\
+\underline{API}
+Interface voor externe services.\\
 meer info zie Deployment View\\
 
-GMR\\
+\paragraph{Business Services Layer}
+Bevat hoge niveau functies die ingewikkelde business logica's implementeren, ze worden opgebouwd door gebruik te maken van lage niveau functie bouw-blokken uit de Basic Services laag.\\
+
+\underline{GMR}
 Delegatie van alle binnenkomende service aanvraag.\\
 meer info zie C\&C View\\
 
-Basic GMR Services\\
+\paragraph{Basic Services Layer}
+Sommige functie bouw-blokken kunnen door verschillende hoge niveau functie gebruikt worden (bv read), door die basis bouw-blokken in apart laag te implmenteren kunnen ze makkelijker herbruikt worden. Verandering van implementatie op lage functie niveau wordt ook vermakkelijkt, zolang de nieuwe versie van de Core Service laag de zelfde interface handeert als de oude versie, wordt de bovenliggende laag niet gestoord.\\
+
+\underline{Basic GMR Services}
 Implementatie van basis laag niveau functionaliteiten.\\
 In huidige versie zijn dat enkel triviale services zoals lezen en schrijven, zie Variability guide Layered View: Server\\
 
-Policy\\
+\underline{Policy}
 Toegangscontrole van gevraagd services.\\
 meer info zie C\&C View\\
 
-Session Manager\\
+\underline{Session Manager}
 Geauthenticeerd werksessie koppelen aan gebruiker.\\
 meer info zie C\&C View\\
 
-Security\\
+\underline{Security}
 authenticatie en authorisatie van gebruiker.\\
 meer info zie C\&C View\\
 
-Virtual GMR Data\\
+\paragraph{Virtual Data Layer}
+data behandeling op volledige bestanden - niveau\\
+
+\underline{Virtual GMR Data}
 GMR data oplslag van volledige medische dossieren.\\
 meer info zie Deployment View\\
 
-Doctor Data Server\\
+\underline{Doctor Data Server}
 Data opslag voor dokter/patient relatie.\\
 meer info zie Deployment View\\
 
-Security Data Server\\
+\underline{Security Data Server}
 Data opslag voor authenticatie en authorisatie.\\
 meer info zie Deployment View\\
 
-GMR Data Server\\
+\paragraph{Anonymous Data Layer}
+data behandeling op (anoniem) data - niveau\\
+
+\underline{GMR Data Server}
 GMR data oplslag van opgesplitste medische dossieren.\\
 meer info zie Deployment View\\
 
+\paragraph{Server Communication Layer}
+Communicatie met externe systemen (RIZIZ, Log).\\
 
-\subsubsection{Relations and their properties}
 
-Layered View:\\
--Allowed-to-Use: Layer A en Layer B hebben de relatie A is allowed-to-use B als A onmiddellijk boven B staat, tenzijn anders expliciet vermeld.\\
-
-Uses View:\\
--Uses: een layer of een layer component wil gebruik maken van een andere layer of component module als de eerste expliciet verbonden is met de tweede.\\
-Wanneer de eerste entieit een layer is, mogen alle ingesloten component gebruikt maken van de tweede entiteit.\\
-Wanneer de tweede entieit een layer is, mogen alle ingesloten component gebruikt worden door de eerste entiteit.\\
-
-\subsubsection{Element interfaces}
-
-\subsubsection{Element behavior}
+\subsubsection*{Relations and their properties}
+Zie Module Layered/Uses View: Client.
 
 \subsection{Context diagram}
+Zie context diagram bij \ref{Client and Server View: Overview} Client and Server View: Overview.
 
 \subsection{Variability guide}
+[Geen]
 
 \subsection{Architecture background}
-
-Gezien de beperking opgelegd door de wetgeving en andere veiligheids / performantie redenen worden de GMR data niet in integrale dossier-bestanden opgeslaan, maar opgesplitste en verdeeld over verschillende fysiche opslagruimten. Daardoor maakt bv het reconstrueren van de data een belangrijke taak.\\
-Daarom worden er gekozen om een Virtual Data laag toe te voegen, het is verantwoordelijk voor de opslitsing en verdeling van data bij het schrijven, eveneens het ophalen en reconstrutie bij het lezen. Bovenliggende laggen communiceert enkel met Virtual Layer en worden niet gestoord door de het feit dat data's niet integrale opgeslagen zijn.\\
-
-Andere data's waarvan geen extra opsplitsing nodige zijn (dokterbestanden) bevinden eveneens op dit niveau.\\
-
-In principe zijn de data die op Anonymous Data laag terug te vinden zijn "onbruikbaar" in de zin van dat er geen valide dossier-bestanden bevinden. Maar de basis behandeling van lage niveau data is nog altijd de verantwoordelijk heid van Anonymous Data laag, bv data dusplicatie ten gunst van perfermence.\\
+Gezien de beperking opgelegd door de wetgeving en andere veiligheids / performantie redenen worden de GMR data niet in integrale dossier-bestanden opgeslaan, maar opgesplitste en verdeeld over verschillende fysieke opslagruimten. Daarom is bijvoorbeeldhet reconstrueren van de data een belangrijke taak.\\
+Daarom wordt er gekozen om een Virtual Data laag toe te voegen, deze is verantwoordelijk voor de opslitsing en verdeling van data bij het schrijven, eveneens voor het ophalen en reconstrutie bij het lezen. Bovenliggende lagen communiceren enkel met de Virtual Layer en worden niet gestoord door de het feit dat data's niet integrale opgeslagen zijn.\\
 
 
-\subsubsection{Rationale}
-
-\subsubsection{Analysis results}
-
-\subsubsection{Assumptions}
-
+In principe is de data die op de Anonymous Data laag terug te vinden is "onbruikbaar" in de zin van dat er geen volledige dossier-bestanden te vinden zijn. Maar de basis behandeling van laag niveau data is nog altijd de verantwoordelijkheid van de Anonymous Data laag, bv data duplicatie ten gunst van performantie.\\
 \subsection{Other information}
+[Geen]
 
 \subsection{Related view packets}
-
-Sibling: Layered/Uses View: Server\\
+[Geen]
 
 \clearpage
 \section{C\&C Client and Server View: Overview}
@@ -642,7 +581,6 @@ Sibling: Layered/Uses View: Server\\
   \includegraphics[width=\textwidth]{../images/ClientServer_Overview.png}
   \caption{Client and Server View: Overview}
 \end{figure}
-%TODO In de figuur die hierboven staat een fout in de legende, bij vereiste interface staat het symbool van een aangeboden interface.
 
 \subsection{Element catalog}
 
@@ -669,7 +607,7 @@ De card component stelt de e-Card van de gebruiker voor.  De e-Card bevat gebrui
 De belangrijkste extra entiteiten in het context diagram zijn de government en de validated data sources.  De government component bevat toegang tot de logging en RIZIV database.  De validated data sources kunnen gebruikers van de client opvragen via de server.
 
 \subsection{Variability guide}
-[None]
+[Geen]
 
 \subsection{Architecture background}
 De meeste archituur achtergrond is te vinden in gedetailleerdere views waar reeds eerder naar verwezen is.  De algemene structuur is hier wel duidelijk waarbij de Client kant met behulp van de e-Card zich in het systeem kan identifici\"{e}ren (zie ook \ref{Client and Server View: Security} Client and Server View: Security).  Aan de andere kant is de server te vinden die zorgt voor veilige opslag en toegang tot de data en tot andere externe bronnen (zie ook \ref{Client and Server View: Server} Client and Server View: Server).
@@ -695,7 +633,7 @@ De volgende client-server views bekijken dit overview diagram in meer detail.  O
 De GMR is de centrale component in de server component.  De GMR delegeert alle inkomende \textit{read}, \textit{modify} of \textit{push} acties naar de correcte andere componenten en doet dit uiteraard in de correcte volgorde.\\
 Om alle interacties beter te begrijpen kunnen de Sequence diagrams vaak ook nuttig zijn (zie: \ref{interaction:main}).
 
-\subsubsection{Element interfaces} 
+\subsubsection*{Element interfaces} 
 
 \paragraph{read}
 
@@ -749,7 +687,7 @@ De reden van asynchrone berichtgeving wanneer voor het versturen van een antwoor
 push(data\_key, data, id\_key)\\
 push(data\_key, data, session\_key)\\
 Het inloggen en valideren gebeurt zoals beschreven bij \textbf{read}.
-Het pushen van de data gebeurt gelijkaardig zoals bij \textbf{modify}.
+Het pushen van de data gebeurt gelijkaardig zoals bij \textbf{modify}.\\
 
 \underline{Error handling:}\\
 Gelijkaardige errors zoals bij \textbf{read}.\\
@@ -770,7 +708,7 @@ Alhoewel push ongeveer gelijkaardig is aan modify hebben we er toch voor gekozen
 grantAccess(to\_key, data\_key, action, from\_key, period)\\
 Zie grantAccess bij \textbf{Policy}.  Daar wordt de interface uitgewerkt, de interface hier wordt gewoon gedelegeert naar de interface van \textbf{Policy}.
 
-\subsubsection{Element behavior}
+\subsubsection*{Element behavior}
 De GMR component delegeert alle inkomende acties.  Dat doet hij door inkomende berichten door de security component te laten decrypten en identifici\"{e}ren.  Dan krijgt hij onmiddellijk bevestiging dat de data compleet en correct is en van de een geauthenticeerde gebruiker komt.  Indien dit niet het geval is stuurt de GMR een error terug naar de client.\\
 Daarna wordt gecontroleerd of er al een sessie bestaat en of die al dan niet geldig is.\\
 Wanneer dat gebeurd is zal het systeem de oproep doorgeven aan de policy component.  Deze zal de GMR laten weten of de actie die de GMR binnen krijgt al dan niet toegelaten is.\\
@@ -782,7 +720,7 @@ Als het nodig is worden acties gelogd of verzonden naar het RIZIV.\\
 \paragraph{SessionManager}
 De SessionManager voorziet in session management.  Deze component zorgt ervoor dat een gebruiker niet telkens opnieuw hoeft in te loggen wanneer hij een actie naar het systeem uitvoert.
 
-\subsubsection{Element interfaces} 
+\subsubsection*{Element interfaces} 
 
 \paragraph{open}
 \underline{Resources provided:}\\
@@ -806,13 +744,13 @@ session\_key: de key die gebruikt wordt om een sessie te identifici\"{e}ren.\\
 \underline{Rationale and design issues:}\\
 Hoe lang een sessie geldig blijft zou kunnen aangepast worden afhankelijk van wie er in het systeem inlogt of afhankelijk van welke soort client.  Wanneer de client toepassing op een smartphone draait zou er kunnen gekozen worden om de session\_keys sneller te laten vervallen aangezien deze omgeving als minder veilig kan beschouwt worden.  Indien we dit willen afdwingen moet deze extra informatie (tijd hoelang de sessie valid moet blijven) worden meegegeven bij het openen van de sessie.
 
-\subsubsection{Element behavior}
+\subsubsection*{Element behavior}
 De SessionManager is verantwoordelijk voor het openen van sessies (\textit{open}) en het controleren of een bepaalde sessie geldig is (\textit{valid}).
 
 \paragraph{Policy}
 Deze component controleert de toegangsrechten van de gebruikers en laat weten welke gebruikers toegang hebben tot welke delen van de data en wat die toegang inhoudt (lezen en of schrijven).
 
-\subsubsection{Element interfaces} 
+\subsubsection*{Element interfaces} 
 
 \paragraph{autorisation}
 \underline{Resources provided:}\\
@@ -847,7 +785,7 @@ period: de periode hoe lang de persoon met to\_key toegang krijgt tot de data.\\
 Door de grantAccess toe te voegen kunnen toegangsrechten worden toegekend aan andere personen en kan dit voor een bepaalde tijdsduur.  Action kan ook zijn grantAccess, zodat bepaalde personen ook toelating krijgen om toegangsrechten door te geven.  Zo zou een specialist bijvoorbeeld ook toegang kunnen krijgen om read toegang tot het dossier ook door te geven aan een andere specialist.\\
 Zie ook \ref{interaction:grantAccess} Interaction diagram: grant access.
 
-\subsubsection{Element behavior}
+\subsubsection*{Element behavior}
 De policy component zal authorisatie toekennen aan bepaalde acties, als die persoon de actie mag uitvoeren.  Indien dat niet mag zal de authorisatie geweigerd worden.  Bepaalde personen hebben ook rechten om nieuwe rechten toe te voegen.  Deze worden via \textit{grantAccess} toegevoegd.  In de interactie diagramma's is het verloop duidelijk te volgen (zie \ref{interaction:grantAccess}).
 
 \paragraph{Security}
@@ -855,7 +793,7 @@ De gedetailleerde uitwerking van de security component is te vinden in \ref{Clie
 
 \paragraph{ExternalActions}
 
-\subsubsection{Element interfaces} 
+\subsubsection*{Element interfaces} 
 De Element interface component voorziet de interfaces voor het loggen naar de overheid en het verzenden van de RIZIV data naar de overheid.
 
 \paragraph{log}
@@ -886,7 +824,7 @@ data: de data om te verzenden naar het RIZIV.\\
 Zie ook \ref{gmr:variability} Variability guide.\\
 Zie ook \ref{sec:deployment_services} Deployment view services voor toegang tot de overheid.
 
-\subsubsection{Element behaviour}
+\subsubsection*{Element behaviour}
 Deze component zal de logging en RIZIV acties uitvoeren naar de overheid toe.  In normale omstandigheden zullen deze acties onmiddellijk uitgevoerd worden.  In het geval dat de server van de overheid niet kan bereikt worden zullen de acties gequeued worden totdat de server terug beschikbaar is.  Op het moment dat de server opnieuw beschikbaar is zal de queue element per element verzonden worden naar de overheid.\\
 Deze queue kan anders uitgewerkt worden voor log en RIZIV.
 
@@ -908,7 +846,7 @@ We hebben de \textbf{Server} zo gemaakt met een centrale component die alle dele
 Alle andere rationale werd telkens vermeld bij de componenten.
 
 \subsection{Other information}
-[None]
+[Geen]
 
 \subsection{Related view packets}
 In \ref{sec:deployment_data}, het Deployment view data is te zien hoe de connection naar de externe servers tot stand komt.\\
@@ -931,7 +869,7 @@ In de interactie diagramma's (zie \ref{interaction:main}) zijn ook voorbeelden t
 \paragraph{Cache}
 De cache component is een lokale cache van bestanden die ook op de server of externe servers aanwezig zijn.  Dit element voorziet de toegang tot de data.
 
-\subsubsection{Element interfaces} 
+\subsubsection*{Element interfaces} 
 
 \paragraph{read}
 
@@ -972,7 +910,7 @@ data: data die moet toegevoegd worden aan document met key: data\_key.\\
 \underline{Rationale and design issues:}\\
 Hier kan geen patch gestuurd worden omdat een push actie enkel toelaat nieuwe data toe te voegen aan een dossier.
 
-\subsubsection{Element behavior}
+\subsubsection*{Element behavior}
 Wanneer een item uit de cache gelezen wordt (\textit{read}), verstuurt de cache eerst de vraag naar de server of het gegeven item up-to-date is.  Als dit het geval is dan wordt het bestand uit de cache aan de gebruiker weergegeven, is dit niet het geval dan stuurt de server het meest recente bestand terug.  Dit wordt dan opgeslagen in de cache en dan teruggegeven aan de gebruiker.\\
 
 Het schrijven van een item (\textit{write}) gebeurt door het item eerst lokaal te schrijven, daarna verstuurt de cache een write operatie naar de server.  Deze write operatie verloopt door enkel een patch te sturen van de nieuwe data, het volledige document wordt dus niet weggeschreven maar enkel de wijzigingen.  Wanneer de cache een antwoord gekregen heeft van de server dat de schrijfoperatie correct verlopen is mag de cache het geschreven item uit de cache verwijderen.\\
@@ -1001,7 +939,7 @@ Een ander belangrijke kwaliteitsvereiste die we hier niet mogen vergeten is de \
 Het wegschrijven van de wijzigingen in plaats van het volledige document bij een \textit{write} operatie naar de server zorgt ook voor een belangrijke snelheids winst.  Op deze manier zal veel minder data over het netwerk moeten worden verstuurd.
 
 \subsection{Other information}
-[None]
+[Geen]
 
 \subsection{Related view packets}
 Deze client kant moet gezien worden in de volledige overview (zie \ref{Client and Server View: Overview} Client and Server Overview.  Daarnaast is ook het Deployment view (\ref{sec:deploymentView:DMZ}, \ref{sec:deployment_clients}, \ref{sec:deployment_services}, \ref{sec:deployment_data}) belangrijk.
@@ -1024,7 +962,7 @@ De security component bevind zich zowel in de server als in de client. Deze zorg
 \paragraph{Authentication}
 In deze component wordt de identificatie van de personen die zich inloggen op het systeem gecontroleerd. Wanneer iemand een aanvraag doet, wordt nagegaan of de id\_key van deze persoon overeenkomt met een gebruiker van het systeem. Ook wanneer een boodschap (aanpassen van GMR bv) wordt verstuurd, wordt deze getekend met de key van de zender. Hiervoor dient de sign-interface.  
 
-\subsubsection{Element interfaces}
+\subsubsection*{Element interfaces}
 \paragraph{authenticate}
 
 \underline{Resources provided:}\\
@@ -1054,7 +992,7 @@ Wanneer de gebruiker een boodschap wil sturen, moet de zender ervan kunnen achte
 \paragraph{Compression}
 Boodschappen die tussen de Client en de Server worden verstuurd, worden gecomprimeerd om tijd te besparen en om een extra vorm van beveiliging toe te voegen.
 
-\subsubsection{Element interfaces}
+\subsubsection*{Element interfaces}
 
 \paragraph{compress}
 
@@ -1075,12 +1013,12 @@ decompress(data)\\
 Een boodschap die werd verstuurd en gecompresseerd, moet eveneens worden gedecompresseerd om leesbaar te zijn (zie ook Element behavior).\\
 
 \underline{Element requirements:}
-[None]\\
+[Geen]\\
 
 \underline{Rationale and design issues:}\\
 Zie ook compress.\\
 
-\subsubsection{Element behavior}
+\subsubsection*{Element behavior}
 Deze component zorgt dat de communicatie tussen het platform en de clients veilig verloopt. Enerzijds door de boodschap te signeren met een gebruiker zijn identificatiesleutel, waar het enkel geldige sleutels wordt toegelaten deze boodschappen te sturen. Anderzijds door de boodschappen die verzonden worden te comprimeren. Dit laatste biedt naast veiligheid ook een manier om de communicatie tussen beide te versnellen.\\
 De aangeboden interfaces decrypt en encrypt gebruiken de componenten Authentication en Compression om hun berichten te kunnen encrypteren en decrypteren.\\
 
@@ -1089,14 +1027,15 @@ De \ref{Client and Server View: Server} Client and Server View: Server en \ref{C
 
 \subsection{Variability guide}
 De implementatie van zowel de authentication component als de compression component kan gebeuren met third-party software. Dit is gemakkelijker dan zelf zo een systeem maken en doordat de componenten zo afgezonderd zijn van het systeem, is het later ook gemakkelijk om een nieuw algoritme te voorzien.\\
+De third-party software moet gekozen worden volgens de beste standaarden.
 
 \subsection{Architecture background}
 
-\subsubsection{Rationale}
+\subsubsection*{Rationale}
 zie Element behavior.
 
 \subsection{Other information}
-[None]
+[Geen]
 
 \subsection{Related view packets}
 De security component is zowel in de client (\ref{Client and Server View: Client} Client and Server View: Client) als de server (\ref{Client and Server View: Server} Client and Server View: Server) component te zien.
@@ -1111,7 +1050,7 @@ Zie \ref{Client and Server View: Overview} Client and Server View: Overview.
 
 \subsection{Element interfaces}
 
-\subsubsection{Element interfaces}
+\subsubsection*{Element interfaces}
 \paragraph{writePrescription}
 
 \underline{Resources provided:}\\
@@ -1130,7 +1069,7 @@ Om ook wanneer er geen internet toegang is voor de dokter (dit kan bijvoorbeeld 
 readPrescription()\\
 Lees de niet gevalideerde voorschriften uit en geef die terug.\\
 
-\underline{Element requirements:} [None]\\
+\underline{Element requirements:} [Geen]\\
 
 \underline{Rationale and design issues:}\\
 De apotheek kan de voorschriften uitlezen zonder toegang te moeten verkrijgen tot het eHealth platform.  Zie ook \ref{interaction:validatePrescription} interactie diagram validate prescription.\\
@@ -1144,7 +1083,7 @@ Valideer het voorschrift, met andere woorden, dit voorschrift is aangekocht.\\
 \underline{Element requirements:}\\
 prescription: het voorschrift dat gevalideerd wordt.\\
 
-\underline{Rationale and design issues:} [None]\\
+\underline{Rationale and design issues:} [Geen]\\
 
 \paragraph{id\_key}
 
@@ -1152,7 +1091,7 @@ prescription: het voorschrift dat gevalideerd wordt.\\
 id\_key()\\
 Geeft de identificatie key terug van de gebruiker.\\
 
-\underline{Element requirements:} [None]\\
+\underline{Element requirements:} [Geen]\\
 
 \underline{Rationale and design issues:}\\
 Deze key wordt in het systeem gebruikt om de gebruiker te identifici\"{e}ren.  Op deze manier wordt ervoor gezorgd dat data en identificatie niet samen opgeslaan worden in het systeem.
@@ -1163,19 +1102,19 @@ Deze key wordt in het systeem gebruikt om de gebruiker te identifici\"{e}ren.  O
 sign\_key()\\
 Geeft de sign key terug van de gebruiker.\\
 
-\underline{Element requirements:} [None]\\
+\underline{Element requirements:} [Geen]\\
 
 \underline{Rationale and design issues:}\\
 Deze key wordt in het systeem gebruikt om berichten af te tekenen.  Wanneer een bericht is afgetekend met deze key weet het systeem dus dat de verzender van het bericht de gebruiker is (zie \ref{Client and Server View: Security} Client and Server View: Security (identify en sign)).\\
 
-\subsubsection{Element behavior}
+\subsubsection*{Element behavior}
 De kaart lezer is een component die nodig is om informatie van de gebruiker van de kaart te kunnen lezen.  De kaart lezer voorziet een mechanisme om dit alles veilig te kunnen laten verlopen.
 
 \subsection{Context diagram}
 Zie \ref{Client and Server View: Overview} Client and Server View: Overview.
 
 \subsection{Variability guide}
-[None]
+[Geen]
 
 \subsection{Architecture background}
 Door het gebruik van 2 verschillende keys in het systeem kan extra veiligheid voorzien worden.  De eerste key, de id\_key, kan een gebruiker identifici\"{e}ren in het systeem.  Op deze manier voorzien we dat de identificatie gegevens van de gebruikers niet samen met de data moet worden opgeslaan.  Daarnaast hebben we ook een sign\_key.  De sign\_key wordt steeds gebruikt bij het tekenen van berichten, op die manier kan de server steeds met zekerheid weten dat de verzonden data effectief verzonden is door die gebruiker.\\
@@ -1183,10 +1122,10 @@ Door het gebruik van 2 verschillende keys in het systeem kan extra veiligheid vo
 Het spreekt voor zich dat dit systeem niet veilig zou zijn als iedereen met een kaart deze keys zou kunnen gebruiken.  Daarom is er de kaartlezer.  Iedere kaart heeft een pin code die door de gebruiker moet ingegeven worden in de kaartlezer.  Bovendien hoeft niet alles even sterk beveiligd te zijn.  Voorschriften kunnen afhalen moet mogelijk zijn door een andere gebruiker, m.a.w. het moet mogelijk zijn voor de apotheek om voorschriften te kunnen lezen.  Hiervoor moet de kaart lezer voldoende faciliteiten voorzien, maar dit valt buiten de scope van deze architectuur.
 
 \subsection{Other information}
-[None]
+[Geen]
 
 \subsection{Related view packets}
-[None]
+[Geen]
 
 \clearpage
 \section{Deployment view DMZ}
@@ -1202,7 +1141,7 @@ Het spreekt voor zich dat dit systeem niet veilig zou zijn als iedereen met een 
 
 \subsection{Element catalog}
 
-\subsubsection{Elements and their properties}
+\subsubsection*{Elements and their properties}
 
 \begin{enumerate}
 \item \textbf{Card Reader}\\*
@@ -1227,7 +1166,7 @@ Een externe node waarop de overheid allerhande services aanbiedt zoals het RIZIV
 Een externe node die extra services aanbied voor gebruikers van het system.
 \end{enumerate}
 
-\subsubsection{Relations and their properties}
+\subsubsection*{Relations and their properties}
 \label{subsubsec:relations_deployment}
 Er zijn drie verschillende soorten connecties te onderscheiden : 
 \begin{enumerate}
@@ -1239,12 +1178,12 @@ Dit zijn de connecties op het diagram aangeduid met het stereotype 'secure'. Dit
 Dit zijn de connectie sop het diagram aangeduid met het stereotype 'vpn'. Deze connecties gaan ook over het internet, maar ze maken deel uit van een virtueel privaat netwerk.
 \end{enumerate}
 
-\subsubsection{Element interfaces}
+\subsubsection*{Element interfaces}
 
 De interfaces van de verschillende componenten in de nodes staan beschreven in de secties met de client-server views.
 
-\subsubsection{Element behavior}
-[Niet van toepassing]
+\subsubsection*{Element behavior}
+[Geen]
 \clearpage
 \subsection{Context diagram}
 \begin{center}
@@ -1255,7 +1194,7 @@ De interfaces van de verschillende componenten in de nodes staan beschreven in d
  \end{center}
 
 \subsection{Variability guide}
-[Niet van toepassing]
+[Geen]
 
 \subsection{Architecture background}
 
@@ -1266,7 +1205,7 @@ Om ervoor te zorgen dat de demilitarized zone niet omzeild word door een eventue
 Tenslotte zien we dat de verbinding tussen de eHealth services en de overheid slechts in 1 richting gaat, maar vanuit de overheid kan er wel naar de DMZ gegaan worden. Dit komt doordat de overheid via het internet zal connecteren, waardoor we niet kunnen toelaten dat die alle security maatregelen omzeilt.
 
 \subsection{Other information}
-[Niet van toepassing]
+[Geen]
 
 \subsection{Related view packets}
 
@@ -1286,7 +1225,7 @@ De verschillende delen in deze view worden nog verder uitgewerkt in aparte secti
 
 \subsection{Element catalog}
 
-\subsubsection{Elements and their properties}
+\subsubsection*{Elements and their properties}
 
 \begin{enumerate}
  \item \textbf{Digital Card}\\
@@ -1333,15 +1272,15 @@ Node voor een apotheker. Weer is de enige custom software nodig, software om te 
 \end{enumerate}
 
 
-\subsubsection{Relations and their properties}
+\subsubsection*{Relations and their properties}
 
 Zie sectie \ref{subsubsec:relations_deployment}.
 
-\subsubsection{Element interfaces}
+\subsubsection*{Element interfaces}
 
-[Niet van toepassing]
+[Geen]
 
-\subsubsection{Element behavior}
+\subsubsection*{Element behavior}
 
 Zie sectie \ref{Client and Server View: Client}.
 \clearpage
@@ -1362,7 +1301,7 @@ Een dokter moet in staat zijn om ten alle tijden de globaal medische dossiers va
 Ook één van de vereisten is dat voorschriften aangemaakt en gevalideerd kunnen worden binnen de 3 seconden , verder moeten voorschriften ook door een dokter aangemaakt kunnen worden, zelfs in geval van een gedeeltelijke systeem of netwerk faling. Daarom zorgen we ervoor dat voorschriften op de elektronische kaart van de patient gezet zullen worden. De dokter kan dan ook wanneer hij offline is het voorschrift creëren (de registratie van het voorschrift in het GMR van de patient wordt dan gequeued tot de dokter terug online is) en de apotheker is in staat om het voorschrift te valideren, ook wanneer die offline is. Doordat dit enkel lokale bewerkingen inhoudt, is de 3 seconden vereiste zeker haalbaar.
 
 \subsection{Other information}
-[Niet van toepassing]
+[Geen]
 
 \subsection{Related view packets}
 Via het internet maken alle clients verbinding met het eHealth platform, dit gedeelte van het systeem vind je gedetailleerder terug in sectie \ref{sec:deployment_services}.
@@ -1383,7 +1322,7 @@ Zie figuur \ref{fig:dep_services} op de volgende bladzijde.
 
 \subsection{Element catalog}
 
-\subsubsection{Elements and their properties}
+\subsubsection*{Elements and their properties}
 \begin{enumerate}
  \item \textbf{Client}\\*
 Stelt de client nodes voor zoals getoond in sectie \ref{sec:deployment_clients}. Hoewel er maar 1 node getoond is, zijn er in de praktijk zeer veel verschillende clients.
@@ -1442,13 +1381,13 @@ Deze node zal verantwoordelijk zijn voor het beheren van de verschillende servic
 \end{enumerate}
 
 
-\subsubsection{Relations and their properties}
+\subsubsection*{Relations and their properties}
 Zie sectie \ref{subsubsec:relations_deployment} voor meer info over de verschillende connecties tussen de nodes.
 
-\subsubsection{Element interfaces}
-[Niet van toepassing]
+\subsubsection*{Element interfaces}
+[Geen]
 
-\subsubsection{Element behavior}
+\subsubsection*{Element behavior}
 Wanneer een request gemaakt wordt naar het platform, zal deze via de \textit{Public Services Proxy} moeten. Deze zal moeten beslissen naar welke van de actieve \textit{Security Services} servers de request doorgestuurd zal worden. Zoals eerder vermeld zal dit voor een bepaalde sessie steeds dezelfde moeten zijn om authenticatie bij te kunnen houden. Dus als de \textit{Public Services Proxy} een request krijgt van een sessie die reeds in het \textit{Distributed Session Management} geregistreerd staat, moet er geen keuze gemaakt worden. Wanneer een request binnenkomt die nog niet geregistreerd is, zal de \textit{Public Services Proxy} een korte ping-boodschap sturen naar de 3 \textit{Security Services} servers die het minst in het \textit{Distributed Session Management} gekoppeld zijn aan een sessie. De eerste die hierop antwoord zal dan gekozen worden om de request naar door te sturen.
 
 De \textit{Public Services Proxy} moet natuurlijk ook weten welke \textit{Security Services} servers er beschikbaar zijn. Hiervoor is de \textit{Service Management} server verantwoordelijk. Deze zal aan de hand van een ping-echo techniek elk van de \textit{Security Services} servers controleren. Wanneer 1 van die servers niet meer antwoord, betekent dit dat die node faalt en zal dit doorgegeven worden aan de \textit{Public Services Proxies}. In de ping-echo boodschap zullen de \textit{Security Services} servers ook hun huidige load aangeven. Wanneer de \textit{Service Management} server merkt dat alle servers zwaar geladen zijn.zal deze beslissen om een nieuwe op te starten. Dit zal dan ook doorgegeven worden aan de \textit{Public Services Proxies}.
@@ -1464,7 +1403,7 @@ Dit zelfde systeem wordt gebruikt voor de connectie tussen de \textit{Security S
   \end{center}
 
 \subsection{Variability guide}
-[Niet van toepassing]
+[Geen]
 
 \subsection{Architecture background}
 \label{subsec:arch_back_dep_serv}
@@ -1498,7 +1437,7 @@ Sectie \ref{Client and Server View: Server} geeft wat meer info over de verschil
 
 \subsection{Element catalog}
 
-\subsubsection{Elements and their properties}
+\subsubsection*{Elements and their properties}
 \begin{enumerate}
  \item \textbf{Core Services}\\*
 Node die alle kern services van het systeem bundelt. Meer info vind je in sectie \ref{sec:deployment_services}.
@@ -1549,13 +1488,13 @@ zie item \ref{massecserv}.
 
 \end{enumerate}
 
-\subsubsection{Relations and their properties}
+\subsubsection*{Relations and their properties}
 Zie sectie \ref{subsubsec:relations_deployment} voor een uitleg over de types van connecties.
 
-\subsubsection{Element interfaces}
-[Niet van toepassing]
+\subsubsection*{Element interfaces}
+[Geen]
 
-\subsubsection{Element behavior}
+\subsubsection*{Element behavior}
 \label{subsubsec:dep_data_behavior}
 Als er vanuit de \textit{Core Services} data opgevraagd moet worden, zal weer hetzelfde mechanisme in werking treden als bij de communicatie tussen de \textit{Public Services Proxies} en de \textit{Security Services} beschreven in sectie \ref{subsec:arch_back_dep_serv}. Er zal eerst een ping bericht gestuurd worden naar minstens 3 virtuele servers en diegene die het snelst antwoord zal gekozen worden om verder mee te werken.
 
@@ -1589,7 +1528,7 @@ Voor de GMR data zou dit wel een performantie bottleneck zijn aangezien deze dat
 De performantie-vereisten voor het ophalen van tekstuele data en andere data verschillen nogal wat. Om ervoor te zorgen dat het ophalen van tekst nooit moet wachten op het ophalen van figuren, worden tekst en figuren volledig van elkaar gescheiden. Aangezien tekstuele data striktere performantie-vereisten heeft, geven we telkens eerst de tekstuele data terug en daarna de figuren. Het zoeken naar de locatie van de data zelf mag ook niet langer duren dan 3 seconden. Daarom wordt op de virtuele data servers een index bijgehouden die telkens wanneer nieuwe data toegevoegd wordt ook ge-update zal worden.
 
 \subsection{Other information}
-[Niet van toepassing]
+[Geen]
 
 \subsection{Related view packets}
 Een gedetailleerder zicht op de services verbonden met deze data laag vind je in sectie \ref{sec:deployment_services}.
