@@ -298,62 +298,93 @@ We willen opmerken dat dit document zich richt op een werkend systeem en de inte
 \part{Software Architecture Views}
 \setcounter{section}{0}
 
-\section{Module Layered View: Client}
+section{Module Layered/Uses View: Client}
 
 \subsection{Primary presentation}
 
 \begin{center}
-    \begin{figure}[h!]
-      \includegraphics[width=\textwidth]{../images/LayeredView_Client.jpg}
-    \end{figure}
-  \end{center}
+\begin{figure}[h!]
+\includegraphics[width=\textwidth]{../images/LayeredView_Client.jpg}
+\end{figure}
+\end{center}
+
+%\begin{center}
+%\begin{figure}[h!]
+%\includegraphics[width=\textwidth]{../images/UsesView_Client.jpg}
+%\end{figure}
+%\end{center}
 
 \subsection{Element catalog}
 
 \subsubsection{Elements and their properties}
 
--Software Layer: naam, verantwoordelijkheid , inhoud\\
+-Software Layer: naam, verantwoordelijkheid (Voornaamste inhoud van elke laag is terug te vinden in Uses View)\\
 
 Client UI Layer\\
 
 Verantwoordelijkheid:\\
-Uiterlijk presentatie van Client Applications.\\
-
-Inhoud:\\
-GUI (buiten project scope)\\
+Interface tussen programma's aan de ene kant, gebruiker en hardware (Card Reader) langs de andere kant.\\
 
 Client Application Layer\\
 
 Verantwoordelijkheid:\\
--Implementatie van specifieke business logica.\\
--Validatie van gebruikers identiteit. Enkel bevoegde personene kunnen bepaalde applicatie gebruiken en toegang krijgen tot bijhorende data.\\
-
-Inhoud:\\
-GP Application (buiten project scope)\\
-Card Reader Module\\
+Bevat toepassingsspecifieke applicaties die afhankelijk van gebruiker kan varie\"{e}ren. Een gemeenschapeelijk punt tussen deze applicaties is dat ze toegang tot medische dossieren nodig hebben.
+\\
 
 Client Data Layer\\
 
 Verantwoordelijkheid:\\
--Uniformaliteit aanbieden voor de toegang tot data's. In normaal geval moet de gebruiker niet weten waar de data vandaan gehaald wordt, lokale cache of external data server.\\
--Standaard voor- en nabewerkingen uitvoeren op data's: encryptie/decryptie, compressie/decompressie.\\
--Opslaan van lokale data cache en consistentie onderhouden tussen lokale cache en external data server.\\
-
-Inhoud:\\
-Data Manager, Cache, Security (Authentication en Compression)\\
+Dit laag is verantwoordelijk voor het Opslaan van lokale data cache en consistentie onderhouden tussen lokale cache en external data server.
+Voor boven liggende laag zijn de excate lokatie van medische dosieren niet van belang, als ook hoe de data's gecomprimeerd en beveilig zijn. Dit laag camoufleert het verschil tussen cache en server data's en voorzient standaard data transformatie (transformatie tussen volledige uitgepakt vorm die direct gebruikt kan worden door gebruiker en beveilig/gecomprimeerd vorm waaronder data opgeslagen wordt).\\
 
 Client Communication Layer\\
 
 Verantwoordelijkheid:\\
-Communicatie met externe systemen (GMR Server).\\
+Dit communicatie laag is gespecialiseerd om met de Server Interface laag te connecteren.
+Zijn voornaamste taak bestaat eruit de data synchronisatie  mogelijk te maken tussen gebruikers cache en server database.\\
 
-Inhoud:\\
-Network Module (buiten project scope)\\
+-Software Layer Component: naam, verantwoordelijkheid\\
+
+UI\\
+User Interface, uiterlijk presentatie van gebruikersapplicaties\\
+
+Card Reader UI\\
+Speciale use interface gebruikt om met extern hardware "Card Reader" te communiceren.\\
+meer info zie Deployment View\\
+
+Client Application\\
+Toepassingsspecifieke applicaties die afhankelijk van gebruiker kan varie\"{e}ren.\\
+
+Patient Management\\
+Gespecialiseerd toepassing voor een GP, organiseert alle patientendossiers.\\
+meer info zie Deployment View\\
+
+Data Manegement\\
+Toegang voorzien voor alle data, coordineert de nodige standaard verwerkingen op data's.\\
+meer info zie Deployment View\\
+
+Data Security\\
+Implementeert standaard beveiliging op data's\\
+meer info zie C\&C View\\
+
+Data Cache\\
+Lokale data cache\\
+meer info zie C\&C View\\
+
+Client Network Module\\
+Gespecialiseerd netwerk module om met eHealth server te communiceren.\\
 
 
 \subsubsection{Relations and their properties}
 
--Allowed-to-Use: Layer A en Layer B hebben de relatie "A is allowed-to-use B" als A onmiddellijk boven B staat, tenzijn anders expliciet vermeld.\\
+Layered View:\\
+-Allowed-to-Use: Layer A en Layer B hebben de relatie A is allowed-to-use B als A onmiddellijk boven B staat, tenzijn anders expliciet vermeld.\\
+
+Uses View:\\
+-Uses: een layer of een layer component wil gebruik maken van een andere layer of component module als de eerste expliciet verbonden is met de tweede.\\
+Wanneer de eerste entieit een layer is, mogen alle ingesloten component gebruikt maken van de tweede entiteit.\\
+Wanneer de tweede entieit een layer is, mogen alle ingesloten component gebruikt worden door de eerste entiteit.\\
+
 
 \subsubsection{Element interfaces}
 
@@ -365,6 +396,8 @@ Network Module (buiten project scope)\\
 
 \subsection{Architecture background}
 
+Communication Layer is niet verantwoordelijk voor algemeen communicatie over het netwerk. Het communiceert enkel en alleen met eHealth server en het wordt het enkel gebruikt door de bovenliggende data laag, omdat data laag alleen weet precies wat er gelezen en geschreven worden naar de server.\\
+
 \subsubsection{Rationale}
 
 \subsubsection{Analysis results}
@@ -375,236 +408,117 @@ Network Module (buiten project scope)\\
 
 \subsection{Related view packets}
 
-Sibling: Layered View: Server\\
-Child: Uses View: Client\\
+Sibling: Layered/Uses View: Server\\
 
-
-\section{Module Layered View: Server}
+\section{Module Layered/Uses View: Server}
 
 \subsection{Primary presentation}
 \begin{center}
-    \begin{figure}[h!]
-      \includegraphics[width=\textwidth]{../images/LayeredView_Server.jpg}
-    \end{figure}
-  \end{center}
+\begin{figure}[h!]
+\includegraphics[width=\textwidth]{../images/LayeredView_Server.jpg}
+\end{figure}
+\end{center}
+
+%\begin{center}
+%\begin{figure}[h!]
+%\includegraphics[width=\textwidth]{../images/UsesView_Server.jpg}
+%\end{figure}
+%\end{center}
 
 \subsection{Element catalog}
 
 \subsubsection{Elements and their properties}
 
--Layer: naam, verantwoordelijkheid , inhoud\\
+-Software Layer: naam, verantwoordelijkheid (Voornaamste inhoud van elke laag is terug te vinden in Uses View)\\
 
 Server Interface Layer\\
 
 Verantwoordelijkheid:\\
-Verbindingen van gebruikers ontvangen en delegeren naar Public Services Layer.\\
+Gespecialiseerd communicatie voorzien met RIZIV en Log.\\
 
-Inhoud:\\
-Proxy\\
-
-Public Services Layer\\
+Business Services Layer\\
 
 Verantwoordelijkheid:\\
-Publiek service ter beschikking stellen voor gebruikers. Aan de hand van gekozen publiek service worden de onderliggende kern service opgeroepen.\\
-Op dit niveau wordt zijn de gebruikers nog volledige anoniem.\\
+Bevat hoge niveau functies die ingewikkelde business logica's implementeren, ze worden opgebouwd door gebruik te maken van lage niveau functie bouw-blokken uit de Basic Services laag.\\
 
-Inhoud:\\
-Public Service\\
-
-Core Services Layer\\
+Basic Services Layer\\
 
 Verantwoordelijkheid:\\
-Implementatie van business logica van eHealth platform.\\
-Basis bouwblokken voorzien voor publoek service.\\
-Identificatie van gebruiker en de bevoegdheid van gebruiker controleren.\\
-
-Inhoud:\\
-GMR, Security, Session Management, Policy\\
+Sommige functie bouw-blokken kunnen door verschillende hoge niveau functie gebruikt worden (bv read), door die basis bouw-blokken in apart laag te implmenteren kunnen ze makkelijker herbruikt worden. Verandering van implementatie op lage functie niveau wordt ook vermakkelijkt, zolang de nieuwe versie van de Core Service laag de zelfde interface handeert als de oude versie, wordt de bovenliggende laag niet gestoord.\\
 
 Virtual Data Layer\\
 
 Verantwoordelijkheid:\\
-Bescherming van data's tegen onbevoegde toegang.\\
-Uniformaliteit aanbieden voor de toegang tot data's.\\
+data behandeling op volledige bestanden - niveau\\
 
-Inhoud:\\
-Virtual GMR Data\\
-
-Fysic Data Layer\\
+Anonymous Data Layer\\
 
 Verantwoordelijkheid:\\
-Bescherming van data's tegen data-corruptie.\\
-Opslag van Medical Records.\\
-Opslag van Security data's die nodig zijn voor Authorization/Authentication van client gebruikers.\\
-
-Inhoud:\\
-GMR Data Server, Doctor Data Server, Security Server\\
-
+data behandeling op (anoniem) data - niveau\\
 
 Server Communication Layer\\
 
 Verantwoordelijkheid:\\
 Communicatie met externe systemen (RIZIZ, Log).\\
 
-Inhoud:\\
-Network Module (buiten project scope)\\
+-Software Layer Component: naam, verantwoordelijkheid\\
 
+Web Server\\
+Algemeen publieke services.\\
+meer info zie Deployment View\\
 
-
-
-\subsubsection{Relations and their properties}
-
--Allowed-to-Use: Layer A en Layer B hebben de relatie "A is allowed-to-use B" als A onmiddellijk boven B staat, tenzijn anders expliciet vermeld.\\
-
-\subsubsection{Element interfaces}
-
-\subsubsection{Element behavior}
-
-\subsection{Context diagram}
-
-\subsection{Variability guide}
-
-\subsection{Architecture background}
-
-\subsubsection{Rationale}
-
-\subsubsection{Analysis results}
-
-\subsubsection{Assumptions}
-
-\subsection{Other information}
-
-\subsection{Related view packets}
-
-Sibling: Layered View: Client\\
-Child: Uses View: Server\\
-
-\section{Module Uses View: Client}
-\label{Module Uses View : Client}
-
-\subsection{Primary presentation}
-\begin{center}
-    \begin{figure}[h!]
-      \includegraphics[width=\textwidth]{../images/UsesView_Client.jpg}
-    \end{figure}
-  \end{center}
-
-\subsection{Element catalog}
-
-\subsubsection{Elements and their properties}
-
--Software Module: naam, beschrijving\\
-
-GUI\\
-Bebruikers interface\\
-(buiten project scope)\\
-
-GP application\\
-Professionele dokter software applicaties.\\
-(buiten project scope)\\
-
-Card Reader Module\\
-Besturingssoftware voor Card Reader. Software interface van de hardware, maakt het mogelijk om de Card Reader te gebruiken door andere software applicaties.\\
-
-Data Manager\\
-Algemeen data management, camoufleert de exacte lokatie van data's, behandelt basis data bewerkingen en zorgt voor consistentie tussen lokale cache en external server data's.\\
-
-Cache\\
-zie C\&C View: Client\\
-
-Security\\
-zie C\&C View: Client\\
-
-Compression\\
-zie C\&C View: Client\\
-
-Network Module\\
-Standaard network software applicaties.\\
-(buiten project scope)\\
-
-
-\subsubsection{Relations and their properties}
-
-- Uses: een layer of een software module will gebruik maken van een andere layer of software module als de eerste expliciet verbonden is met de tweed. Wanneer de tweede entieit een layer is, mogen alle ingesloten software modules gebruikt worden door de eerste entiteit.\\
-
-\subsubsection{Element interfaces}
-
-Interfaces van elementen die getoond worden in dit view worden gespecifieerd door de overeenkomende elementen in Module C\&C View\\
-
-\subsubsection{Element behavior}
-
-\subsection{Context diagram}
-
-\subsection{Variability guide}
-
-\subsection{Architecture background}
-
-\subsubsection{Rationale}
-
-\subsubsection{Analysis results}
-
-\subsubsection{Assumptions}
-
-\subsection{Other information}
-
-\subsection{Related view packets}
-
-Sibling: Uses View: Server\\
-Parent: Layered View: Client\\
-
-\section{Module Uses View: Server}
-\label{Module Uses View : Server}
-
-\subsection{Primary presentation}
-\begin{center}
-    \begin{figure}[h!]
-      \includegraphics[height=\textheight]{../images/UsesView_Server.jpg}
-    \end{figure}
-  \end{center}
-
-\subsection{Element catalog}
-
-\subsubsection{Elements and their properties}
-
-Proxy\\
-zie Deployment View\\
-
-Public Service\\
-zie Deployment View\\
+API\\
+Interface voor extern services.\\
+meer info zie Deployment View\\
 
 GMR\\
-zie C\&C View\\
+Delegatie van alle binnenkomende service aanvraag.\\
+meer info zie C\&C View\\
 
-Security\\
-zie C\&C View\\
+Basic GMR Services\\
+Implementatie van basis laag niveau functionaliteiten.\\
+In huidige versie zijn dat enkel triviale services zoals lezen en schrijven, zie Variability guide Layered View: Server\\
 
 Policy\\
-zie C\&C View\\
+Toegangscontrole van gevraagd services.\\
+meer info zie C\&C View\\
 
 Session Manager\\
-zie C\&C View\\
+Geauthenticeerd werksessie koppelen aan gebruiker.\\
+meer info zie C\&C View\\
 
-Virtuam GMR Data\\
-zie Deployment View\\
+Security\\
+authenticatie en authorisatie van gebruiker.\\
+meer info zie C\&C View\\
 
 Virtual GMR Data\\
-zie Deployment View\\
+GMR data oplslag van volledige medische dossieren.\\
+meer info zie Deployment View\\
 
-Security Server\\
-zie Deployment View\\
+Doctor Data Server\\
+Data opslag voor dokter/patient relatie.\\
+meer info zie Deployment View\\
 
-Network Module\\
-Standaard network software applicaties.\\
-(buiten project scope)\\
+Security Data Server\\
+Data opslag voor authenticatie en authorisatie.\\
+meer info zie Deployment View\\
+
+GMR Data Server\\
+GMR data oplslag van opgesplitste medische dossieren.\\
+meer info zie Deployment View\\
 
 
 \subsubsection{Relations and their properties}
 
-- Uses: een layer of een software module will gebruik maken van een andere layer of software module als de eerste expliciet verbonden is met de tweed. Wanneer de tweede entieit een layer is, mogen alle ingesloten software modules gebruikt worden door de eerste entiteit.\\
+Layered View:\\
+-Allowed-to-Use: Layer A en Layer B hebben de relatie A is allowed-to-use B als A onmiddellijk boven B staat, tenzijn anders expliciet vermeld.\\
+
+Uses View:\\
+-Uses: een layer of een layer component wil gebruik maken van een andere layer of component module als de eerste expliciet verbonden is met de tweede.\\
+Wanneer de eerste entieit een layer is, mogen alle ingesloten component gebruikt maken van de tweede entiteit.\\
+Wanneer de tweede entieit een layer is, mogen alle ingesloten component gebruikt worden door de eerste entiteit.\\
 
 \subsubsection{Element interfaces}
-
-Interfaces van elementen die getoond worden in dit view worden gespecifieerd door de overeenkomende elementen in Module C\&C View\\
 
 \subsubsection{Element behavior}
 
@@ -613,6 +527,14 @@ Interfaces van elementen die getoond worden in dit view worden gespecifieerd doo
 \subsection{Variability guide}
 
 \subsection{Architecture background}
+
+Gezien de beperking opgelegd door de wetgeving en andere veiligheids / performantie redenen worden de GMR data niet in integrale dossier-bestanden opgeslaan, maar opgesplitste en verdeeld over verschillende fysiche opslagruimten. Daardoor maakt bv het reconstrueren van de data een belangrijke taak.\\
+Daarom worden er gekozen om een Virtual Data laag toe te voegen, het is verantwoordelijk voor de opslitsing en verdeling van data bij het schrijven, eveneens het ophalen en reconstrutie bij het lezen. Bovenliggende laggen communiceert enkel met Virtual Layer en worden niet gestoord door de het feit dat data's niet integrale opgeslagen zijn.\\
+
+Andere data's waarvan geen extra opsplitsing nodige zijn (dokterbestanden) bevinden eveneens op dit niveau.\\
+
+In principe zijn de data die op Anonymous Data laag terug te vinden zijn "onbruikbaar" in de zin van dat er geen valide dossier-bestanden bevinden. Maar de basis behandeling van lage niveau data is nog altijd de verantwoordelijk heid van Anonymous Data laag, bv data dusplicatie ten gunst van perfermence.\\
+
 
 \subsubsection{Rationale}
 
@@ -624,11 +546,7 @@ Interfaces van elementen die getoond worden in dit view worden gespecifieerd doo
 
 \subsection{Related view packets}
 
-Sibling: Uses View: Client\\
-Parent: Layered View: Server\\
-
-
-
+Sibling: Layered/Uses View: Server\\
 
 \clearpage
 \section{C\&C Client and Server View: Overview}
