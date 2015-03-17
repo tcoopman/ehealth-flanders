@@ -1,0 +1,4 @@
+This project is an assignment in the course "Distributed  software Architecture - Advanced Study" tought at the catholic university of Leuven by proffessor Danny Weyns. A software architecture needs to be created for the eHealth platform in Flanders.
+
+The eHealth platform of Flanders is a public institution that provides a secure platform to support electronic collaboration among all stake-holders in the health care sector. The eHealth platform is connected to a number of users, applications, web portals and external databases. The eHealth  platform has three main goals : (1) provide a secure exchange platform for medical records and data; (2) realize secure electronic prescriptions; (3) provide support for added value services. A large focus of the platform is on protecting the privacy of both patients and care providers,
+guaranteeing the duty of confidentiality.
